@@ -1,0 +1,4700 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Case-Study zur Arbeitslosigkeit in Deutschland</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.28/header-attrs.js"></script>
+    <link href="libs/countdown-0.4.0/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown-0.4.0/countdown.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="style/css/uni-ulm.css" type="text/css" />
+    <link rel="stylesheet" href="style/css/my-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Case-Study zur Arbeitslosigkeit in Deutschland
+]
+
+---
+
+
+
+
+
+&lt;style type="text/css"&gt;
+.remark-code{line-height: 1.5; font-size: 80%}
+@media print {
+  .has-continuation {
+    display: block;
+  }
+}
+&lt;/style&gt;
+
+# Ziel der Case-Study
+
+Deutschland hat europaweit eine der niedrigsten Arbeitslosenquoten:
+
+.pull-left[
+&lt;img src="figs/eu_unemployment_2022.jpeg" width="70%" /&gt;
+
+.supersmall[ Quelle: [Fleck, A. (August 11, 2022). The State of Unemployment in Europe (Digital image).](https://www.statista.com/chart/20834/unemployment-rates-eu-plus-uk/) ]
+
+]
+
+--
+
+.pull-right[
+
+.question[Doch gilt dies für alle Regionen in Deutschland?]
+
+.question[Warum ist die Arbeitslosenquote in manchen Regionen höher als in anderen?]
+
+.alert[Dem werden wir in dieser Case-Study auf den Grund gehen.]
+]
+
+---
+
+# Ziele der Case Study
+
+Diese Case-Study besteht aus **mehreren Teilen** und wird Sie durch die komplette Vorlesung als **konkretes Anschauungsobjekt** begleiten. 
+
+Diese Case-Study dient als:
+- konkretes und umfangreiches Beispiel für ein Projekt
+- ökonomische und geographische Kenntnisse über Deutschland erhalten
+- Beispiel wie statistische und programmiertechnische Kenntnisse in der empirischen Arbeit eingesetzt werden können
+
+.instruction[In diesem Foliensatz nutze ich die magittr Pipe `%&gt;%`, da dies mit dem Paket flipbookr nicht anders möglich ist. Es ist jedoch empfehlenswert grundsätzlich die Base R Pipe zu nutzen `|&gt;`]
+
+---
+
+class: center, middle, inverse
+
+# Datensätze herunterladen
+
+---
+
+## Ersten Teil der Case Study
+
+- Daten einlesen
+- Daten bearbeiten und in eine geeignete Form bringen ( `tidy` )
+
+Anwenden auf 
+
+- Daten zur Arbeitslosenstatistik
+- Daten zur Verschuldung einzelner Landkreise bzw. Gemeinden
+- Daten zum BIP
+
+---
+
+## Wichtig für die Datenbeschaffung
+
+
+- Zuverlässige und qualitativ hochwertige Datenquellen ausfinding machen 
+- Automatisierten Download programmieren
+- Einlesen, verarbeiten und zusammenführen verschiedener Datensätze in R
+
+--
+
+Verbindung zum 2. RTutor Problem Set:
+
+- **Im Problem Set:** Kennzahlen zu verschiedenen Ländern der europäischen Union 
+- **Hier:** Kennzahlen innerhalb Deutschlands
+
+--
+
+.alert[Sowohl in der Case-Study als auch in den RTutor Problem Sets treffen Sie auf konkrete Probleme, die Sie mit ihren Kenntnissen aus der Vorlesung lösen sollen.]
+
+---
+
+## Daten beschaffen
+
+Woher beziehen wir unsere Informationen?
+--
+
+-   Die Informationen über die Verschuldung der **Gemeinden** finden wir auf den Seiten des Statistischen Bundesamts im Report: [Integrierte Schulden der Gemeinden und Gemeindeverbände](https://www.statistikportal.de/de/veroeffentlichungen/integrierte-schulden-der-gemeinden-und-gemeindeverbaende).
+-   Die Informationen zur Arbeitslosigkeit auf **Verwaltungsgemeinschaftsebene** finden wir auf den Seiten der [Bundesagentur für Arbeit](https://statistik.arbeitsagentur.de/DE/Navigation/Statistiken/Statistiken-nach-Regionen/BA-Gebietsstruktur-Nav.html).
+-   Die Informationen zum BIP auf **Landkreisebene** finden wir auf den Seiten der [Statistischen Ämter des Bundes und der Länder](https://www.statistikportal.de/de/vgrdl).
+
+--
+
+.instructions[Zuverlässige und qualitativ hochwertige Datenquellen ausfinding machen] ✔️
+
+---
+
+## Daten herunterladen
+
+- Daten können von URLs mit Befehlen aus den Paketen `readxl` und `readr` direkt eingelesen werden
+  - Für Text und Excel-Dateien
+- Allerdings, wenn URL nicht mehr verfügbar, was dann?
+  - Daten immer mit `download.file()` herunterladen und in einem Unterordner `data` abspeichern!
+  
+--
+
+.instructions[Automatisierten Download programmieren (wird in der ausformulierten Case-Study gemacht)] (✔️)
+
+--
+
+.alert[Wir haben die Daten bereits im Github Repository `case-study-germany` heruntergeladen und abgespeichert. Klonen Sie dieses Repository von Github auf ihren PC!]
+
+---
+
+## Klonen Sie unsere Github Seite
+
+- Gehen Sie auf die [Github Seite des Projektkurses](https://github.com/projektkurs-datascience/24-25)
+- Klicken Sie auf des grünen "Code" Button
+- Kopieren Sie sich die [angezeigte HTTPS](https://github.com/projektkurs-datascience/24-25.git)
+- Gehen Sie in Github Desktop und fügen dort die kopierte HTTPS in "Clone a repository" -&gt; "URL"
+
+[Hier eine Step-by-Step Anleitung](https://docs.github.com/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-a-repository-from-github-to-github-desktop?platform=windows)
+
+.alert[Wenn Sie zu Beginn der Woche in Github Desktop auf "Pull" klicken werden alle Vorlesungsinhalte automatisch aktualisiert, d.h. alle Vorlesungsfolien, die Case-Study, Tutorials etc.!]
+
+<div class="countdown" id="timer_b4e973cc" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+
+## Nötige Pakete laden
+
+
+``` r
+library(readxl)
+library(skimr)
+library(tidyverse)
+```
+
+```
+## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+```
+
+--
+
+.question[Was bedeuten die "Messages" nach dem Laden von library(tidyverse)?]
+
+
+---
+
+# Daten einlesen
+
+Unterschiedliche Dateien und unterschiedliche Tabellenblätter, was sollten wir verwenden?
+
+
+``` r
+# Öffnen des ZIP-Archivs
+# Es sind zwei Tabellen in dem ZIP Archiv, wir interessieren uns für die Anzahl der Arbeitslosen und wählen diese mit dem kleinen [1] aus
+alo_name &lt;- as.character(unzip("../case-study/data/Arbeitslose_2022.xlsx.zip", list = TRUE)$Name)
+alo_name &lt;- alo_name[1]
+unzip("../case-study/data/Arbeitslose_2022.xlsx.zip", alo_name)
+```
+--
+
+**Vermutung:** Durch Tabellenblatt "Inhaltsverzeichnis" könnten wir schlauer werden
+
+---
+
+
+``` r
+alo_inhalt &lt;- read_xlsx(alo_name, sheet = "Inhaltsverzeichnis")
+head(alo_inhalt, 15)
+```
+
+```
+## # A tibble: 15 × 1
+##    Inhaltsverzeichnis     
+##    &lt;chr&gt;                  
+##  1 &lt;NA&gt;                   
+##  2 &lt;NA&gt;                   
+##  3 Arbeitslose - Zeitreihe
+##  4 &lt;NA&gt;                   
+##  5 &lt;NA&gt;                   
+##  6 Tabelle                
+##  7 Bestand an Arbeitslosen
+##  8 Kreiszusammenfassung   
+##  9 Übersicht nach Kreisen 
+## 10 &lt;NA&gt;                   
+## 11 Insgesamt              
+## 12 Rechtskreis            
+## 13 SGB III                
+## 14 SGB II                 
+## 15 Geschlecht
+```
+
+---
+
+
+``` r
+alo_inhalt &lt;- read_xlsx(alo_name, sheet = "Inhaltsverzeichnis")
+head(alo_inhalt, 15)
+```
+
+
+``` r
+## # A tibble: 15 × 1
+##    Inhaltsverzeichnis     
+##    &lt;chr&gt;                  
+##  1 NA                     
+##  2 NA                     
+##  3 Arbeitslose - Zeitreihe
+##  4 NA                     
+##  5 NA                     
+##  6 Tabelle                
+##  7 Bestand an Arbeitslosen
+##  8 Kreiszusammenfassung   
+##  9 Übersicht nach Kreisen 
+## 10 NA                     
+## 11 Insgesamt              
+## 12 Rechtskreis            
+## 13 SGB III                
+## 14 SGB II                 
+## 15 Geschlecht 
+```
+
+---
+
+
+``` r
+alo_inhalt &lt;- read_xlsx(alo_name, sheet = "Inhaltsverzeichnis")
+head(alo_inhalt, 15)
+```
+
+.pull-left[
+
+``` r
+## # A tibble: 15 × 1
+##    Inhaltsverzeichnis     
+##    &lt;chr&gt;                  
+##  1 NA                     
+##  2 NA                     
+##  3 Arbeitslose - Zeitreihe
+##  4 NA                     
+##  5 NA                     
+##  6 Tabelle                
+##  7 Bestand an Arbeitslosen
+##  8 Kreiszusammenfassung   
+##  9 Übersicht nach Kreisen 
+## 10 NA                     
+## 11 Insgesamt              
+## 12 Rechtskreis            
+## 13 SGB III                
+## 14 SGB II                 
+## 15 Geschlecht 
+```
+]
+
+.pull-right[
+&lt;img src="./figs/Einlesen_Alo.png" width="60%" /&gt;
+]
+
+**Alternative:** Schauen Sie sich die Excel-Datei in Excel oder LibreOffice an und entscheiden Sie dann, welches Tabellenblatt Sie einlesen möchten.
+
+---
+
+## Spezifizieren welche Spalten eingelesen werden sollen
+
+Welche Information benötigen wir aus der Tabelle
+  - Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2022**
+  - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis (z.B. nur SGB II)
+  - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis und ein bestimmtes Alter (z.B. SGB II alle unter 25 Jahre)
+
+---
+
+## Spezifizieren welche Spalten eingelesen werden sollen
+
+Welche Information benötigen wir aus der Tabelle
+  - .alert[Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2022**]
+  - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis (z.B. nur SGB II)
+  - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis und ein bestimmtes Alter (z.B. SGB II alle unter 25 Jahre)
+
+--
+
+.question[Was ist hier eine Beobachtung?]
+
+---
+
+&lt;img src="./figs/Alo_Ueberblick.png" width="150%" /&gt;
+
+---
+
+## Spezifizieren welche Spalten eingelesen werden sollen
+
+Neben der Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2022** benötigen wir noch die "Gemeinde-ID" und den Gemeindenamen.
+
+Wie können wir die von uns benötigte Information möglichst einfach extrahieren?
+--
+
+- Der einfachste Weg: Die ersten acht Zeilen abzuschneiden und die Daten erst ab dort einzulesen.
+- Anschließend behalten wir nur die ersten 3 Spalten
+
+---
+
+## Spezifizieren welche Spalten eingelesen werden sollen
+
+count: false
+ 
+
+.panel1-einlesen_alo-auto[
+
+``` r
+*alo_skip &lt;- read_xlsx(alo_name, sheet = "Gesamt", skip = 8)
+```
+]
+ 
+.panel2-einlesen_alo-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-einlesen_alo-auto[
+
+``` r
+alo_skip &lt;- read_xlsx(alo_name, sheet = "Gesamt", skip = 8)
+
+*alo_skip
+```
+]
+ 
+.panel2-einlesen_alo-auto[
+
+```
+## # A tibble: 11,230 × 27
+##    ...1       Jahresdurchschnitte ...3  Rechtskreis Insgesam…¹ ...5  ...6  ...7 
+##    &lt;chr&gt;      &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;                  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 &lt;NA&gt;       Jahresdurch-schnitt Jahr… 44197                  44228 44256 44287
+##  2 Region     2021                2022  1                      2     3     4    
+##  3 Deutschla… 2613489             2418… 2900663                2904… 2827… 2771…
+##  4 01 Schles… 88864.75            8156… 98931                  99931 97683 95571
+##  5 01001 Fle… 4369.166666666667   3970… 4852                   4790  4709  4740 
+##  6 01001000 … 4369.166666666667   3970… 4852                   4790  4709  4740 
+##  7 01002 Kie… 11096.833333333334  1031… 12070                  12051 11966 12072
+##  8 01002000 … 11096.833333333334  1031… 12070                  12051 11966 12072
+##  9 01003 Lüb… 9346.9166666666661  8776… 10073                  10113 10275 10237
+## 10 01003000 … 9346.9166666666661  8776… 10073                  10113 10275 10237
+## # ℹ 11,220 more rows
+## # ℹ abbreviated name:
+## #   ¹​`Rechtskreis Insgesamt - Bestand an Arbeitslosen - Gesamt...4`
+## # ℹ 20 more variables: ...8 &lt;chr&gt;, ...9 &lt;chr&gt;, ...10 &lt;chr&gt;, ...11 &lt;chr&gt;,
+## #   ...12 &lt;chr&gt;, ...13 &lt;chr&gt;, ...14 &lt;chr&gt;, ...15 &lt;chr&gt;,
+## #   `Rechtskreis Insgesamt - Bestand an Arbeitslosen - Gesamt...16` &lt;chr&gt;,
+## #   ...17 &lt;chr&gt;, ...18 &lt;chr&gt;, ...19 &lt;chr&gt;, ...20 &lt;chr&gt;, ...21 &lt;chr&gt;, …
+```
+]
+
+---
+count: false
+ 
+
+.panel1-einlesen_alo-auto[
+
+``` r
+alo_skip &lt;- read_xlsx(alo_name, sheet = "Gesamt", skip = 8)
+
+alo_skip %&gt;%
+* select(c(`...1`, Jahresdurchschnitte, `...3`))
+```
+]
+ 
+.panel2-einlesen_alo-auto[
+
+```
+## # A tibble: 11,230 × 3
+##    ...1                            Jahresdurchschnitte ...3               
+##    &lt;chr&gt;                           &lt;chr&gt;               &lt;chr&gt;              
+##  1 &lt;NA&gt;                            Jahresdurch-schnitt Jahresdurch-schnitt
+##  2 Region                          2021                2022               
+##  3 Deutschland                     2613489             2418132.75         
+##  4 01 Schleswig-Holstein           88864.75            81564.083333333328 
+##  5 01001 Flensburg, Stadt          4369.166666666667   3970.3333333333335 
+##  6 01001000 Flensburg, Stadt       4369.166666666667   3970.3333333333335 
+##  7 01002 Kiel, Landeshauptstadt    11096.833333333334  10315.166666666666 
+##  8 01002000 Kiel, Landeshauptstadt 11096.833333333334  10315.166666666666 
+##  9 01003 Lübeck, Hansestadt        9346.9166666666661  8776.4166666666661 
+## 10 01003000 Lübeck, Hansestadt     9346.9166666666661  8776.4166666666661 
+## # ℹ 11,220 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-einlesen_alo-auto[
+
+``` r
+alo_skip &lt;- read_xlsx(alo_name, sheet = "Gesamt", skip = 8)
+
+alo_skip %&gt;%
+  select(c(`...1`, Jahresdurchschnitte, `...3`)) %&gt;%
+* mutate(Regionalschluessel = str_extract(`...1`, "[[:digit:]]+"),
+*        Gemeinde = str_extract(`...1`, "[A-Z].*"))
+```
+]
+ 
+.panel2-einlesen_alo-auto[
+
+```
+## # A tibble: 11,230 × 5
+##    ...1                    Jahresdurchschnitte ...3  Regionalschluessel Gemeinde
+##    &lt;chr&gt;                   &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;   
+##  1 &lt;NA&gt;                    Jahresdurch-schnitt Jahr… &lt;NA&gt;               &lt;NA&gt;    
+##  2 Region                  2021                2022  &lt;NA&gt;               Region  
+##  3 Deutschland             2613489             2418… &lt;NA&gt;               Deutsch…
+##  4 01 Schleswig-Holstein   88864.75            8156… 01                 Schlesw…
+##  5 01001 Flensburg, Stadt  4369.166666666667   3970… 01001              Flensbu…
+##  6 01001000 Flensburg, St… 4369.166666666667   3970… 01001000           Flensbu…
+##  7 01002 Kiel, Landeshaup… 11096.833333333334  1031… 01002              Kiel, L…
+##  8 01002000 Kiel, Landesh… 11096.833333333334  1031… 01002000           Kiel, L…
+##  9 01003 Lübeck, Hansesta… 9346.9166666666661  8776… 01003              Lübeck,…
+## 10 01003000 Lübeck, Hanse… 9346.9166666666661  8776… 01003000           Lübeck,…
+## # ℹ 11,220 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-einlesen_alo-auto[
+
+``` r
+alo_skip &lt;- read_xlsx(alo_name, sheet = "Gesamt", skip = 8)
+
+alo_skip %&gt;%
+  select(c(`...1`, Jahresdurchschnitte, `...3`)) %&gt;%
+  mutate(Regionalschluessel = str_extract(`...1`, "[[:digit:]]+"),
+         Gemeinde = str_extract(`...1`, "[A-Z].*")) %&gt;%
+* mutate(alo = as.numeric(`...3`))
+```
+]
+ 
+.panel2-einlesen_alo-auto[
+
+```
+## # A tibble: 11,230 × 6
+##    ...1            Jahresdurchschnitte ...3  Regionalschluessel Gemeinde     alo
+##    &lt;chr&gt;           &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;      &lt;dbl&gt;
+##  1 &lt;NA&gt;            Jahresdurch-schnitt Jahr… &lt;NA&gt;               &lt;NA&gt;     NA     
+##  2 Region          2021                2022  &lt;NA&gt;               Region    2.02e3
+##  3 Deutschland     2613489             2418… &lt;NA&gt;               Deutsch…  2.42e6
+##  4 01 Schleswig-H… 88864.75            8156… 01                 Schlesw…  8.16e4
+##  5 01001 Flensbur… 4369.166666666667   3970… 01001              Flensbu…  3.97e3
+##  6 01001000 Flens… 4369.166666666667   3970… 01001000           Flensbu…  3.97e3
+##  7 01002 Kiel, La… 11096.833333333334  1031… 01002              Kiel, L…  1.03e4
+##  8 01002000 Kiel,… 11096.833333333334  1031… 01002000           Kiel, L…  1.03e4
+##  9 01003 Lübeck, … 9346.9166666666661  8776… 01003              Lübeck,…  8.78e3
+## 10 01003000 Lübec… 9346.9166666666661  8776… 01003000           Lübeck,…  8.78e3
+## # ℹ 11,220 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-einlesen_alo-auto[
+
+``` r
+alo_skip &lt;- read_xlsx(alo_name, sheet = "Gesamt", skip = 8)
+
+alo_skip %&gt;%
+  select(c(`...1`, Jahresdurchschnitte, `...3`)) %&gt;%
+  mutate(Regionalschluessel = str_extract(`...1`, "[[:digit:]]+"),
+         Gemeinde = str_extract(`...1`, "[A-Z].*")) %&gt;%
+  mutate(alo = as.numeric(`...3`)) %&gt;%
+* select(-c(`...1`, Jahresdurchschnitte, `...3`))
+```
+]
+ 
+.panel2-einlesen_alo-auto[
+
+```
+## # A tibble: 11,230 × 3
+##    Regionalschluessel Gemeinde                    alo
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt;
+##  1 &lt;NA&gt;               &lt;NA&gt;                        NA 
+##  2 &lt;NA&gt;               Region                    2022 
+##  3 &lt;NA&gt;               Deutschland            2418133.
+##  4 01                 Schleswig-Holstein       81564.
+##  5 01001              Flensburg, Stadt          3970.
+##  6 01001000           Flensburg, Stadt          3970.
+##  7 01002              Kiel, Landeshauptstadt   10315.
+##  8 01002000           Kiel, Landeshauptstadt   10315.
+##  9 01003              Lübeck, Hansestadt        8776.
+## 10 01003000           Lübeck, Hansestadt        8776.
+## # ℹ 11,220 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-einlesen_alo-auto[
+
+``` r
+alo_skip &lt;- read_xlsx(alo_name, sheet = "Gesamt", skip = 8)
+
+alo_skip %&gt;%
+  select(c(`...1`, Jahresdurchschnitte, `...3`)) %&gt;%
+  mutate(Regionalschluessel = str_extract(`...1`, "[[:digit:]]+"),
+         Gemeinde = str_extract(`...1`, "[A-Z].*")) %&gt;%
+  mutate(alo = as.numeric(`...3`)) %&gt;%
+  select(-c(`...1`, Jahresdurchschnitte, `...3`)) %&gt;%
+* filter(!is.na(alo))
+```
+]
+ 
+.panel2-einlesen_alo-auto[
+
+```
+## # A tibble: 11,186 × 3
+##    Regionalschluessel Gemeinde                    alo
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt;
+##  1 &lt;NA&gt;               Region                    2022 
+##  2 &lt;NA&gt;               Deutschland            2418133.
+##  3 01                 Schleswig-Holstein       81564.
+##  4 01001              Flensburg, Stadt          3970.
+##  5 01001000           Flensburg, Stadt          3970.
+##  6 01002              Kiel, Landeshauptstadt   10315.
+##  7 01002000           Kiel, Landeshauptstadt   10315.
+##  8 01003              Lübeck, Hansestadt        8776.
+##  9 01003000           Lübeck, Hansestadt        8776.
+## 10 01004              Neumünster, Stadt         3359.
+## # ℹ 11,176 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-einlesen_alo-auto[
+
+``` r
+alo_skip &lt;- read_xlsx(alo_name, sheet = "Gesamt", skip = 8)
+
+alo_skip %&gt;%
+  select(c(`...1`, Jahresdurchschnitte, `...3`)) %&gt;%
+  mutate(Regionalschluessel = str_extract(`...1`, "[[:digit:]]+"),
+         Gemeinde = str_extract(`...1`, "[A-Z].*")) %&gt;%
+  mutate(alo = as.numeric(`...3`)) %&gt;%
+  select(-c(`...1`, Jahresdurchschnitte, `...3`)) %&gt;%
+  filter(!is.na(alo))
+```
+]
+ 
+.panel2-einlesen_alo-auto[
+
+```
+## # A tibble: 11,186 × 3
+##    Regionalschluessel Gemeinde                    alo
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt;
+##  1 &lt;NA&gt;               Region                    2022 
+##  2 &lt;NA&gt;               Deutschland            2418133.
+##  3 01                 Schleswig-Holstein       81564.
+##  4 01001              Flensburg, Stadt          3970.
+##  5 01001000           Flensburg, Stadt          3970.
+##  6 01002              Kiel, Landeshauptstadt   10315.
+##  7 01002000           Kiel, Landeshauptstadt   10315.
+##  8 01003              Lübeck, Hansestadt        8776.
+##  9 01003000           Lübeck, Hansestadt        8776.
+## 10 01004              Neumünster, Stadt         3359.
+## # ℹ 11,176 more rows
+```
+]
+
+&lt;style&gt;
+.panel1-einlesen_alo-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-einlesen_alo-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-einlesen_alo-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+``` r
+*#Abspeichern als Datensatz data_alo
+  
+*data_alo &lt;- alo_skip %&gt;% 
+  select(c(`...1`, Jahresdurchschnitte, `...3`)) %&gt;%
+  mutate(Regionalschluessel = str_extract(`...1`, "[[:digit:]]+"),
+         Gemeinde = str_extract(`...1`, "[A-Z].*")) %&gt;%
+  mutate(alo = as.numeric(`...3`)) %&gt;%
+  select(-c(`...1`, Jahresdurchschnitte, `...3`)) %&gt;%
+  filter(!is.na(alo))
+
+data_alo &lt;- data_alo[-c(1,2),]
+```
+
+
+
+---
+
+## Konsistenzcheck
+
+- Machen die Angaben Sinn und sind die Daten in sich konsistent?
+- Externe Datenquelle suchen und intern auf konsistenz prüfen.
+- Informationen aggregieren und mit anderen Quellen vergleichen
+--
+
+- Zunächst: Anzahl an Arbeitslosen für jedes **Bundesland** in 2022. 
+  - zweistelligen `Regionalschluessel`
+  - "Buchstaben" für jeden `Regionalschluessel` zählen (`nchar()` (number of characters))
+- **Alternative Datenquelle:** [Die Anzahl der Arbeitslosen für das Jahr 2022 unterteilt nach Ländern der Arbeitsagentur](https://statistik.arbeitsagentur.de/Statistikdaten/Detail/202212/iiia4/akt-dat-jz/akt-dat-jz-d-0-202212-xlsx.xlsx)
+  - Wichtig: Tabellenblatt 8
+
+---
+
+count: false
+ 
+
+.panel1-konsistenz_alo-auto[
+
+``` r
+*data_alo
+```
+]
+ 
+.panel2-konsistenz_alo-auto[
+
+```
+## # A tibble: 11,184 × 3
+##    Regionalschluessel Gemeinde                  alo
+##    &lt;chr&gt;              &lt;chr&gt;                   &lt;dbl&gt;
+##  1 01                 Schleswig-Holstein     81564.
+##  2 01001              Flensburg, Stadt        3970.
+##  3 01001000           Flensburg, Stadt        3970.
+##  4 01002              Kiel, Landeshauptstadt 10315.
+##  5 01002000           Kiel, Landeshauptstadt 10315.
+##  6 01003              Lübeck, Hansestadt      8776.
+##  7 01003000           Lübeck, Hansestadt      8776.
+##  8 01004              Neumünster, Stadt       3359.
+##  9 01004000           Neumünster, Stadt       3359.
+## 10 01051              Dithmarschen            3858.
+## # ℹ 11,174 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-konsistenz_alo-auto[
+
+``` r
+data_alo %&gt;%
+* filter(nchar(Regionalschluessel) == 2)
+```
+]
+ 
+.panel2-konsistenz_alo-auto[
+
+```
+## # A tibble: 16 × 3
+##    Regionalschluessel Gemeinde                   alo
+##    &lt;chr&gt;              &lt;chr&gt;                    &lt;dbl&gt;
+##  1 01                 Schleswig-Holstein      81564.
+##  2 02                 Hamburg                 73800.
+##  3 03                 Niedersachsen          230553.
+##  4 04                 Bremen                  37214.
+##  5 05                 Nordrhein-Westfalen    668502.
+##  6 06                 Hessen                 164492.
+##  7 07                 Rheinland-Pfalz        102515.
+##  8 08                 Baden-Württemberg      223119.
+##  9 09                 Bayern                 235850.
+## 10 10                 Saarland                33017.
+## 11 11                 Berlin                 179327.
+## 12 12                 Brandenburg             74242 
+## 13 13                 Mecklenburg-Vorpommern  59571.
+## 14 14                 Sachsen                118216.
+## 15 15                 Sachsen-Anhalt          77978.
+## 16 16                 Thüringen               58172.
+```
+]
+
+---
+count: false
+ 
+
+.panel1-konsistenz_alo-auto[
+
+``` r
+data_alo %&gt;%
+  filter(nchar(Regionalschluessel) == 2) %&gt;%
+* rename(bundesland = Regionalschluessel)
+```
+]
+ 
+.panel2-konsistenz_alo-auto[
+
+```
+## # A tibble: 16 × 3
+##    bundesland Gemeinde                   alo
+##    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;
+##  1 01         Schleswig-Holstein      81564.
+##  2 02         Hamburg                 73800.
+##  3 03         Niedersachsen          230553.
+##  4 04         Bremen                  37214.
+##  5 05         Nordrhein-Westfalen    668502.
+##  6 06         Hessen                 164492.
+##  7 07         Rheinland-Pfalz        102515.
+##  8 08         Baden-Württemberg      223119.
+##  9 09         Bayern                 235850.
+## 10 10         Saarland                33017.
+## 11 11         Berlin                 179327.
+## 12 12         Brandenburg             74242 
+## 13 13         Mecklenburg-Vorpommern  59571.
+## 14 14         Sachsen                118216.
+## 15 15         Sachsen-Anhalt          77978.
+## 16 16         Thüringen               58172.
+```
+]
+
+&lt;style&gt;
+.panel1-konsistenz_alo-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-konsistenz_alo-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-konsistenz_alo-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+``` r
+*# Abspeichern als check_alo_bundesland
+
+*check_alo_bundesland &lt;- data_alo %&gt;%
+  filter(nchar(Regionalschluessel) == 2) %&gt;%
+  rename(bundesland = Regionalschluessel)
+```
+
+---
+
+.pull-left[
+
+``` r
+check_alo_bundesland
+```
+
+```
+## # A tibble: 16 × 3
+##    bundesland Gemeinde                   alo
+##    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;
+##  1 01         Schleswig-Holstein      81564.
+##  2 02         Hamburg                 73800.
+##  3 03         Niedersachsen          230553.
+##  4 04         Bremen                  37214.
+##  5 05         Nordrhein-Westfalen    668502.
+##  6 06         Hessen                 164492.
+##  7 07         Rheinland-Pfalz        102515.
+##  8 08         Baden-Württemberg      223119.
+##  9 09         Bayern                 235850.
+## 10 10         Saarland                33017.
+## 11 11         Berlin                 179327.
+## 12 12         Brandenburg             74242 
+## 13 13         Mecklenburg-Vorpommern  59571.
+## 14 14         Sachsen                118216.
+## 15 15         Sachsen-Anhalt          77978.
+## 16 16         Thüringen               58172.
+```
+
+]
+
+.pull-right[
+&lt;img src="./figs/Alo_Laender.png" width="65%" /&gt;
+
+]
+
+--
+
+.center[.alert[Beide Datenreihen sind identisch]]
+
+---
+
+### Interne Konsistenz überprüfen
+
+.instructions[Berechne: Anzahl an Arbeitslosen für jedes Bundesland als Summe der Arbeitslosen einer Gemeinde.]
+
+
+``` r
+# Nur Gemeindedaten nutzen, dann auf Bundeslandebende die Summe aus den Gemeindedaten berechnen
+alo_meta &lt;- data_alo %&gt;% 
+  filter(nchar(Regionalschluessel) == 8) %&gt;%
+  mutate(landkreis = str_extract(Regionalschluessel, "^.{5}"),
+         bundesland = str_extract(Regionalschluessel, "^.{2}"))
+
+alo_bundesland &lt;- alo_meta %&gt;%
+  group_by(bundesland) %&gt;%
+  summarise(total_alo = sum(alo))
+
+alo_landkreis &lt;- alo_meta %&gt;%
+  group_by(landkreis) %&gt;%
+  summarise(total_alo = sum(alo)) %&gt;%
+  rename(Regionalschluessel = landkreis)
+```
+
+---
+
+count: false
+ 
+
+.panel1-interne_konsistenz1-auto[
+
+``` r
+*data_alo
+```
+]
+ 
+.panel2-interne_konsistenz1-auto[
+
+```
+## # A tibble: 11,184 × 3
+##    Regionalschluessel Gemeinde                  alo
+##    &lt;chr&gt;              &lt;chr&gt;                   &lt;dbl&gt;
+##  1 01                 Schleswig-Holstein     81564.
+##  2 01001              Flensburg, Stadt        3970.
+##  3 01001000           Flensburg, Stadt        3970.
+##  4 01002              Kiel, Landeshauptstadt 10315.
+##  5 01002000           Kiel, Landeshauptstadt 10315.
+##  6 01003              Lübeck, Hansestadt      8776.
+##  7 01003000           Lübeck, Hansestadt      8776.
+##  8 01004              Neumünster, Stadt       3359.
+##  9 01004000           Neumünster, Stadt       3359.
+## 10 01051              Dithmarschen            3858.
+## # ℹ 11,174 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz1-auto[
+
+``` r
+data_alo %&gt;%
+* filter(nchar(Regionalschluessel) == 8)
+```
+]
+ 
+.panel2-interne_konsistenz1-auto[
+
+```
+## # A tibble: 10,745 × 3
+##    Regionalschluessel Gemeinde                    alo
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt;
+##  1 01001000           Flensburg, Stadt        3970.  
+##  2 01002000           Kiel, Landeshauptstadt 10315.  
+##  3 01003000           Lübeck, Hansestadt      8776.  
+##  4 01004000           Neumünster, Stadt       3359.  
+##  5 01051001           Albersdorf                95.1 
+##  6 01051002           Arkebek                    3.92
+##  7 01051003           Averlak                   10   
+##  8 01051004           Bargenstedt                7.42
+##  9 01051005           Barkenholm                 3   
+## 10 01051006           Barlt                     14.7 
+## # ℹ 10,735 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz1-auto[
+
+``` r
+data_alo %&gt;%
+  filter(nchar(Regionalschluessel) == 8) %&gt;%
+* mutate(landkreis = str_extract(Regionalschluessel, "^.{5}"))
+```
+]
+ 
+.panel2-interne_konsistenz1-auto[
+
+```
+## # A tibble: 10,745 × 4
+##    Regionalschluessel Gemeinde                    alo landkreis
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;    
+##  1 01001000           Flensburg, Stadt        3970.   01001    
+##  2 01002000           Kiel, Landeshauptstadt 10315.   01002    
+##  3 01003000           Lübeck, Hansestadt      8776.   01003    
+##  4 01004000           Neumünster, Stadt       3359.   01004    
+##  5 01051001           Albersdorf                95.1  01051    
+##  6 01051002           Arkebek                    3.92 01051    
+##  7 01051003           Averlak                   10    01051    
+##  8 01051004           Bargenstedt                7.42 01051    
+##  9 01051005           Barkenholm                 3    01051    
+## 10 01051006           Barlt                     14.7  01051    
+## # ℹ 10,735 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz1-auto[
+
+``` r
+data_alo %&gt;%
+  filter(nchar(Regionalschluessel) == 8) %&gt;%
+  mutate(landkreis = str_extract(Regionalschluessel, "^.{5}")) %&gt;%
+* mutate(bundesland = str_extract(Regionalschluessel, "^.{2}"))
+```
+]
+ 
+.panel2-interne_konsistenz1-auto[
+
+```
+## # A tibble: 10,745 × 5
+##    Regionalschluessel Gemeinde                    alo landkreis bundesland
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
+##  1 01001000           Flensburg, Stadt        3970.   01001     01        
+##  2 01002000           Kiel, Landeshauptstadt 10315.   01002     01        
+##  3 01003000           Lübeck, Hansestadt      8776.   01003     01        
+##  4 01004000           Neumünster, Stadt       3359.   01004     01        
+##  5 01051001           Albersdorf                95.1  01051     01        
+##  6 01051002           Arkebek                    3.92 01051     01        
+##  7 01051003           Averlak                   10    01051     01        
+##  8 01051004           Bargenstedt                7.42 01051     01        
+##  9 01051005           Barkenholm                 3    01051     01        
+## 10 01051006           Barlt                     14.7  01051     01        
+## # ℹ 10,735 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz1-auto[
+
+``` r
+data_alo %&gt;%
+  filter(nchar(Regionalschluessel) == 8) %&gt;%
+  mutate(landkreis = str_extract(Regionalschluessel, "^.{5}")) %&gt;%
+  mutate(bundesland = str_extract(Regionalschluessel, "^.{2}")) -&gt;
+*alo_meta
+```
+]
+ 
+.panel2-interne_konsistenz1-auto[
+
+]
+
+&lt;style&gt;
+.panel1-interne_konsistenz1-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-interne_konsistenz1-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-interne_konsistenz1-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+
+.panel1-interne_konsistenz2-auto[
+
+``` r
+*alo_meta
+```
+]
+ 
+.panel2-interne_konsistenz2-auto[
+
+```
+## # A tibble: 10,745 × 5
+##    Regionalschluessel Gemeinde                    alo landkreis bundesland
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
+##  1 01001000           Flensburg, Stadt        3970.   01001     01        
+##  2 01002000           Kiel, Landeshauptstadt 10315.   01002     01        
+##  3 01003000           Lübeck, Hansestadt      8776.   01003     01        
+##  4 01004000           Neumünster, Stadt       3359.   01004     01        
+##  5 01051001           Albersdorf                95.1  01051     01        
+##  6 01051002           Arkebek                    3.92 01051     01        
+##  7 01051003           Averlak                   10    01051     01        
+##  8 01051004           Bargenstedt                7.42 01051     01        
+##  9 01051005           Barkenholm                 3    01051     01        
+## 10 01051006           Barlt                     14.7  01051     01        
+## # ℹ 10,735 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz2-auto[
+
+``` r
+alo_meta %&gt;%
+* group_by(bundesland)
+```
+]
+ 
+.panel2-interne_konsistenz2-auto[
+
+```
+## # A tibble: 10,745 × 5
+## # Groups:   bundesland [16]
+##    Regionalschluessel Gemeinde                    alo landkreis bundesland
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
+##  1 01001000           Flensburg, Stadt        3970.   01001     01        
+##  2 01002000           Kiel, Landeshauptstadt 10315.   01002     01        
+##  3 01003000           Lübeck, Hansestadt      8776.   01003     01        
+##  4 01004000           Neumünster, Stadt       3359.   01004     01        
+##  5 01051001           Albersdorf                95.1  01051     01        
+##  6 01051002           Arkebek                    3.92 01051     01        
+##  7 01051003           Averlak                   10    01051     01        
+##  8 01051004           Bargenstedt                7.42 01051     01        
+##  9 01051005           Barkenholm                 3    01051     01        
+## 10 01051006           Barlt                     14.7  01051     01        
+## # ℹ 10,735 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz2-auto[
+
+``` r
+alo_meta %&gt;%
+  group_by(bundesland) %&gt;%
+* summarise(total_alo = sum(alo))
+```
+]
+ 
+.panel2-interne_konsistenz2-auto[
+
+```
+## # A tibble: 16 × 2
+##    bundesland total_alo
+##    &lt;chr&gt;          &lt;dbl&gt;
+##  1 01            81564.
+##  2 02            73800.
+##  3 03           230553.
+##  4 04            37214.
+##  5 05           668502.
+##  6 06           164492.
+##  7 07           102515.
+##  8 08           223119.
+##  9 09           235850.
+## 10 10            33017.
+## 11 11           179327.
+## 12 12            74242 
+## 13 13            59571.
+## 14 14           118216.
+## 15 15            77978.
+## 16 16            58172.
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz2-auto[
+
+``` r
+alo_meta %&gt;%
+  group_by(bundesland) %&gt;%
+  summarise(total_alo = sum(alo)) -&gt;
+*alo_bundesland
+```
+]
+ 
+.panel2-interne_konsistenz2-auto[
+
+]
+
+&lt;style&gt;
+.panel1-interne_konsistenz2-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-interne_konsistenz2-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-interne_konsistenz2-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+
+.panel1-interne_konsistenz3-auto[
+
+``` r
+*alo_meta
+```
+]
+ 
+.panel2-interne_konsistenz3-auto[
+
+```
+## # A tibble: 10,745 × 5
+##    Regionalschluessel Gemeinde                    alo landkreis bundesland
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
+##  1 01001000           Flensburg, Stadt        3970.   01001     01        
+##  2 01002000           Kiel, Landeshauptstadt 10315.   01002     01        
+##  3 01003000           Lübeck, Hansestadt      8776.   01003     01        
+##  4 01004000           Neumünster, Stadt       3359.   01004     01        
+##  5 01051001           Albersdorf                95.1  01051     01        
+##  6 01051002           Arkebek                    3.92 01051     01        
+##  7 01051003           Averlak                   10    01051     01        
+##  8 01051004           Bargenstedt                7.42 01051     01        
+##  9 01051005           Barkenholm                 3    01051     01        
+## 10 01051006           Barlt                     14.7  01051     01        
+## # ℹ 10,735 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz3-auto[
+
+``` r
+alo_meta %&gt;%
+* group_by(landkreis)
+```
+]
+ 
+.panel2-interne_konsistenz3-auto[
+
+```
+## # A tibble: 10,745 × 5
+## # Groups:   landkreis [400]
+##    Regionalschluessel Gemeinde                    alo landkreis bundesland
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
+##  1 01001000           Flensburg, Stadt        3970.   01001     01        
+##  2 01002000           Kiel, Landeshauptstadt 10315.   01002     01        
+##  3 01003000           Lübeck, Hansestadt      8776.   01003     01        
+##  4 01004000           Neumünster, Stadt       3359.   01004     01        
+##  5 01051001           Albersdorf                95.1  01051     01        
+##  6 01051002           Arkebek                    3.92 01051     01        
+##  7 01051003           Averlak                   10    01051     01        
+##  8 01051004           Bargenstedt                7.42 01051     01        
+##  9 01051005           Barkenholm                 3    01051     01        
+## 10 01051006           Barlt                     14.7  01051     01        
+## # ℹ 10,735 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz3-auto[
+
+``` r
+alo_meta %&gt;%
+  group_by(landkreis) %&gt;%
+* summarise(total_alo = sum(alo))
+```
+]
+ 
+.panel2-interne_konsistenz3-auto[
+
+```
+## # A tibble: 400 × 2
+##    landkreis total_alo
+##    &lt;chr&gt;         &lt;dbl&gt;
+##  1 01001         3970.
+##  2 01002        10315.
+##  3 01003         8776.
+##  4 01004         3359.
+##  5 01051         3858.
+##  6 01053         5351.
+##  7 01054         4155.
+##  8 01055         4824.
+##  9 01056         8547.
+## 10 01057         2572.
+## # ℹ 390 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz3-auto[
+
+``` r
+alo_meta %&gt;%
+  group_by(landkreis) %&gt;%
+  summarise(total_alo = sum(alo)) %&gt;%
+* rename(Regionalschluessel = landkreis)
+```
+]
+ 
+.panel2-interne_konsistenz3-auto[
+
+```
+## # A tibble: 400 × 2
+##    Regionalschluessel total_alo
+##    &lt;chr&gt;                  &lt;dbl&gt;
+##  1 01001                  3970.
+##  2 01002                 10315.
+##  3 01003                  8776.
+##  4 01004                  3359.
+##  5 01051                  3858.
+##  6 01053                  5351.
+##  7 01054                  4155.
+##  8 01055                  4824.
+##  9 01056                  8547.
+## 10 01057                  2572.
+## # ℹ 390 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz3-auto[
+
+``` r
+alo_meta %&gt;%
+  group_by(landkreis) %&gt;%
+  summarise(total_alo = sum(alo)) %&gt;%
+  rename(Regionalschluessel = landkreis) -&gt;
+*alo_landkreis
+```
+]
+ 
+.panel2-interne_konsistenz3-auto[
+
+]
+
+&lt;style&gt;
+.panel1-interne_konsistenz3-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-interne_konsistenz3-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-interne_konsistenz3-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+### Interne Konsistenz überprüfen
+
+Wir wollen nun die zwei Tabellen miteinander verbinden (besserer Überblick)
+
+- Datensatz `check_alo_bundeland`: Auf Bundesland aggregierte Zahlen der Arbeitslosigkeit aus den Gemeinden
+- Datessatz `alo_bundesland`: Die schon von der Arbeitsagentur aggregierte Zahlen in unserem Datensatz
+
+---
+
+count: false
+ 
+
+.panel1-interne_konsistenz4-auto[
+
+``` r
+*left_join(check_alo_bundesland, alo_bundesland, by = "bundesland")
+```
+]
+ 
+.panel2-interne_konsistenz4-auto[
+
+```
+## # A tibble: 16 × 4
+##    bundesland Gemeinde                   alo total_alo
+##    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;
+##  1 01         Schleswig-Holstein      81564.    81564.
+##  2 02         Hamburg                 73800.    73800.
+##  3 03         Niedersachsen          230553.   230553.
+##  4 04         Bremen                  37214.    37214.
+##  5 05         Nordrhein-Westfalen    668502.   668502.
+##  6 06         Hessen                 164492.   164492.
+##  7 07         Rheinland-Pfalz        102515.   102515.
+##  8 08         Baden-Württemberg      223119.   223119.
+##  9 09         Bayern                 235850.   235850.
+## 10 10         Saarland                33017.    33017.
+## 11 11         Berlin                 179327.   179327.
+## 12 12         Brandenburg             74242     74242 
+## 13 13         Mecklenburg-Vorpommern  59571.    59571.
+## 14 14         Sachsen                118216.   118216.
+## 15 15         Sachsen-Anhalt          77978.    77978.
+## 16 16         Thüringen               58172.    58172.
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz4-auto[
+
+``` r
+left_join(check_alo_bundesland, alo_bundesland, by = "bundesland") -&gt;
+* check_consitency
+```
+]
+ 
+.panel2-interne_konsistenz4-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz4-auto[
+
+``` r
+left_join(check_alo_bundesland, alo_bundesland, by = "bundesland") -&gt;
+  check_consitency
+
+*check_consitency
+```
+]
+ 
+.panel2-interne_konsistenz4-auto[
+
+```
+## # A tibble: 16 × 4
+##    bundesland Gemeinde                   alo total_alo
+##    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;
+##  1 01         Schleswig-Holstein      81564.    81564.
+##  2 02         Hamburg                 73800.    73800.
+##  3 03         Niedersachsen          230553.   230553.
+##  4 04         Bremen                  37214.    37214.
+##  5 05         Nordrhein-Westfalen    668502.   668502.
+##  6 06         Hessen                 164492.   164492.
+##  7 07         Rheinland-Pfalz        102515.   102515.
+##  8 08         Baden-Württemberg      223119.   223119.
+##  9 09         Bayern                 235850.   235850.
+## 10 10         Saarland                33017.    33017.
+## 11 11         Berlin                 179327.   179327.
+## 12 12         Brandenburg             74242     74242 
+## 13 13         Mecklenburg-Vorpommern  59571.    59571.
+## 14 14         Sachsen                118216.   118216.
+## 15 15         Sachsen-Anhalt          77978.    77978.
+## 16 16         Thüringen               58172.    58172.
+```
+]
+
+---
+count: false
+ 
+
+.panel1-interne_konsistenz4-auto[
+
+``` r
+left_join(check_alo_bundesland, alo_bundesland, by = "bundesland") -&gt;
+  check_consitency
+
+check_consitency %&gt;%
+* mutate(diff = alo - total_alo)
+```
+]
+ 
+.panel2-interne_konsistenz4-auto[
+
+```
+## # A tibble: 16 × 5
+##    bundesland Gemeinde                   alo total_alo      diff
+##    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 01         Schleswig-Holstein      81564.    81564.  0       
+##  2 02         Hamburg                 73800.    73800.  0       
+##  3 03         Niedersachsen          230553.   230553.  0       
+##  4 04         Bremen                  37214.    37214. -7.28e-12
+##  5 05         Nordrhein-Westfalen    668502.   668502.  0       
+##  6 06         Hessen                 164492.   164492.  0       
+##  7 07         Rheinland-Pfalz        102515.   102515.  0       
+##  8 08         Baden-Württemberg      223119.   223119.  0       
+##  9 09         Bayern                 235850.   235850.  0       
+## 10 10         Saarland                33017.    33017.  0       
+## 11 11         Berlin                 179327.   179327.  0       
+## 12 12         Brandenburg             74242     74242   0       
+## 13 13         Mecklenburg-Vorpommern  59571.    59571.  0       
+## 14 14         Sachsen                118216.   118216.  0       
+## 15 15         Sachsen-Anhalt          77978.    77978.  0       
+## 16 16         Thüringen               58172.    58172.  0
+```
+]
+
+&lt;style&gt;
+.panel1-interne_konsistenz4-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-interne_konsistenz4-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-interne_konsistenz4-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+--
+
+.center[.alert[Es bestehen keine Unstimmigkeiten.]]
+
+---
+
+class: inverse, middle, center
+
+# Pro-Kopf Verschuldung
+
+---
+
+## Pro-Kopf Verschuldung auf Gemeindeebene
+
+- Auf Gemeindeebene aus dem Jahr 2022
+- Querschnittsdaten
+- Vom Statistischen Bundesamt direkt als Excel-Tabelle heruntergeladen (✔️)
+
+.question[Welche Tabellenblätter sollten wir nutzen?]
+
+
+``` r
+excel_sheets("../case-study/data/Schulden_2022.xlsx")
+```
+
+```
+##  [1] "Titel"              "Impressum"          "Inhalt"            
+##  [4] "Abkürzungen"        "Erläuterungen"      "SH"                
+##  [7] "NI"                 "NW"                 "HE"                
+## [10] "RP"                 "BW"                 "BY"                
+## [13] "SL"                 "BB"                 "MV"                
+## [16] "SN"                 "ST"                 "TH"                
+## [19] "Statistische Ämter"
+```
+
+---
+
+## Mehrere Tabellenblätter einlesen
+
+- Nicht alle Informationen in **einem Tabellenblatt** enthalten
+  - Viele separate Tabellenblätter
+  - Hier müssen wir potentiell eine Operation über mehrere Tabellenblättern anwenden, z.B. durch eine Schleife
+
+--
+
+.instructions[Zuerst schauen wir jedoch welche Informationen wir benötigen anhand eines Beispiels:]
+
+---
+
+## Mehrere Tabellenblätter einlesen
+
+
+``` r
+sh &lt;- read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH")
+head(sh,20)
+```
+
+```
+## # A tibble: 20 × 21
+##    `Zurück zum Inhalt...1` ...2  ...3  ...4  ...5  ...6  ...7  ...8  ...9  ...10
+##    &lt;chr&gt;                   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+##  2  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+##  3 "Tabelle 1:    Schulde… &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+##  4 "nach Höhe der Beteili… &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+##  5 "Regional-\r\nschlüsse… Geme… Verw… "Ein… Schu… Verä… "Sch… Schu… &lt;NA&gt;  &lt;NA&gt; 
+##  6  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; zusa… Verä… Schu…
+##  7  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+##  8  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
+##  9  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; EUR   %     "EUR" &lt;NA&gt;  %     EUR  
+## 10  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; 1     2     "3"   4     5     6    
+## 11 "010010000000"          Flen… krei… "919… 4617… 1.6   "501… 2230… -3.3  3571…
+## 12 "010020000000"          Kiel… krei… "246… 1101… 5.2   "446… 5924… 7.1   5921…
+## 13 "010030000000"          Lübe… krei… "217… 9835… -7.5  "451… 3582… -16.8 3549…
+## 14 "010040000000"          Neum… krei… "798… 5036… 11    "630… 1245… 9.1   1142…
+## 15 "01051"                 Krei… Krei… "{13… 5767… 31    "427… 3696… 79.4… 3693…
+## 16 "010510011011"          Brun… amts… "125… 5788… 11.2  "462… 2522… 14.3  2245…
+## 17 "010510044044"          Heid… amts… "219… 4920… 14.7  "224… 3055… 21.8  2637…
+## 18 "010515163"             Amts… Amts… "{15… 8252… -3    "52.… 8252… -3    7942…
+## 19 "010515163003"          Aver… amts… "572" 2247… 12.1  "392… 1503… 15.7  5883…
+## 20 "010515163010"          Bric… amts… "202" 1435… 21.6  "710… 1101… 23.9  1865…
+## # ℹ 11 more variables: ...11 &lt;chr&gt;, ...12 &lt;chr&gt;, ...13 &lt;chr&gt;, ...14 &lt;chr&gt;,
+## #   ...15 &lt;chr&gt;, ...16 &lt;chr&gt;, ...17 &lt;chr&gt;, ...18 &lt;chr&gt;, ...19 &lt;chr&gt;,
+## #   `Zurück zum Inhalt...20` &lt;chr&gt;, ...21 &lt;chr&gt;
+```
+
+---
+
+## Mehrere Tabellenblätter einlesen
+
+Wir benötigen:
+- "Regionalschlüssel"
+- "Gemeindename"
+- "Einwohner"
+- "Schuldes des öffentlichen Bereichs insgesamt"
+- "Schulden je Einwohner"
+
+Variablenbezeichnungen beginnen in Zeile 5, d.h. wir ignorieren die ersten 4 Zeilen beim Einlesen.
+
+.question[Was ist hier eine Beobachtung?]
+
+---
+
+## Mehrere Tabellenblätter einlesen
+
+Der Übersicht halber wollen wir noch eine Spalte hinzufügen, welche den Namen des Tabellenblattes enthält, welches wir gerade eingelesen haben.
+
+
+``` r
+# Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
+schulden_individuell &lt;- read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7]
+# Umbenennen der ersten 7 Spalten
+colnames(schulden_individuell) &lt;- c("Regionalschluessel", "Gemeinde", 
+                                    "Verwaltungsform", "Einwohner", "Schulden_gesamt", "Veraenderung_Vorjahr", "Schulden_pro_kopf")
+
+# Zusätzliche Spalte hinzufügen mit dem Namen des Tabellenblattes
+*schulden_individuell$Bundesland &lt;- "SH"
+```
+
+---
+
+count: false
+ 
+
+.panel1-schulden_einlesen-auto[
+
+``` r
+# Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
+*read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7]
+```
+]
+ 
+.panel2-schulden_einlesen-auto[
+
+```
+## # A tibble: 1,310 × 7
+##    `Regional-\r\nschlüssel` `Gemeinde/Gemeindeverband`   Verwaltungsform 
+##    &lt;chr&gt;                    &lt;chr&gt;                        &lt;chr&gt;           
+##  1 &lt;NA&gt;                     &lt;NA&gt;                         &lt;NA&gt;            
+##  2 &lt;NA&gt;                     &lt;NA&gt;                         &lt;NA&gt;            
+##  3 &lt;NA&gt;                     &lt;NA&gt;                         &lt;NA&gt;            
+##  4 &lt;NA&gt;                     &lt;NA&gt;                         &lt;NA&gt;            
+##  5 &lt;NA&gt;                     &lt;NA&gt;                         &lt;NA&gt;            
+##  6 010010000000             Flensburg, Stadt             kreisfreie Stadt
+##  7 010020000000             Kiel, Landeshauptstadt       kreisfreie Stadt
+##  8 010030000000             Lübeck, Hansestadt           kreisfreie Stadt
+##  9 010040000000             Neumünster, Stadt            kreisfreie Stadt
+## 10 01051                    Kreisverwaltung Dithmarschen Kreisverwaltung 
+## # ℹ 1,300 more rows
+## # ℹ 4 more variables: `Einwohner/-innen\r\nam\r\n30.06.2022` &lt;chr&gt;,
+## #   `Schulden des öffentlichen Bereichs insgesamt` &lt;chr&gt;,
+## #   `Veränderung zum Vorjahr` &lt;chr&gt;, `Schulden je \r\nEinwohner/-in` &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_einlesen-auto[
+
+``` r
+# Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
+read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
+* schulden_individuell
+```
+]
+ 
+.panel2-schulden_einlesen-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_einlesen-auto[
+
+``` r
+# Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
+read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
+  schulden_individuell
+
+# Umbenennen der ersten 7 Spalten
+*colnames(schulden_individuell) &lt;- c("Regionalschluessel", "Gemeinde",
+*                                   "Verwaltungsform", "Einwohner", "Schulden_gesamt", "Veraenderung_Vorjahr", "Schulden_pro_kopf")
+```
+]
+ 
+.panel2-schulden_einlesen-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_einlesen-auto[
+
+``` r
+# Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
+read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
+  schulden_individuell
+
+# Umbenennen der ersten 7 Spalten
+colnames(schulden_individuell) &lt;- c("Regionalschluessel", "Gemeinde",
+                                    "Verwaltungsform", "Einwohner", "Schulden_gesamt", "Veraenderung_Vorjahr", "Schulden_pro_kopf")
+
+# Zusätzliche Spalte hinzufügen mit dem Namen des Tabellenblattes
+*schulden_individuell$Bundesland &lt;- "SH"
+```
+]
+ 
+.panel2-schulden_einlesen-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_einlesen-auto[
+
+``` r
+# Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
+read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
+  schulden_individuell
+
+# Umbenennen der ersten 7 Spalten
+colnames(schulden_individuell) &lt;- c("Regionalschluessel", "Gemeinde",
+                                    "Verwaltungsform", "Einwohner", "Schulden_gesamt", "Veraenderung_Vorjahr", "Schulden_pro_kopf")
+
+# Zusätzliche Spalte hinzufügen mit dem Namen des Tabellenblattes
+schulden_individuell$Bundesland &lt;- "SH"
+
+*schulden_individuell
+```
+]
+ 
+.panel2-schulden_einlesen-auto[
+
+```
+## # A tibble: 1,310 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
+##  1 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  2 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  3 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  4 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      EUR            
+##  5 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      1              
+##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
+##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
+##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
+##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
+## 10 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
+## # ℹ 1,300 more rows
+## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;
+```
+]
+
+&lt;style&gt;
+.panel1-schulden_einlesen-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-schulden_einlesen-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-schulden_einlesen-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+## Mehrere Tabellenblätter einlesen
+
+.instructions[Formen Sie Teams von zwei Personen und erarbeiten Sie auf Basis des Beispiels für ein Bundesland einen Code um alle Bundesländer in R einzulesen.]
+
+.alert[Nutzen Sie für diese Aufgabe **bwGPT**.]
+
+Posten Sie ihren Code hier:
+
+&lt;img src="./figs/Code_mehrere_Tabellen.png" width="30%" /&gt;
+
+<div class="countdown" id="timer_093cc204" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+## Variablen umformen
+
+
+
+
+``` r
+head(schulden_individuell,15)
+```
+
+```
+## # A tibble: 15 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
+##  1 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  2 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  3 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  4 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      EUR            
+##  5 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      1              
+##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
+##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
+##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
+##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
+## 10 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
+## 11 010510011011       Brunsbüttel, St… amtsfreie Geme… 12518     57881948.27000…
+## 12 010510044044       Heide, Stadt     amtsfreie Geme… 21919     49208227.03999…
+## 13 010515163          Amtsverwaltung … Amtsverwaltung  {15 770}  825202.43      
+## 14 010515163003       Averlak          amtsangehörige… 572       2247182.660000…
+## 15 010515163010       Brickeln         amtsangehörige… 202       1435532.829999…
+## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;
+```
+
+---
+
+## Variablen umformen
+
+Wir sehen, es gibt immer noch einige Probleme:
+
+- Die Werte unserer Variablen stehen nicht direkt unter dem Variablennamen 
+  - Dies können wir am einfachsten bereinigen indem wir alle `NA`s im Regionalschlüssel entfernen 
+--
+
+- Die Variablen "Einwohner", "Schulden_gesamt" und "Schulden_pro_Kopf" sind alle als `character` hinterlegt (`&lt;chr&gt;` unter dem Variablennamen in der vorherigen Tabelle)
+  - Beispiel warum Klasse `character` (Zeile 28): Es sind geschweifte Klammern enthalten
+
+
+``` r
+schulden_individuell[28,]
+```
+
+```
+## # A tibble: 1 × 8
+##   Regionalschluessel   Gemeinde        Verwaltungsform Einwohner Schulden_gesamt
+##   &lt;chr&gt;                &lt;chr&gt;           &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
+## 1 010515163_Summe(Amt) Amt Burg-St. M… Amtsgebiet      {15 770}  {50 131 118}   
+## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;
+```
+
+--
+
+- Definition einer Variablen `landkreis`: Ersten 5 Zeichen im Regionalschlüssel
+
+---
+
+
+count: false
+ 
+
+.panel1-schulden_umformen-auto[
+
+``` r
+# Die Daten wurden noch nicht schön eingelesen, in der Excel Tabelle
+# waren die Variablennamen über mehrere Reihen gezogen, dies müssen wir noch ausgleichen
+*schulden_individuell
+```
+]
+ 
+.panel2-schulden_umformen-auto[
+
+```
+## # A tibble: 13,266 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
+##  1 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  2 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  3 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  4 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      EUR            
+##  5 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      1              
+##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
+##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
+##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
+##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
+## 10 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
+## # ℹ 13,256 more rows
+## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_umformen-auto[
+
+``` r
+# Die Daten wurden noch nicht schön eingelesen, in der Excel Tabelle
+# waren die Variablennamen über mehrere Reihen gezogen, dies müssen wir noch ausgleichen
+schulden_individuell %&gt;%
+* filter(!is.na(Regionalschluessel))
+```
+]
+ 
+.panel2-schulden_umformen-auto[
+
+```
+## # A tibble: 13,149 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
+##  5 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12518     57881948.27000…
+##  7 010510044044       Heide, Stadt     amtsfreie Geme… 21919     49208227.03999…
+##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 770}  825202.43      
+##  9 010515163003       Averlak          amtsangehörige… 572       2247182.660000…
+## 10 010515163010       Brickeln         amtsangehörige… 202       1435532.829999…
+## # ℹ 13,139 more rows
+## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_umformen-auto[
+
+``` r
+# Die Daten wurden noch nicht schön eingelesen, in der Excel Tabelle
+# waren die Variablennamen über mehrere Reihen gezogen, dies müssen wir noch ausgleichen
+schulden_individuell %&gt;%
+  filter(!is.na(Regionalschluessel)) %&gt;%
+* mutate(Schulden_gesamt = as.numeric(Schulden_gesamt))
+```
+]
+ 
+.panel2-schulden_umformen-auto[
+
+```
+## # A tibble: 13,149 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;               &lt;dbl&gt;
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 91992          461784579.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712        1101148772.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799         983573070.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79889          503685791.
+##  5 01051              Kreisverwaltung… Kreisverwaltung {135 009}       57672347.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12518           57881948.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme… 21919           49208227.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 770}          825202.
+##  9 010515163003       Averlak          amtsangehörige… 572              2247183.
+## 10 010515163010       Brickeln         amtsangehörige… 202              1435533.
+## # ℹ 13,139 more rows
+## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_umformen-auto[
+
+``` r
+# Die Daten wurden noch nicht schön eingelesen, in der Excel Tabelle
+# waren die Variablennamen über mehrere Reihen gezogen, dies müssen wir noch ausgleichen
+schulden_individuell %&gt;%
+  filter(!is.na(Regionalschluessel)) %&gt;%
+  mutate(Schulden_gesamt = as.numeric(Schulden_gesamt)) %&gt;%
+* mutate(Einwohner = as.numeric(Einwohner))
+```
+]
+ 
+.panel2-schulden_umformen-auto[
+
+```
+## # A tibble: 13,149 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
+##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       57672347.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         825202.
+##  9 010515163003       Averlak          amtsangehörige…       572        2247183.
+## 10 010515163010       Brickeln         amtsangehörige…       202        1435533.
+## # ℹ 13,139 more rows
+## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_umformen-auto[
+
+``` r
+# Die Daten wurden noch nicht schön eingelesen, in der Excel Tabelle
+# waren die Variablennamen über mehrere Reihen gezogen, dies müssen wir noch ausgleichen
+schulden_individuell %&gt;%
+  filter(!is.na(Regionalschluessel)) %&gt;%
+  mutate(Schulden_gesamt = as.numeric(Schulden_gesamt)) %&gt;%
+  mutate(Einwohner = as.numeric(Einwohner)) %&gt;%
+* mutate(Schulden_pro_kopf = as.numeric(Schulden_pro_kopf))
+```
+]
+ 
+.panel2-schulden_umformen-auto[
+
+```
+## # A tibble: 13,149 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
+##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       57672347.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         825202.
+##  9 010515163003       Averlak          amtsangehörige…       572        2247183.
+## 10 010515163010       Brickeln         amtsangehörige…       202        1435533.
+## # ℹ 13,139 more rows
+## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;dbl&gt;,
+## #   Bundesland &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_umformen-auto[
+
+``` r
+# Die Daten wurden noch nicht schön eingelesen, in der Excel Tabelle
+# waren die Variablennamen über mehrere Reihen gezogen, dies müssen wir noch ausgleichen
+schulden_individuell %&gt;%
+  filter(!is.na(Regionalschluessel)) %&gt;%
+  mutate(Schulden_gesamt = as.numeric(Schulden_gesamt)) %&gt;%
+  mutate(Einwohner = as.numeric(Einwohner)) %&gt;%
+  mutate(Schulden_pro_kopf = as.numeric(Schulden_pro_kopf)) %&gt;%
+* mutate(landkreis = str_extract(Regionalschluessel, "^.{5}"))
+```
+]
+ 
+.panel2-schulden_umformen-auto[
+
+```
+## # A tibble: 13,149 × 9
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
+##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       57672347.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         825202.
+##  9 010515163003       Averlak          amtsangehörige…       572        2247183.
+## 10 010515163010       Brickeln         amtsangehörige…       202        1435533.
+## # ℹ 13,139 more rows
+## # ℹ 4 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;dbl&gt;,
+## #   Bundesland &lt;chr&gt;, landkreis &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_umformen-auto[
+
+``` r
+# Die Daten wurden noch nicht schön eingelesen, in der Excel Tabelle
+# waren die Variablennamen über mehrere Reihen gezogen, dies müssen wir noch ausgleichen
+schulden_individuell %&gt;%
+  filter(!is.na(Regionalschluessel)) %&gt;%
+  mutate(Schulden_gesamt = as.numeric(Schulden_gesamt)) %&gt;%
+  mutate(Einwohner = as.numeric(Einwohner)) %&gt;%
+  mutate(Schulden_pro_kopf = as.numeric(Schulden_pro_kopf)) %&gt;%
+  mutate(landkreis = str_extract(Regionalschluessel, "^.{5}")) %&gt;%
+* select(-Veraenderung_Vorjahr)
+```
+]
+ 
+.panel2-schulden_umformen-auto[
+
+```
+## # A tibble: 13,149 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
+##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       57672347.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         825202.
+##  9 010515163003       Averlak          amtsangehörige…       572        2247183.
+## 10 010515163010       Brickeln         amtsangehörige…       202        1435533.
+## # ℹ 13,139 more rows
+## # ℹ 3 more variables: Schulden_pro_kopf &lt;dbl&gt;, Bundesland &lt;chr&gt;,
+## #   landkreis &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_umformen-auto[
+
+``` r
+# Die Daten wurden noch nicht schön eingelesen, in der Excel Tabelle
+# waren die Variablennamen über mehrere Reihen gezogen, dies müssen wir noch ausgleichen
+schulden_individuell %&gt;%
+  filter(!is.na(Regionalschluessel)) %&gt;%
+  mutate(Schulden_gesamt = as.numeric(Schulden_gesamt)) %&gt;%
+  mutate(Einwohner = as.numeric(Einwohner)) %&gt;%
+  mutate(Schulden_pro_kopf = as.numeric(Schulden_pro_kopf)) %&gt;%
+  mutate(landkreis = str_extract(Regionalschluessel, "^.{5}")) %&gt;%
+  select(-Veraenderung_Vorjahr) %&gt;%
+#manche Landkreise haben keine Infos zu den Einwohnern, diese entfernen wir
+* filter( !is.na( Einwohner ))
+```
+]
+ 
+.panel2-schulden_umformen-auto[
+
+```
+## # A tibble: 10,782 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
+##  5 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
+##  6 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
+##  7 010515163003       Averlak          amtsangehörige…       572        2247183.
+##  8 010515163010       Brickeln         amtsangehörige…       202        1435533.
+##  9 010515163012       Buchholz         amtsangehörige…       998        3675650.
+## 10 010515163016       Burg (Dithmarsc… amtsangehörige…      4212       14377298.
+## # ℹ 10,772 more rows
+## # ℹ 3 more variables: Schulden_pro_kopf &lt;dbl&gt;, Bundesland &lt;chr&gt;,
+## #   landkreis &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_umformen-auto[
+
+``` r
+# Die Daten wurden noch nicht schön eingelesen, in der Excel Tabelle
+# waren die Variablennamen über mehrere Reihen gezogen, dies müssen wir noch ausgleichen
+schulden_individuell %&gt;%
+  filter(!is.na(Regionalschluessel)) %&gt;%
+  mutate(Schulden_gesamt = as.numeric(Schulden_gesamt)) %&gt;%
+  mutate(Einwohner = as.numeric(Einwohner)) %&gt;%
+  mutate(Schulden_pro_kopf = as.numeric(Schulden_pro_kopf)) %&gt;%
+  mutate(landkreis = str_extract(Regionalschluessel, "^.{5}")) %&gt;%
+  select(-Veraenderung_Vorjahr) %&gt;%
+#manche Landkreise haben keine Infos zu den Einwohnern, diese entfernen wir
+  filter( !is.na( Einwohner )) -&gt;
+*schulden_bereinigt
+```
+]
+ 
+.panel2-schulden_umformen-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_umformen-auto[
+
+``` r
+# Die Daten wurden noch nicht schön eingelesen, in der Excel Tabelle
+# waren die Variablennamen über mehrere Reihen gezogen, dies müssen wir noch ausgleichen
+schulden_individuell %&gt;%
+  filter(!is.na(Regionalschluessel)) %&gt;%
+  mutate(Schulden_gesamt = as.numeric(Schulden_gesamt)) %&gt;%
+  mutate(Einwohner = as.numeric(Einwohner)) %&gt;%
+  mutate(Schulden_pro_kopf = as.numeric(Schulden_pro_kopf)) %&gt;%
+  mutate(landkreis = str_extract(Regionalschluessel, "^.{5}")) %&gt;%
+  select(-Veraenderung_Vorjahr) %&gt;%
+#manche Landkreise haben keine Infos zu den Einwohnern, diese entfernen wir
+  filter( !is.na( Einwohner )) -&gt;
+schulden_bereinigt
+```
+]
+ 
+.panel2-schulden_umformen-auto[
+
+]
+
+&lt;style&gt;
+.panel1-schulden_umformen-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-schulden_umformen-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-schulden_umformen-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+---
+
+class: middle, inverse, center
+
+# Konsistenzcheck zum Schulden-Datensatz
+
+---
+
+## Interne Validität Schulden pro Kopf
+
+- `Schulden_pro_Kopf_new` von Hand berechnen
+- **Beachte:**
+  - Geschweiften Klammern entfernen bei `Schulden_gesamt` (mit `gsub([{}])`), als auch die Leerzeichen innerhalb der Zahlen (z.B. 15 653), was wir mit `gsub("[[:space:]]")` erreichen. 
+  - Tun wir das nicht, so würden wir wieder `NA`s im Datensatz erhalten
+
+.tiny[
+
+
+``` r
+# Erstellen der Vergleichstabelle
+schulden_consistency &lt;- schulden_individuell %&gt;%
+  filter(!is.na(Einwohner) &amp; !is.na(Regionalschluessel)) %&gt;%
+  mutate(
+    Einwohner_num = as.numeric(gsub("[[:space:]{}]", "", Einwohner)),
+    Schulden_gesamt = as.numeric(gsub("[[:space:]{}]", "", Schulden_gesamt)),
+    Schulden_pro_kopf = as.numeric(gsub("[[:space:]{}]", "", Schulden_pro_kopf)),
+    Schulden_pro_kopf_new = round(Schulden_gesamt / Einwohner_num, 2),
+    landkreis = str_extract(Regionalschluessel, "^.{5}"),
+    differenz = Schulden_pro_kopf - Schulden_pro_kopf_new
+  ) %&gt;%
+  relocate(Regionalschluessel, Einwohner, Einwohner_num, Schulden_pro_kopf, Schulden_pro_kopf_new)
+```
+
+]
+
+--
+
+.question[Was macht **gsub()** und **str_extract()** hier genau? Und was sind **reguläre Ausdrücke**?]
+
+---
+
+count: false
+ 
+
+.panel1-schulden_konsistenz-auto[
+
+``` r
+# Erstellen der Vergleichstabelle
+*schulden_individuell
+```
+]
+ 
+.panel2-schulden_konsistenz-auto[
+
+```
+## # A tibble: 13,266 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
+##  1 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  2 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  3 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
+##  4 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      EUR            
+##  5 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      1              
+##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
+##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
+##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
+##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
+## 10 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
+## # ℹ 13,256 more rows
+## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_konsistenz-auto[
+
+``` r
+# Erstellen der Vergleichstabelle
+schulden_individuell %&gt;%
+* filter(!is.na(Einwohner) &amp; !is.na(Regionalschluessel))
+```
+]
+ 
+.panel2-schulden_konsistenz-auto[
+
+```
+## # A tibble: 13,108 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
+##  5 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12518     57881948.27000…
+##  7 010510044044       Heide, Stadt     amtsfreie Geme… 21919     49208227.03999…
+##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 770}  825202.43      
+##  9 010515163003       Averlak          amtsangehörige… 572       2247182.660000…
+## 10 010515163010       Brickeln         amtsangehörige… 202       1435532.829999…
+## # ℹ 13,098 more rows
+## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_konsistenz-auto[
+
+``` r
+# Erstellen der Vergleichstabelle
+schulden_individuell %&gt;%
+  filter(!is.na(Einwohner) &amp; !is.na(Regionalschluessel)) %&gt;%
+* mutate(
+*   Einwohner_num = as.numeric(gsub("[[:space:]{}]", "", Einwohner)),
+*   Schulden_gesamt = as.numeric(gsub("[[:space:]{}]", "", Schulden_gesamt)),
+*   Schulden_pro_kopf = as.numeric(gsub("[[:space:]{}]", "", Schulden_pro_kopf)),
+*   Schulden_pro_kopf_new = round(Schulden_gesamt / Einwohner_num, 2),
+*   landkreis = str_extract(Regionalschluessel, "^.{5}"),
+*   differenz = Schulden_pro_kopf - Schulden_pro_kopf_new
+* )
+```
+]
+ 
+.panel2-schulden_konsistenz-auto[
+
+```
+## # A tibble: 13,108 × 12
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;               &lt;dbl&gt;
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 91992          461784579.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712        1101148772.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799         983573070.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79889          503685791.
+##  5 01051              Kreisverwaltung… Kreisverwaltung {135 009}       57672347.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12518           57881948.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme… 21919           49208227.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 770}          825202.
+##  9 010515163003       Averlak          amtsangehörige… 572              2247183.
+## 10 010515163010       Brickeln         amtsangehörige… 202              1435533.
+## # ℹ 13,098 more rows
+## # ℹ 7 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;dbl&gt;,
+## #   Bundesland &lt;chr&gt;, Einwohner_num &lt;dbl&gt;, Schulden_pro_kopf_new &lt;dbl&gt;,
+## #   landkreis &lt;chr&gt;, differenz &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_konsistenz-auto[
+
+``` r
+# Erstellen der Vergleichstabelle
+schulden_individuell %&gt;%
+  filter(!is.na(Einwohner) &amp; !is.na(Regionalschluessel)) %&gt;%
+  mutate(
+    Einwohner_num = as.numeric(gsub("[[:space:]{}]", "", Einwohner)),
+    Schulden_gesamt = as.numeric(gsub("[[:space:]{}]", "", Schulden_gesamt)),
+    Schulden_pro_kopf = as.numeric(gsub("[[:space:]{}]", "", Schulden_pro_kopf)),
+    Schulden_pro_kopf_new = round(Schulden_gesamt / Einwohner_num, 2),
+    landkreis = str_extract(Regionalschluessel, "^.{5}"),
+    differenz = Schulden_pro_kopf - Schulden_pro_kopf_new
+  ) %&gt;%
+* relocate(Regionalschluessel, Einwohner, Einwohner_num, Schulden_pro_kopf, Schulden_pro_kopf_new)
+```
+]
+ 
+.panel2-schulden_konsistenz-auto[
+
+```
+## # A tibble: 13,108 × 12
+##    Regionalschluessel Einwohner Einwohner_num Schulden_pro_kopf
+##    &lt;chr&gt;              &lt;chr&gt;             &lt;dbl&gt;             &lt;dbl&gt;
+##  1 010010000000       91992             91992            5020. 
+##  2 010020000000       246712           246712            4463. 
+##  3 010030000000       217799           217799            4516. 
+##  4 010040000000       79889             79889            6305. 
+##  5 01051              {135 009}        135009             427. 
+##  6 010510011011       12518             12518            4624. 
+##  7 010510044044       21919             21919            2245  
+##  8 010515163          {15 770}          15770              52.3
+##  9 010515163003       572                 572            3929. 
+## 10 010515163010       202                 202            7107. 
+## # ℹ 13,098 more rows
+## # ℹ 8 more variables: Schulden_pro_kopf_new &lt;dbl&gt;, Gemeinde &lt;chr&gt;,
+## #   Verwaltungsform &lt;chr&gt;, Schulden_gesamt &lt;dbl&gt;, Veraenderung_Vorjahr &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;, landkreis &lt;chr&gt;, differenz &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-schulden_konsistenz-auto[
+
+``` r
+# Erstellen der Vergleichstabelle
+schulden_individuell %&gt;%
+  filter(!is.na(Einwohner) &amp; !is.na(Regionalschluessel)) %&gt;%
+  mutate(
+    Einwohner_num = as.numeric(gsub("[[:space:]{}]", "", Einwohner)),
+    Schulden_gesamt = as.numeric(gsub("[[:space:]{}]", "", Schulden_gesamt)),
+    Schulden_pro_kopf = as.numeric(gsub("[[:space:]{}]", "", Schulden_pro_kopf)),
+    Schulden_pro_kopf_new = round(Schulden_gesamt / Einwohner_num, 2),
+    landkreis = str_extract(Regionalschluessel, "^.{5}"),
+    differenz = Schulden_pro_kopf - Schulden_pro_kopf_new
+  ) %&gt;%
+  relocate(Regionalschluessel, Einwohner, Einwohner_num, Schulden_pro_kopf, Schulden_pro_kopf_new) -&gt;
+*schulden_consistency
+```
+]
+ 
+.panel2-schulden_konsistenz-auto[
+
+]
+
+&lt;style&gt;
+.panel1-schulden_konsistenz-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-schulden_konsistenz-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-schulden_konsistenz-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+---
+
+## Interne Validität Schulden pro Kopf
+
+
+``` r
+range(schulden_consistency$differenz, na.rm=TRUE)
+```
+
+```
+## [1] -0.49  0.50
+```
+
+--
+
+.alert[Die Differenzen liegen zwischen +/- 50 Cent]
+
+---
+
+## Interne Validität Schulden pro Kopf
+
+Es gibt keine nicht verfügbaren Werte, was gut ist bzgl. der internen Validität.
+
+
+``` r
+filter(schulden_consistency, is.na(differenz))
+```
+
+```
+## # A tibble: 0 × 12
+## # ℹ 12 variables: Regionalschluessel &lt;chr&gt;, Einwohner &lt;chr&gt;,
+## #   Einwohner_num &lt;dbl&gt;, Schulden_pro_kopf &lt;dbl&gt;, Schulden_pro_kopf_new &lt;dbl&gt;,
+## #   Gemeinde &lt;chr&gt;, Verwaltungsform &lt;chr&gt;, Schulden_gesamt &lt;dbl&gt;,
+## #   Veraenderung_Vorjahr &lt;chr&gt;, Bundesland &lt;chr&gt;, landkreis &lt;chr&gt;,
+## #   differenz &lt;dbl&gt;
+```
+
+
+---
+
+class: center, middle, inverse
+
+# Bruttoinlandsprodukt
+
+---
+
+## Informationen bzgl. des Bruttoinlandsprodukts
+
+Nach dem Download bei den Statistischen Ämtern des Bundes und der Länder und einer ersten Betrachtung interessieren uns folgende Tabellenblätter:
+
+- Betrachten der Daten 
+  - Tabellenblatt "1.1" ist für unsere Analyse ausschlaggebend (für das BIP)
+  - Tabellenblatt "3.1" ist für die Anzahl an Erwerbstätigen ausschlaggebend
+  - Tabellenblatt "5" ist für die Anzahl an Einwohnern ausschlaggebend
+- Die ersten vier Zeilen benötigen wir nicht
+- Die letzte Zeile enthält eine kurze Beschreibung die wir nicht benötigen 
+  - **Lösung:** Behalte alle Zeilen, welche bei der `Lfd. Nr.` numerisch sind
+- Die folgenden Variablen benötigen wir nicht für unsere Analyse und können entfernt werden: `Lfd. Nr.`, `EU-Code`, `NUTS 1`, `NUTS 2`, `NUTS 3`, `Land`, `Gebietseinheit`
+
+---
+
+## Informationen bzgl. des Bruttoinlandsprodukts
+
+
+``` r
+# Blatt 1.1 einlesen und die ersten 4 Zeilen skippen
+bip &lt;- read_xlsx("../case-study/data/BIP_2023.xlsx", sheet="1.1", skip = 4)
+erwerb &lt;- read_xlsx("../case-study/data/BIP_2023.xlsx", sheet="3.1", skip = 4)
+einwohner &lt;- read_xlsx("../case-study/data/BIP_2023.xlsx", sheet = "5", skip = 4)
+```
+
+---
+
+count: false
+ 
+
+.panel1-bip_einlesen1-auto[
+
+``` r
+# Zeile löschen in der die `Lfd. Nr.` nicht nummerisch ist
+# Zusätzliche Spalten löschen
+*bip
+```
+]
+ 
+.panel2-bip_einlesen1-auto[
+
+```
+## # A tibble: 445 × 38
+##    `Lfd. Nr.` `EU-Code` `Regional-schlüssel` Land  `NUTS 1` `NUTS 2` `NUTS 3`
+##         &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   
+##  1         NA &lt;NA&gt;      &lt;NA&gt;                 &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;    
+##  2          1 DE1       08                   BW    1        &lt;NA&gt;     &lt;NA&gt;    
+##  3          2 DE11      081                  BW    &lt;NA&gt;     2        &lt;NA&gt;    
+##  4          3 DE111     08111                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  5          4 DE112     08115                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  6          5 DE113     08116                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  7          6 DE114     08117                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  8          7 DE115     08118                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  9          8 DE116     08119                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+## 10          9 DE117     08121                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+## # ℹ 435 more rows
+## # ℹ 31 more variables: Gebietseinheit &lt;chr&gt;, `1992` &lt;chr&gt;, `1994` &lt;chr&gt;,
+## #   `1995` &lt;chr&gt;, `1996` &lt;chr&gt;, `1997` &lt;chr&gt;, `1998` &lt;chr&gt;, `1999` &lt;chr&gt;,
+## #   `2000` &lt;dbl&gt;, `2001` &lt;dbl&gt;, `2002` &lt;dbl&gt;, `2003` &lt;dbl&gt;, `2004` &lt;dbl&gt;,
+## #   `2005` &lt;dbl&gt;, `2006` &lt;dbl&gt;, `2007` &lt;dbl&gt;, `2008` &lt;dbl&gt;, `2009` &lt;dbl&gt;,
+## #   `2010` &lt;dbl&gt;, `2011` &lt;dbl&gt;, `2012` &lt;dbl&gt;, `2013` &lt;dbl&gt;, `2014` &lt;dbl&gt;,
+## #   `2015` &lt;dbl&gt;, `2016` &lt;dbl&gt;, `2017` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;, …
+```
+]
+
+---
+count: false
+ 
+
+.panel1-bip_einlesen1-auto[
+
+``` r
+# Zeile löschen in der die `Lfd. Nr.` nicht nummerisch ist
+# Zusätzliche Spalten löschen
+bip %&gt;%
+* filter(is.na(as.numeric(`Lfd. Nr.`))==FALSE)
+```
+]
+ 
+.panel2-bip_einlesen1-auto[
+
+```
+## # A tibble: 444 × 38
+##    `Lfd. Nr.` `EU-Code` `Regional-schlüssel` Land  `NUTS 1` `NUTS 2` `NUTS 3`
+##         &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   
+##  1          1 DE1       08                   BW    1        &lt;NA&gt;     &lt;NA&gt;    
+##  2          2 DE11      081                  BW    &lt;NA&gt;     2        &lt;NA&gt;    
+##  3          3 DE111     08111                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  4          4 DE112     08115                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  5          5 DE113     08116                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  6          6 DE114     08117                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  7          7 DE115     08118                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  8          8 DE116     08119                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+##  9          9 DE117     08121                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+## 10         10 DE118     08125                BW    &lt;NA&gt;     &lt;NA&gt;     3       
+## # ℹ 434 more rows
+## # ℹ 31 more variables: Gebietseinheit &lt;chr&gt;, `1992` &lt;chr&gt;, `1994` &lt;chr&gt;,
+## #   `1995` &lt;chr&gt;, `1996` &lt;chr&gt;, `1997` &lt;chr&gt;, `1998` &lt;chr&gt;, `1999` &lt;chr&gt;,
+## #   `2000` &lt;dbl&gt;, `2001` &lt;dbl&gt;, `2002` &lt;dbl&gt;, `2003` &lt;dbl&gt;, `2004` &lt;dbl&gt;,
+## #   `2005` &lt;dbl&gt;, `2006` &lt;dbl&gt;, `2007` &lt;dbl&gt;, `2008` &lt;dbl&gt;, `2009` &lt;dbl&gt;,
+## #   `2010` &lt;dbl&gt;, `2011` &lt;dbl&gt;, `2012` &lt;dbl&gt;, `2013` &lt;dbl&gt;, `2014` &lt;dbl&gt;,
+## #   `2015` &lt;dbl&gt;, `2016` &lt;dbl&gt;, `2017` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;, …
+```
+]
+
+---
+count: false
+ 
+
+.panel1-bip_einlesen1-auto[
+
+``` r
+# Zeile löschen in der die `Lfd. Nr.` nicht nummerisch ist
+# Zusätzliche Spalten löschen
+bip %&gt;%
+  filter(is.na(as.numeric(`Lfd. Nr.`))==FALSE) %&gt;%
+* select(-c(`Lfd. Nr.`, `EU-Code`, `NUTS 1`, `NUTS 2`, `NUTS 3`, Land, Gebietseinheit))
+```
+]
+ 
+.panel2-bip_einlesen1-auto[
+
+```
+## # A tibble: 444 × 31
+##    `Regional-schlüssel` `1992`  `1994` `1995` `1996` `1997` `1998` `1999` `2000`
+##    &lt;chr&gt;                &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;
+##  1 08                   255866… 26264… 27174… 27677… 28219… 29109… 30072… 3.09e5
+##  2 081                  110977… 11160… 11528… 11678… 12086… 12384… 12779… 1.30e5
+##  3 08111                32946.… 31736… 32281… 32802… 34339… 33553… 35048… 3.53e4
+##  4 08115                12090.… 11833… 11937… 12097… 13919… 13679… 14424… 1.39e4
+##  5 08116                12275.… 12482… 12748… 13169… 13284… 13952… 14192… 1.44e4
+##  6 08117                5062.0… 5180.… 5447.… 5643.… 5667.… 5838.… 5920.… 6.00e3
+##  7 08118                11714.… 12163… 12756… 12895… 13143… 13516… 13866… 1.47e4
+##  8 08119                8500.4… 8723.… 9320.… 8780.… 8928.… 9175.… 9707.… 1.04e4
+##  9 08121                4219.2… 4387.… 4522.… 4510.… 4581.… 5645.… 5282.… 5.27e3
+## 10 08125                6073.5… 6126.… 6577.… 6811.… 7019.… 7645.… 7928.… 8.45e3
+## # ℹ 434 more rows
+## # ℹ 22 more variables: `2001` &lt;dbl&gt;, `2002` &lt;dbl&gt;, `2003` &lt;dbl&gt;, `2004` &lt;dbl&gt;,
+## #   `2005` &lt;dbl&gt;, `2006` &lt;dbl&gt;, `2007` &lt;dbl&gt;, `2008` &lt;dbl&gt;, `2009` &lt;dbl&gt;,
+## #   `2010` &lt;dbl&gt;, `2011` &lt;dbl&gt;, `2012` &lt;dbl&gt;, `2013` &lt;dbl&gt;, `2014` &lt;dbl&gt;,
+## #   `2015` &lt;dbl&gt;, `2016` &lt;dbl&gt;, `2017` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;,
+## #   `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-bip_einlesen1-auto[
+
+``` r
+# Zeile löschen in der die `Lfd. Nr.` nicht nummerisch ist
+# Zusätzliche Spalten löschen
+bip %&gt;%
+  filter(is.na(as.numeric(`Lfd. Nr.`))==FALSE) %&gt;%
+  select(-c(`Lfd. Nr.`, `EU-Code`, `NUTS 1`, `NUTS 2`, `NUTS 3`, Land, Gebietseinheit)) %&gt;%
+* rename(Regionalschluessel = `Regional-schlüssel`)
+```
+]
+ 
+.panel2-bip_einlesen1-auto[
+
+```
+## # A tibble: 444 × 31
+##    Regionalschluessel `1992`    `1994` `1995` `1996` `1997` `1998` `1999` `2000`
+##    &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;
+##  1 08                 255866.4… 26264… 27174… 27677… 28219… 29109… 30072… 3.09e5
+##  2 081                110977.0… 11160… 11528… 11678… 12086… 12384… 12779… 1.30e5
+##  3 08111              32946.88… 31736… 32281… 32802… 34339… 33553… 35048… 3.53e4
+##  4 08115              12090.93  11833… 11937… 12097… 13919… 13679… 14424… 1.39e4
+##  5 08116              12275.605 12482… 12748… 13169… 13284… 13952… 14192… 1.44e4
+##  6 08117              5062.037… 5180.… 5447.… 5643.… 5667.… 5838.… 5920.… 6.00e3
+##  7 08118              11714.16  12163… 12756… 12895… 13143… 13516… 13866… 1.47e4
+##  8 08119              8500.405… 8723.… 9320.… 8780.… 8928.… 9175.… 9707.… 1.04e4
+##  9 08121              4219.259  4387.… 4522.… 4510.… 4581.… 5645.… 5282.… 5.27e3
+## 10 08125              6073.524… 6126.… 6577.… 6811.… 7019.… 7645.… 7928.… 8.45e3
+## # ℹ 434 more rows
+## # ℹ 22 more variables: `2001` &lt;dbl&gt;, `2002` &lt;dbl&gt;, `2003` &lt;dbl&gt;, `2004` &lt;dbl&gt;,
+## #   `2005` &lt;dbl&gt;, `2006` &lt;dbl&gt;, `2007` &lt;dbl&gt;, `2008` &lt;dbl&gt;, `2009` &lt;dbl&gt;,
+## #   `2010` &lt;dbl&gt;, `2011` &lt;dbl&gt;, `2012` &lt;dbl&gt;, `2013` &lt;dbl&gt;, `2014` &lt;dbl&gt;,
+## #   `2015` &lt;dbl&gt;, `2016` &lt;dbl&gt;, `2017` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;,
+## #   `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-bip_einlesen1-auto[
+
+``` r
+# Zeile löschen in der die `Lfd. Nr.` nicht nummerisch ist
+# Zusätzliche Spalten löschen
+bip %&gt;%
+  filter(is.na(as.numeric(`Lfd. Nr.`))==FALSE) %&gt;%
+  select(-c(`Lfd. Nr.`, `EU-Code`, `NUTS 1`, `NUTS 2`, `NUTS 3`, Land, Gebietseinheit)) %&gt;%
+  rename(Regionalschluessel = `Regional-schlüssel`) -&gt;
+*bip_wide
+```
+]
+ 
+.panel2-bip_einlesen1-auto[
+
+]
+
+&lt;style&gt;
+.panel1-bip_einlesen1-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-bip_einlesen1-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-bip_einlesen1-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+## Informationen bzgl. des Bruttoinlandsprodukts
+
+.question[Was ist hier eine Beobachtung?]
+
+--
+
+Entsprechend können wir bei den Erwerbstätigen und den Einwohnern vorgehen:
+
+
+``` r
+# Zeile löschen in der die `Lfd. Nr.` nicht nummerisch ist
+# Zusätzliche Spalten löschen
+erwerb_wide &lt;- erwerb %&gt;% 
+  filter(is.na(as.numeric(`Lfd. Nr.`))==FALSE) %&gt;%
+  select(-c(`Lfd. Nr.`, `EU-Code`, `NUTS 1`, `NUTS 2`, `NUTS 3`, Land, Gebietseinheit)) %&gt;%
+  rename(Regionalschluessel = `Regional-schlüssel`)
+
+einwohner_wide &lt;- einwohner %&gt;%
+  filter(is.na(as.numeric(`Lfd. Nr.`))==FALSE) %&gt;%
+  select(-c(`Lfd. Nr.`, `EU-Code`, `NUTS 1`, `NUTS 2`, `NUTS 3`, Land, Gebietseinheit)) %&gt;%
+  rename(Regionalschluessel = `Regional-schlüssel`)
+```
+
+---
+
+## Informationen bzgl. des Bruttoinlandsprodukts
+
+Datensatz,  
+  - ist ein Panel: Mehrere Jahre für mehrere Landkreise in Deutschland vorhanden
+  - ist im `wide` Format -&gt; d.h. die Daten sind nicht `tidy`
+
+  
+
+``` r
+head(bip_wide, 3)
+```
+
+```
+## # A tibble: 3 × 31
+##   Regionalschluessel `1992`     `1994` `1995` `1996` `1997` `1998` `1999` `2000`
+##   &lt;chr&gt;              &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;
+## 1 08                 255866.41… 26264… 27174… 27677… 28219… 29109… 30072… 3.09e5
+## 2 081                110977.071 11160… 11528… 11678… 12086… 12384… 12779… 1.30e5
+## 3 08111              32946.883… 31736… 32281… 32802… 34339… 33553… 35048… 3.53e4
+## # ℹ 22 more variables: `2001` &lt;dbl&gt;, `2002` &lt;dbl&gt;, `2003` &lt;dbl&gt;, `2004` &lt;dbl&gt;,
+## #   `2005` &lt;dbl&gt;, `2006` &lt;dbl&gt;, `2007` &lt;dbl&gt;, `2008` &lt;dbl&gt;, `2009` &lt;dbl&gt;,
+## #   `2010` &lt;dbl&gt;, `2011` &lt;dbl&gt;, `2012` &lt;dbl&gt;, `2013` &lt;dbl&gt;, `2014` &lt;dbl&gt;,
+## #   `2015` &lt;dbl&gt;, `2016` &lt;dbl&gt;, `2017` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;,
+## #   `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;
+```
+
+--
+
+.question[Was sind die Bedigungen für einen `tidy` Datensatz?]
+
+---
+
+## Daten in das `long`-Format überführen
+
+Datensatz ins `long`-Format überführen mit `pivot_longer`:
+
+
+``` r
+bip_long &lt;- pivot_longer(bip_wide, cols = c("1992":"2022") , names_to = "Jahr", values_to = "BIP")
+```
+
+```
+Fehler: Can't combine `1992` &lt;character&gt; and `2000` &lt;double&gt;.
+```
+
+---
+
+## Daten in das `long`-Format überführen
+
+BIP sollte normalerweise nummerisch sein:
+  - Klasse `double` sollte korrekt sein
+  - umformatieren der Spalten `1992` - `1999`
+  - mit `across()` kann der `mutate()`-Befehl über mehrere Spalten angewendet werden
+
+---
+
+count: false
+ 
+
+.panel1-double-auto[
+
+``` r
+*#BIP von 1992 - 1999 umformen (als numerische Variable)   von 1992 - 1999 umformen (als numerische Variable)
+```
+]
+ 
+.panel2-double-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-double-auto[
+
+``` r
+#BIP von 1992 - 1999 umformen (als numerische Variable)   von 1992 - 1999 umformen (als numerische Variable)
+*bip_wide
+```
+]
+ 
+.panel2-double-auto[
+
+```
+## # A tibble: 444 × 31
+##    Regionalschluessel `1992`    `1994` `1995` `1996` `1997` `1998` `1999` `2000`
+##    &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;
+##  1 08                 255866.4… 26264… 27174… 27677… 28219… 29109… 30072… 3.09e5
+##  2 081                110977.0… 11160… 11528… 11678… 12086… 12384… 12779… 1.30e5
+##  3 08111              32946.88… 31736… 32281… 32802… 34339… 33553… 35048… 3.53e4
+##  4 08115              12090.93  11833… 11937… 12097… 13919… 13679… 14424… 1.39e4
+##  5 08116              12275.605 12482… 12748… 13169… 13284… 13952… 14192… 1.44e4
+##  6 08117              5062.037… 5180.… 5447.… 5643.… 5667.… 5838.… 5920.… 6.00e3
+##  7 08118              11714.16  12163… 12756… 12895… 13143… 13516… 13866… 1.47e4
+##  8 08119              8500.405… 8723.… 9320.… 8780.… 8928.… 9175.… 9707.… 1.04e4
+##  9 08121              4219.259  4387.… 4522.… 4510.… 4581.… 5645.… 5282.… 5.27e3
+## 10 08125              6073.524… 6126.… 6577.… 6811.… 7019.… 7645.… 7928.… 8.45e3
+## # ℹ 434 more rows
+## # ℹ 22 more variables: `2001` &lt;dbl&gt;, `2002` &lt;dbl&gt;, `2003` &lt;dbl&gt;, `2004` &lt;dbl&gt;,
+## #   `2005` &lt;dbl&gt;, `2006` &lt;dbl&gt;, `2007` &lt;dbl&gt;, `2008` &lt;dbl&gt;, `2009` &lt;dbl&gt;,
+## #   `2010` &lt;dbl&gt;, `2011` &lt;dbl&gt;, `2012` &lt;dbl&gt;, `2013` &lt;dbl&gt;, `2014` &lt;dbl&gt;,
+## #   `2015` &lt;dbl&gt;, `2016` &lt;dbl&gt;, `2017` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;,
+## #   `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-double-auto[
+
+``` r
+#BIP von 1992 - 1999 umformen (als numerische Variable)   von 1992 - 1999 umformen (als numerische Variable)
+bip_wide %&gt;%
+* select(`1992`:`1999`)
+```
+]
+ 
+.panel2-double-auto[
+
+```
+## # A tibble: 444 × 7
+##    `1992`             `1994`             `1995`      `1996` `1997` `1998` `1999`
+##    &lt;chr&gt;              &lt;chr&gt;              &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; 
+##  1 255866.41899999999 262645.41600000003 271746.699… 27677… 28219… 29109… 30072…
+##  2 110977.071         111602.66499999999 115280.807  11678… 12086… 12384… 12779…
+##  3 32946.883999999998 31736.567999999999 32281.0040… 32802… 34339… 33553… 35048…
+##  4 12090.93           11833.816000000001 11937.788   12097… 13919… 13679… 14424…
+##  5 12275.605          12482.948          12748.703   13169… 13284… 13952… 14192…
+##  6 5062.0370000000003 5180.0739999999996 5447.49399… 5643.… 5667.… 5838.… 5920.…
+##  7 11714.16           12163.822          12756.3989… 12895… 13143… 13516… 13866…
+##  8 8500.4050000000007 8723.0990000000002 9320.15600… 8780.… 8928.… 9175.… 9707.…
+##  9 4219.259           4387.4809999999998 4522.82399… 4510.… 4581.… 5645.… 5282.…
+## 10 6073.5249999999996 6126.3310000000001 6577.05599… 6811.… 7019.… 7645.… 7928.…
+## # ℹ 434 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-double-auto[
+
+``` r
+#BIP von 1992 - 1999 umformen (als numerische Variable)   von 1992 - 1999 umformen (als numerische Variable)
+bip_wide %&gt;%
+  select(`1992`:`1999`) %&gt;%
+* mutate(across(is.character, as.double))
+```
+]
+ 
+.panel2-double-auto[
+
+```
+## # A tibble: 444 × 7
+##     `1992`  `1994`  `1995`  `1996`  `1997`  `1998`  `1999`
+##      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 255866. 262645. 271747. 276777. 282190. 291100. 300727.
+##  2 110977. 111603. 115281. 116787. 120867. 123842. 127799.
+##  3  32947.  31737.  32281.  32803.  34340.  33553.  35048.
+##  4  12091.  11834.  11938.  12097.  13919.  13679.  14424.
+##  5  12276.  12483.  12749.  13169.  13285.  13952.  14192.
+##  6   5062.   5180.   5447.   5643.   5668.   5839.   5920.
+##  7  11714.  12164.  12756.  12895.  13144.  13516.  13867.
+##  8   8500.   8723.   9320.   8781.   8928.   9176.   9708.
+##  9   4219.   4387.   4523.   4511.   4581.   5646.   5282.
+## 10   6074.   6126.   6577.   6812.   7020.   7646.   7929.
+## # ℹ 434 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-double-auto[
+
+``` r
+#BIP von 1992 - 1999 umformen (als numerische Variable)   von 1992 - 1999 umformen (als numerische Variable)
+bip_wide %&gt;%
+  select(`1992`:`1999`) %&gt;%
+  mutate(across(is.character, as.double)) -&gt;
+*bip_double
+```
+]
+ 
+.panel2-double-auto[
+
+]
+
+&lt;style&gt;
+.panel1-double-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-double-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-double-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+Entsprechend dann bei den Einwohnern und Erwerbstätigen:
+
+.question[Es wird eine Warnmeldung ausgegeben das `NA`s bei der Umwandlung erzeugt wurden. Warum?]
+
+
+``` r
+# Erwerbstätige von 1992 - 1999 umformen (als numerische Variable)
+erwerb_double &lt;- erwerb_wide %&gt;%
+  select(`1992`:`1999`) %&gt;%
+  mutate(across(is.character, as.double))
+```
+
+```
+## Warning: There were 7 warnings in `mutate()`.
+## The first warning was:
+## ℹ In argument: `across(is.character, as.double)`.
+## Caused by warning:
+## ! NAs durch Umwandlung erzeugt
+## ℹ Run `dplyr::last_dplyr_warnings()` to see the 6 remaining warnings.
+```
+
+``` r
+# Einwohner von 1992 - 1999 umformen (als numerische Variable)
+einwohner_double &lt;- einwohner_wide %&gt;%
+  select(`1992`:`1999`) %&gt;%
+  mutate(across(is.character, as.double))
+```
+
+```
+## Warning: There were 7 warnings in `mutate()`.
+## The first warning was:
+## ℹ In argument: `across(is.character, as.double)`.
+## Caused by warning:
+## ! NAs durch Umwandlung erzeugt
+## ℹ Run `dplyr::last_dplyr_warnings()` to see the 6 remaining warnings.
+```
+
+---
+
+## Daten in das `long`-Format überführen
+
+Wir überprüfen, welche Spalten die Warnung hervorgerufen haben und wo `NA`s erzeugt wurden
+
+
+``` r
+bip_wide_test &lt;- bip_wide %&gt;%
+  bind_cols(bip_double)
+
+head(filter(bip_wide_test, is.na(`1992...32`)))
+```
+
+```
+## # A tibble: 6 × 38
+##   Regionalschluessel `1992...2` `1994...3` `1995...4` `1996...5` `1997...6`
+##   &lt;chr&gt;              &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     
+## 1 13003              .          .          .          .          .         
+## 2 13004              .          .          .          .          .         
+## 3 13071              .          .          .          .          .         
+## 4 13072              .          .          .          .          .         
+## 5 13073              .          .          .          .          .         
+## 6 13074              .          .          .          .          .         
+## # ℹ 32 more variables: `1998...7` &lt;chr&gt;, `1999...8` &lt;chr&gt;, `2000` &lt;dbl&gt;,
+## #   `2001` &lt;dbl&gt;, `2002` &lt;dbl&gt;, `2003` &lt;dbl&gt;, `2004` &lt;dbl&gt;, `2005` &lt;dbl&gt;,
+## #   `2006` &lt;dbl&gt;, `2007` &lt;dbl&gt;, `2008` &lt;dbl&gt;, `2009` &lt;dbl&gt;, `2010` &lt;dbl&gt;,
+## #   `2011` &lt;dbl&gt;, `2012` &lt;dbl&gt;, `2013` &lt;dbl&gt;, `2014` &lt;dbl&gt;, `2015` &lt;dbl&gt;,
+## #   `2016` &lt;dbl&gt;, `2017` &lt;dbl&gt;, `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;, `2020` &lt;dbl&gt;,
+## #   `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;, `1992...32` &lt;dbl&gt;, `1994...33` &lt;dbl&gt;,
+## #   `1995...34` &lt;dbl&gt;, `1996...35` &lt;dbl&gt;, `1997...36` &lt;dbl&gt;, …
+```
+
+---
+
+Eine Umwandlung zu `NA` geschieht bei den Werten bei denen `-` eingetragen wurde. D.h. für uns ist es ok hier ein `NA` einzutragen.
+Somit können wir die Umwandlung in die Klasse `double` durchführen:
+
+
+``` r
+bip_wide &lt;- bip_wide %&gt;%
+  select(-(`1992`:`1999`)) %&gt;%
+  bind_cols(bip_double) 
+
+erwerb_wide &lt;- erwerb_wide %&gt;%
+  select(-(`1992`:`1999`)) %&gt;%
+  bind_cols(erwerb_double) 
+
+einwohner_wide &lt;- einwohner_wide %&gt;%
+  select(-(`1992`:`1999`)) %&gt;%
+  bind_cols(einwohner_double) 
+```
+
+---
+
+## Daten in das `long`-Format überführen
+
+Nun können wir den Datensatz ins `long`-Format transferieren und nach dem Jahr sortieren.
+
+- Einwohner und Erwerbstätige sind in 1000 Personen angegeben, daher Erwerbstätige und Einwohner mit 1000 multiplizieren. 
+- BIP ist in 1 Mio. Euro angegeben, daher die Multiplikation mit 1 Mio.
+
+---
+
+count: false
+ 
+
+.panel1-long-auto[
+
+``` r
+# BIP ins long-Format
+*pivot_longer(bip_wide, cols = c("2000":"1999") , names_to = "Jahr", values_to = "bip")
+```
+]
+ 
+.panel2-long-auto[
+
+```
+## # A tibble: 13,320 × 3
+##    Regionalschluessel Jahr      bip
+##    &lt;chr&gt;              &lt;chr&gt;   &lt;dbl&gt;
+##  1 08                 2000  308823.
+##  2 08                 2001  323078.
+##  3 08                 2002  325510.
+##  4 08                 2003  329164.
+##  5 08                 2004  333276.
+##  6 08                 2005  335789.
+##  7 08                 2006  357283.
+##  8 08                 2007  377021.
+##  9 08                 2008  381903.
+## 10 08                 2009  353463.
+## # ℹ 13,310 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-long-auto[
+
+``` r
+# BIP ins long-Format
+pivot_longer(bip_wide, cols = c("2000":"1999") , names_to = "Jahr", values_to = "bip") %&gt;%
+* mutate( Jahr = as.numeric(Jahr),
+*         bip = bip * 1000000)
+```
+]
+ 
+.panel2-long-auto[
+
+```
+## # A tibble: 13,320 × 3
+##    Regionalschluessel  Jahr          bip
+##    &lt;chr&gt;              &lt;dbl&gt;        &lt;dbl&gt;
+##  1 08                  2000 308822815000
+##  2 08                  2001 323077717000
+##  3 08                  2002 325510403000
+##  4 08                  2003 329164078000
+##  5 08                  2004 333275845000
+##  6 08                  2005 335788716000
+##  7 08                  2006 357283378000
+##  8 08                  2007 377021382000
+##  9 08                  2008 381902739000
+## 10 08                  2009 353462984000
+## # ℹ 13,310 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-long-auto[
+
+``` r
+# BIP ins long-Format
+pivot_longer(bip_wide, cols = c("2000":"1999") , names_to = "Jahr", values_to = "bip") %&gt;%
+  mutate( Jahr = as.numeric(Jahr),
+          bip = bip * 1000000) %&gt;%
+* arrange( Jahr )
+```
+]
+ 
+.panel2-long-auto[
+
+```
+## # A tibble: 13,320 × 3
+##    Regionalschluessel  Jahr          bip
+##    &lt;chr&gt;              &lt;dbl&gt;        &lt;dbl&gt;
+##  1 08                  1992 255866419000
+##  2 081                 1992 110977071000
+##  3 08111               1992  32946884000
+##  4 08115               1992  12090930000
+##  5 08116               1992  12275605000
+##  6 08117               1992   5062037000
+##  7 08118               1992  11714160000
+##  8 08119               1992   8500405000
+##  9 08121               1992   4219259000
+## 10 08125               1992   6073525000
+## # ℹ 13,310 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-long-auto[
+
+``` r
+# BIP ins long-Format
+pivot_longer(bip_wide, cols = c("2000":"1999") , names_to = "Jahr", values_to = "bip") %&gt;%
+  mutate( Jahr = as.numeric(Jahr),
+          bip = bip * 1000000) %&gt;%
+  arrange( Jahr ) -&gt;
+*bip_long
+```
+]
+ 
+.panel2-long-auto[
+
+]
+
+&lt;style&gt;
+.panel1-long-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-long-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-long-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+Für die Erwerbstätigen und Einwohner entsprechend:
+
+
+``` r
+# Anzahl der Erwerbstätigen ins long-Format
+erwerb_long &lt;- pivot_longer(erwerb_wide, cols = c("2000":"1999") , names_to = "Jahr", values_to = "erw") %&gt;%
+  mutate( Jahr = as.numeric(Jahr),
+          erw = erw * 1000) %&gt;%
+  arrange( Jahr )
+
+# Anzahl der Einwohner ins long-Format
+einwohner_long &lt;- pivot_longer(einwohner_wide, cols = c("2000":"1999") , names_to = "Jahr", values_to = "einwohner") %&gt;%
+  mutate( Jahr = as.numeric(Jahr),
+          einwohner = einwohner * 1000) %&gt;%
+  arrange( Jahr )
+```
+
+---
+
+## Konsistenzchecks
+
+Hier sollten Sie selbst aktiv werden und die Daten auf Konsistenz prüfen:
+
+.instructions[Als Konsistenzcheck könnten Sie hier die Anzahl der Einwohner aus den verschiedenen Datensätzen vergleichen.]
+
+---
+
+# Kartenmaterial hinzufügen 
+
+Wir benötigen hier eine Karte von Deutschland mit den einzelnen Verwaltungsgrenzen als SHAPE-File und können diese mittels des `sf`-Pakets einlesen.
+
+Das [OpenData Portal des Bundesamts für Kartographie und Geodäsie](https://gdz.bkg.bund.de/index.php/default/open-data/verwaltungsgebiete-1-250-000-ebenen-stand-01-01-vg250-ebenen-01-01.html) stellt die nötigen Informationen kostenlos zur Verfügung.
+
+[Die Dokumentation der Daten](https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/vg250.pdf) sollten wir uns immer zuerst anschauen, bevor wir die Datenquelle herunterladen. 
+
+.center[.alert[Dies gilt nicht nur für die Geodaten, sondern allgemein für alle Datenreihen.]]
+
+.instructions[Bitte versuchen Sie selbst die Daten herunterzuladen und anhand des Regionalschlüssels (ARS) mit dem BIP, den Arbeitslosen und den Schulden zusammenzuführen.]
+
+---
+
+# Datensätze zusammenführen
+
+.instructions[Nun möchten wir die unterschiedlichen Datensätze noch zu einem zusammenfügen!]
+
+Zuerst müssen wir folgende Schritte unternehmen:
+- Informationen zur Verschuldung auf Landkreisebene aggregieren 
+- Daten zum BIP auf das Jahr 2022 einschränken. 
+- Datensätze anhand des Regionalschlüssels miteinander verbinden.
+
+Weiterhin können wir die geografischen Daten separat abspeichern und bei Bedarf anhand des Regionalschlüssels zu unserem Datensatz hinzumergen.
+
+---
+
+count: false
+ 
+
+.panel1-kombi1-auto[
+
+``` r
+# Schulden auf Landkreisebene
+*schulden_bereinigt
+```
+]
+ 
+.panel2-kombi1-auto[
+
+```
+## # A tibble: 10,782 × 8
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
+##  5 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
+##  6 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
+##  7 010515163003       Averlak          amtsangehörige…       572        2247183.
+##  8 010515163010       Brickeln         amtsangehörige…       202        1435533.
+##  9 010515163012       Buchholz         amtsangehörige…       998        3675650.
+## 10 010515163016       Burg (Dithmarsc… amtsangehörige…      4212       14377298.
+## # ℹ 10,772 more rows
+## # ℹ 3 more variables: Schulden_pro_kopf &lt;dbl&gt;, Bundesland &lt;chr&gt;,
+## #   landkreis &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi1-auto[
+
+``` r
+# Schulden auf Landkreisebene
+schulden_bereinigt %&gt;%
+* group_by(landkreis)
+```
+]
+ 
+.panel2-kombi1-auto[
+
+```
+## # A tibble: 10,782 × 8
+## # Groups:   landkreis [396]
+##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
+##  5 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
+##  6 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
+##  7 010515163003       Averlak          amtsangehörige…       572        2247183.
+##  8 010515163010       Brickeln         amtsangehörige…       202        1435533.
+##  9 010515163012       Buchholz         amtsangehörige…       998        3675650.
+## 10 010515163016       Burg (Dithmarsc… amtsangehörige…      4212       14377298.
+## # ℹ 10,772 more rows
+## # ℹ 3 more variables: Schulden_pro_kopf &lt;dbl&gt;, Bundesland &lt;chr&gt;,
+## #   landkreis &lt;chr&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi1-auto[
+
+``` r
+# Schulden auf Landkreisebene
+schulden_bereinigt %&gt;%
+  group_by(landkreis) %&gt;%
+* summarise( Schulden_pro_kopf_lk = sum(Schulden_gesamt)/sum(Einwohner),
+*            Einwohner = sum(Einwohner),
+*            Schulden_gesamt = sum(Schulden_gesamt))
+```
+]
+ 
+.panel2-kombi1-auto[
+
+```
+## # A tibble: 396 × 4
+##    landkreis Schulden_pro_kopf_lk Einwohner Schulden_gesamt
+##    &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;
+##  1 01001                    5020.     91992      461784579.
+##  2 01002                    4463.    246712     1101148772.
+##  3 01003                    4516.    217799      983573070.
+##  4 01004                    6305.     79889      503685791.
+##  5 01051                    3344.    135009      451514241.
+##  6 01053                    1751.    203365      356087687.
+##  7 01054                    3360.    169183      568447168.
+##  8 01055                    2835.    204097      578703178.
+##  9 01056                    3049.    320985      978605223.
+## 10 01057                    2495.    130724      326157495.
+## # ℹ 386 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi1-auto[
+
+``` r
+# Schulden auf Landkreisebene
+schulden_bereinigt %&gt;%
+  group_by(landkreis) %&gt;%
+  summarise( Schulden_pro_kopf_lk = sum(Schulden_gesamt)/sum(Einwohner),
+             Einwohner = sum(Einwohner),
+             Schulden_gesamt = sum(Schulden_gesamt)) %&gt;%
+* ungroup()
+```
+]
+ 
+.panel2-kombi1-auto[
+
+```
+## # A tibble: 396 × 4
+##    landkreis Schulden_pro_kopf_lk Einwohner Schulden_gesamt
+##    &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;
+##  1 01001                    5020.     91992      461784579.
+##  2 01002                    4463.    246712     1101148772.
+##  3 01003                    4516.    217799      983573070.
+##  4 01004                    6305.     79889      503685791.
+##  5 01051                    3344.    135009      451514241.
+##  6 01053                    1751.    203365      356087687.
+##  7 01054                    3360.    169183      568447168.
+##  8 01055                    2835.    204097      578703178.
+##  9 01056                    3049.    320985      978605223.
+## 10 01057                    2495.    130724      326157495.
+## # ℹ 386 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi1-auto[
+
+``` r
+# Schulden auf Landkreisebene
+schulden_bereinigt %&gt;%
+  group_by(landkreis) %&gt;%
+  summarise( Schulden_pro_kopf_lk = sum(Schulden_gesamt)/sum(Einwohner),
+             Einwohner = sum(Einwohner),
+             Schulden_gesamt = sum(Schulden_gesamt)) %&gt;%
+  ungroup() %&gt;%
+* rename(Regionalschluessel = landkreis)
+```
+]
+ 
+.panel2-kombi1-auto[
+
+```
+## # A tibble: 396 × 4
+##    Regionalschluessel Schulden_pro_kopf_lk Einwohner Schulden_gesamt
+##    &lt;chr&gt;                             &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;
+##  1 01001                             5020.     91992      461784579.
+##  2 01002                             4463.    246712     1101148772.
+##  3 01003                             4516.    217799      983573070.
+##  4 01004                             6305.     79889      503685791.
+##  5 01051                             3344.    135009      451514241.
+##  6 01053                             1751.    203365      356087687.
+##  7 01054                             3360.    169183      568447168.
+##  8 01055                             2835.    204097      578703178.
+##  9 01056                             3049.    320985      978605223.
+## 10 01057                             2495.    130724      326157495.
+## # ℹ 386 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi1-auto[
+
+``` r
+# Schulden auf Landkreisebene
+schulden_bereinigt %&gt;%
+  group_by(landkreis) %&gt;%
+  summarise( Schulden_pro_kopf_lk = sum(Schulden_gesamt)/sum(Einwohner),
+             Einwohner = sum(Einwohner),
+             Schulden_gesamt = sum(Schulden_gesamt)) %&gt;%
+  ungroup() %&gt;%
+  rename(Regionalschluessel = landkreis) -&gt;
+*schulden_kombi
+```
+]
+ 
+.panel2-kombi1-auto[
+
+]
+
+&lt;style&gt;
+.panel1-kombi1-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-kombi1-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-kombi1-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+
+.panel1-kombi2-auto[
+
+``` r
+# Anzahl an Erwerbstätigen für das Jahr 2022
+*erwerb_long
+```
+]
+ 
+.panel2-kombi2-auto[
+
+```
+## # A tibble: 13,320 × 3
+##    Regionalschluessel  Jahr     erw
+##    &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;
+##  1 08                  1992 5230587
+##  2 081                 1992 2046858
+##  3 08111               1992  486895
+##  4 08115               1992  188312
+##  5 08116               1992  237498
+##  6 08117               1992  118140
+##  7 08118               1992  223059
+##  8 08119               1992  176939
+##  9 08121               1992   94510
+## 10 08125               1992  115906
+## # ℹ 13,310 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi2-auto[
+
+``` r
+# Anzahl an Erwerbstätigen für das Jahr 2022
+erwerb_long %&gt;%
+* filter(nchar(Regionalschluessel) == 5 &amp; Jahr == 2022)
+```
+]
+ 
+.panel2-kombi2-auto[
+
+```
+## # A tibble: 398 × 3
+##    Regionalschluessel  Jahr    erw
+##    &lt;chr&gt;              &lt;dbl&gt;  &lt;dbl&gt;
+##  1 08111               2022 537749
+##  2 08115               2022 230680
+##  3 08116               2022 286414
+##  4 08117               2022 120195
+##  5 08118               2022 270068
+##  6 08119               2022 206802
+##  7 08121               2022 100428
+##  8 08125               2022 182581
+##  9 08126               2022  75160
+## 10 08127               2022 116646
+## # ℹ 388 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi2-auto[
+
+``` r
+# Anzahl an Erwerbstätigen für das Jahr 2022
+erwerb_long %&gt;%
+  filter(nchar(Regionalschluessel) == 5 &amp; Jahr == 2022) %&gt;%
+* select(-Jahr)
+```
+]
+ 
+.panel2-kombi2-auto[
+
+```
+## # A tibble: 398 × 2
+##    Regionalschluessel    erw
+##    &lt;chr&gt;               &lt;dbl&gt;
+##  1 08111              537749
+##  2 08115              230680
+##  3 08116              286414
+##  4 08117              120195
+##  5 08118              270068
+##  6 08119              206802
+##  7 08121              100428
+##  8 08125              182581
+##  9 08126               75160
+## 10 08127              116646
+## # ℹ 388 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi2-auto[
+
+``` r
+# Anzahl an Erwerbstätigen für das Jahr 2022
+erwerb_long %&gt;%
+  filter(nchar(Regionalschluessel) == 5 &amp; Jahr == 2022) %&gt;%
+  select(-Jahr) -&gt;
+*erwerb_kombi
+```
+]
+ 
+.panel2-kombi2-auto[
+
+]
+
+&lt;style&gt;
+.panel1-kombi2-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-kombi2-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-kombi2-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+
+.panel1-kombi3-auto[
+
+``` r
+# Anzahl an Einwohner für das Jahr 2022
+*einwohner_long
+```
+]
+ 
+.panel2-kombi3-auto[
+
+```
+## # A tibble: 13,320 × 3
+##    Regionalschluessel  Jahr einwohner
+##    &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;
+##  1 08                  1992  10050431
+##  2 081                 1992   3771006
+##  3 08111               1992    593628
+##  4 08115               1992    343190
+##  5 08116               1992    487370
+##  6 08117               1992    248688
+##  7 08118               1992    475248
+##  8 08119               1992    389670
+##  9 08121               1992    118566
+## 10 08125               1992    283163
+## # ℹ 13,310 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi3-auto[
+
+``` r
+# Anzahl an Einwohner für das Jahr 2022
+einwohner_long %&gt;%
+* filter(nchar(Regionalschluessel) == 5 &amp; Jahr == 2022)
+```
+]
+ 
+.panel2-kombi3-auto[
+
+```
+## # A tibble: 398 × 3
+##    Regionalschluessel  Jahr einwohner
+##    &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;
+##  1 08111               2022    629570
+##  2 08115               2022    395862
+##  3 08116               2022    536807
+##  4 08117               2022    260452
+##  5 08118               2022    547865
+##  6 08119               2022    429857
+##  7 08121               2022    126974
+##  8 08125               2022    350541
+##  9 08126               2022    114191
+## 10 08127               2022    201116
+## # ℹ 388 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi3-auto[
+
+``` r
+# Anzahl an Einwohner für das Jahr 2022
+einwohner_long %&gt;%
+  filter(nchar(Regionalschluessel) == 5 &amp; Jahr == 2022) %&gt;%
+* select(-Jahr)
+```
+]
+ 
+.panel2-kombi3-auto[
+
+```
+## # A tibble: 398 × 2
+##    Regionalschluessel einwohner
+##    &lt;chr&gt;                  &lt;dbl&gt;
+##  1 08111                 629570
+##  2 08115                 395862
+##  3 08116                 536807
+##  4 08117                 260452
+##  5 08118                 547865
+##  6 08119                 429857
+##  7 08121                 126974
+##  8 08125                 350541
+##  9 08126                 114191
+## 10 08127                 201116
+## # ℹ 388 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi3-auto[
+
+``` r
+# Anzahl an Einwohner für das Jahr 2022
+einwohner_long %&gt;%
+  filter(nchar(Regionalschluessel) == 5 &amp; Jahr == 2022) %&gt;%
+  select(-Jahr) -&gt;
+*einwohner_kombi
+```
+]
+ 
+.panel2-kombi3-auto[
+
+]
+
+&lt;style&gt;
+.panel1-kombi3-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-kombi3-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-kombi3-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+
+.panel1-kombi4-auto[
+
+``` r
+# Anzahl der Einwohner mit dem BIP verbinden um das BIP pro Kopf berechnen zu können
+*left_join(bip_long, einwohner_long, by=c("Regionalschluessel", "Jahr"))
+```
+]
+ 
+.panel2-kombi4-auto[
+
+```
+## # A tibble: 13,320 × 4
+##    Regionalschluessel  Jahr          bip einwohner
+##    &lt;chr&gt;              &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+##  1 08                  1992 255866419000  10050431
+##  2 081                 1992 110977071000   3771006
+##  3 08111               1992  32946884000    593628
+##  4 08115               1992  12090930000    343190
+##  5 08116               1992  12275605000    487370
+##  6 08117               1992   5062037000    248688
+##  7 08118               1992  11714160000    475248
+##  8 08119               1992   8500405000    389670
+##  9 08121               1992   4219259000    118566
+## 10 08125               1992   6073525000    283163
+## # ℹ 13,310 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi4-auto[
+
+``` r
+# Anzahl der Einwohner mit dem BIP verbinden um das BIP pro Kopf berechnen zu können
+left_join(bip_long, einwohner_long, by=c("Regionalschluessel", "Jahr")) %&gt;%
+* mutate(bip_pro_kopf = bip / einwohner)
+```
+]
+ 
+.panel2-kombi4-auto[
+
+```
+## # A tibble: 13,320 × 5
+##    Regionalschluessel  Jahr          bip einwohner bip_pro_kopf
+##    &lt;chr&gt;              &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+##  1 08                  1992 255866419000  10050431       25458.
+##  2 081                 1992 110977071000   3771006       29429.
+##  3 08111               1992  32946884000    593628       55501.
+##  4 08115               1992  12090930000    343190       35231.
+##  5 08116               1992  12275605000    487370       25187.
+##  6 08117               1992   5062037000    248688       20355.
+##  7 08118               1992  11714160000    475248       24649.
+##  8 08119               1992   8500405000    389670       21814.
+##  9 08121               1992   4219259000    118566       35586.
+## 10 08125               1992   6073525000    283163       21449.
+## # ℹ 13,310 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi4-auto[
+
+``` r
+# Anzahl der Einwohner mit dem BIP verbinden um das BIP pro Kopf berechnen zu können
+left_join(bip_long, einwohner_long, by=c("Regionalschluessel", "Jahr")) %&gt;%
+  mutate(bip_pro_kopf = bip / einwohner) %&gt;%
+# BIP auf Landkreisebene
+* filter(nchar(Regionalschluessel) == 5 &amp; Jahr == 2022)
+```
+]
+ 
+.panel2-kombi4-auto[
+
+```
+## # A tibble: 398 × 5
+##    Regionalschluessel  Jahr         bip einwohner bip_pro_kopf
+##    &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+##  1 08111               2022 58703587000    629570       93244.
+##  2 08115               2022 29582502000    395862       74729.
+##  3 08116               2022 27010925000    536807       50318.
+##  4 08117               2022  9005138000    260452       34575.
+##  5 08118               2022 26245037000    547865       47904.
+##  6 08119               2022 16541107000    429857       38480.
+##  7 08121               2022  8132814000    126974       64051.
+##  8 08125               2022 23554259000    350541       67194.
+##  9 08126               2022  6489785000    114191       56833.
+## 10 08127               2022 10200716000    201116       50721.
+## # ℹ 388 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi4-auto[
+
+``` r
+# Anzahl der Einwohner mit dem BIP verbinden um das BIP pro Kopf berechnen zu können
+left_join(bip_long, einwohner_long, by=c("Regionalschluessel", "Jahr")) %&gt;%
+  mutate(bip_pro_kopf = bip / einwohner) %&gt;%
+# BIP auf Landkreisebene
+  filter(nchar(Regionalschluessel) == 5 &amp; Jahr == 2022) %&gt;%
+* select(-c(Jahr, einwohner))
+```
+]
+ 
+.panel2-kombi4-auto[
+
+```
+## # A tibble: 398 × 3
+##    Regionalschluessel         bip bip_pro_kopf
+##    &lt;chr&gt;                    &lt;dbl&gt;        &lt;dbl&gt;
+##  1 08111              58703587000       93244.
+##  2 08115              29582502000       74729.
+##  3 08116              27010925000       50318.
+##  4 08117               9005138000       34575.
+##  5 08118              26245037000       47904.
+##  6 08119              16541107000       38480.
+##  7 08121               8132814000       64051.
+##  8 08125              23554259000       67194.
+##  9 08126               6489785000       56833.
+## 10 08127              10200716000       50721.
+## # ℹ 388 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi4-auto[
+
+``` r
+# Anzahl der Einwohner mit dem BIP verbinden um das BIP pro Kopf berechnen zu können
+left_join(bip_long, einwohner_long, by=c("Regionalschluessel", "Jahr")) %&gt;%
+  mutate(bip_pro_kopf = bip / einwohner) %&gt;%
+# BIP auf Landkreisebene
+  filter(nchar(Regionalschluessel) == 5 &amp; Jahr == 2022) %&gt;%
+  select(-c(Jahr, einwohner)) -&gt;
+*bip_kombi
+```
+]
+ 
+.panel2-kombi4-auto[
+
+]
+
+&lt;style&gt;
+.panel1-kombi4-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-kombi4-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-kombi4-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+
+.panel1-kombi5-auto[
+
+``` r
+# Datensätze zusammenführen
+
+# Basisdatensatz -&gt; Arbeitslosenzahlen pro Landkreis
+# Namen der Bundesländer zumergen
+*alo_landkreis
+```
+]
+ 
+.panel2-kombi5-auto[
+
+```
+## # A tibble: 400 × 2
+##    Regionalschluessel total_alo
+##    &lt;chr&gt;                  &lt;dbl&gt;
+##  1 01001                  3970.
+##  2 01002                 10315.
+##  3 01003                  8776.
+##  4 01004                  3359.
+##  5 01051                  3858.
+##  6 01053                  5351.
+##  7 01054                  4155.
+##  8 01055                  4824.
+##  9 01056                  8547.
+## 10 01057                  2572.
+## # ℹ 390 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi5-auto[
+
+``` r
+# Datensätze zusammenführen
+
+# Basisdatensatz -&gt; Arbeitslosenzahlen pro Landkreis
+# Namen der Bundesländer zumergen
+alo_landkreis %&gt;%
+* mutate(bundesland = str_extract(Regionalschluessel, "^.{2}"))
+```
+]
+ 
+.panel2-kombi5-auto[
+
+```
+## # A tibble: 400 × 3
+##    Regionalschluessel total_alo bundesland
+##    &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;     
+##  1 01001                  3970. 01        
+##  2 01002                 10315. 01        
+##  3 01003                  8776. 01        
+##  4 01004                  3359. 01        
+##  5 01051                  3858. 01        
+##  6 01053                  5351. 01        
+##  7 01054                  4155. 01        
+##  8 01055                  4824. 01        
+##  9 01056                  8547. 01        
+## 10 01057                  2572. 01        
+## # ℹ 390 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi5-auto[
+
+``` r
+# Datensätze zusammenführen
+
+# Basisdatensatz -&gt; Arbeitslosenzahlen pro Landkreis
+# Namen der Bundesländer zumergen
+alo_landkreis %&gt;%
+  mutate(bundesland = str_extract(Regionalschluessel, "^.{2}")) %&gt;%
+* left_join(., schulden_kombi, by = "Regionalschluessel")
+```
+]
+ 
+.panel2-kombi5-auto[
+
+```
+## # A tibble: 400 × 6
+##    Regionalschluessel total_alo bundesland Schulden_pro_kopf_lk Einwohner
+##    &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 01001                  3970. 01                        5020.     91992
+##  2 01002                 10315. 01                        4463.    246712
+##  3 01003                  8776. 01                        4516.    217799
+##  4 01004                  3359. 01                        6305.     79889
+##  5 01051                  3858. 01                        3344.    135009
+##  6 01053                  5351. 01                        1751.    203365
+##  7 01054                  4155. 01                        3360.    169183
+##  8 01055                  4824. 01                        2835.    204097
+##  9 01056                  8547. 01                        3049.    320985
+## 10 01057                  2572. 01                        2495.    130724
+## # ℹ 390 more rows
+## # ℹ 1 more variable: Schulden_gesamt &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi5-auto[
+
+``` r
+# Datensätze zusammenführen
+
+# Basisdatensatz -&gt; Arbeitslosenzahlen pro Landkreis
+# Namen der Bundesländer zumergen
+alo_landkreis %&gt;%
+  mutate(bundesland = str_extract(Regionalschluessel, "^.{2}")) %&gt;%
+  left_join(., schulden_kombi, by = "Regionalschluessel") %&gt;%
+* left_join(., bip_kombi, by = "Regionalschluessel")
+```
+]
+ 
+.panel2-kombi5-auto[
+
+```
+## # A tibble: 400 × 8
+##    Regionalschluessel total_alo bundesland Schulden_pro_kopf_lk Einwohner
+##    &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 01001                  3970. 01                        5020.     91992
+##  2 01002                 10315. 01                        4463.    246712
+##  3 01003                  8776. 01                        4516.    217799
+##  4 01004                  3359. 01                        6305.     79889
+##  5 01051                  3858. 01                        3344.    135009
+##  6 01053                  5351. 01                        1751.    203365
+##  7 01054                  4155. 01                        3360.    169183
+##  8 01055                  4824. 01                        2835.    204097
+##  9 01056                  8547. 01                        3049.    320985
+## 10 01057                  2572. 01                        2495.    130724
+## # ℹ 390 more rows
+## # ℹ 3 more variables: Schulden_gesamt &lt;dbl&gt;, bip &lt;dbl&gt;, bip_pro_kopf &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi5-auto[
+
+``` r
+# Datensätze zusammenführen
+
+# Basisdatensatz -&gt; Arbeitslosenzahlen pro Landkreis
+# Namen der Bundesländer zumergen
+alo_landkreis %&gt;%
+  mutate(bundesland = str_extract(Regionalschluessel, "^.{2}")) %&gt;%
+  left_join(., schulden_kombi, by = "Regionalschluessel") %&gt;%
+  left_join(., bip_kombi, by = "Regionalschluessel") %&gt;%
+# Zahl der Erwerbstätigen zumergen
+* left_join(., erwerb_kombi, by = "Regionalschluessel")
+```
+]
+ 
+.panel2-kombi5-auto[
+
+```
+## # A tibble: 400 × 9
+##    Regionalschluessel total_alo bundesland Schulden_pro_kopf_lk Einwohner
+##    &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 01001                  3970. 01                        5020.     91992
+##  2 01002                 10315. 01                        4463.    246712
+##  3 01003                  8776. 01                        4516.    217799
+##  4 01004                  3359. 01                        6305.     79889
+##  5 01051                  3858. 01                        3344.    135009
+##  6 01053                  5351. 01                        1751.    203365
+##  7 01054                  4155. 01                        3360.    169183
+##  8 01055                  4824. 01                        2835.    204097
+##  9 01056                  8547. 01                        3049.    320985
+## 10 01057                  2572. 01                        2495.    130724
+## # ℹ 390 more rows
+## # ℹ 4 more variables: Schulden_gesamt &lt;dbl&gt;, bip &lt;dbl&gt;, bip_pro_kopf &lt;dbl&gt;,
+## #   erw &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-kombi5-auto[
+
+``` r
+# Datensätze zusammenführen
+
+# Basisdatensatz -&gt; Arbeitslosenzahlen pro Landkreis
+# Namen der Bundesländer zumergen
+alo_landkreis %&gt;%
+  mutate(bundesland = str_extract(Regionalschluessel, "^.{2}")) %&gt;%
+  left_join(., schulden_kombi, by = "Regionalschluessel") %&gt;%
+  left_join(., bip_kombi, by = "Regionalschluessel") %&gt;%
+# Zahl der Erwerbstätigen zumergen
+  left_join(., erwerb_kombi, by = "Regionalschluessel") -&gt;
+*gesamtdaten
+```
+]
+ 
+.panel2-kombi5-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-kombi5-auto[
+
+``` r
+# Datensätze zusammenführen
+
+# Basisdatensatz -&gt; Arbeitslosenzahlen pro Landkreis
+# Namen der Bundesländer zumergen
+alo_landkreis %&gt;%
+  mutate(bundesland = str_extract(Regionalschluessel, "^.{2}")) %&gt;%
+  left_join(., schulden_kombi, by = "Regionalschluessel") %&gt;%
+  left_join(., bip_kombi, by = "Regionalschluessel") %&gt;%
+# Zahl der Erwerbstätigen zumergen
+  left_join(., erwerb_kombi, by = "Regionalschluessel") -&gt;
+gesamtdaten
+
+*#saveRDS(gesamtdaten, "data/gesamtdaten.rds")  #saveRDS(gesamtdaten, "data/gesamtdaten.rds")
+```
+]
+ 
+.panel2-kombi5-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-kombi5-auto[
+
+``` r
+# Datensätze zusammenführen
+
+# Basisdatensatz -&gt; Arbeitslosenzahlen pro Landkreis
+# Namen der Bundesländer zumergen
+alo_landkreis %&gt;%
+  mutate(bundesland = str_extract(Regionalschluessel, "^.{2}")) %&gt;%
+  left_join(., schulden_kombi, by = "Regionalschluessel") %&gt;%
+  left_join(., bip_kombi, by = "Regionalschluessel") %&gt;%
+# Zahl der Erwerbstätigen zumergen
+  left_join(., erwerb_kombi, by = "Regionalschluessel") -&gt;
+gesamtdaten
+
+#saveRDS(gesamtdaten, "data/gesamtdaten.rds")  #saveRDS(gesamtdaten, "data/gesamtdaten.rds")
+*#saveRDS(schulden_bereinigt, "data/schulden_bereinigt.rds")  #saveRDS(schulden_bereinigt, "data/schulden_bereinigt.rds")
+```
+]
+ 
+.panel2-kombi5-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-kombi5-auto[
+
+``` r
+# Datensätze zusammenführen
+
+# Basisdatensatz -&gt; Arbeitslosenzahlen pro Landkreis
+# Namen der Bundesländer zumergen
+alo_landkreis %&gt;%
+  mutate(bundesland = str_extract(Regionalschluessel, "^.{2}")) %&gt;%
+  left_join(., schulden_kombi, by = "Regionalschluessel") %&gt;%
+  left_join(., bip_kombi, by = "Regionalschluessel") %&gt;%
+# Zahl der Erwerbstätigen zumergen
+  left_join(., erwerb_kombi, by = "Regionalschluessel") -&gt;
+gesamtdaten
+
+#saveRDS(gesamtdaten, "data/gesamtdaten.rds")  #saveRDS(gesamtdaten, "data/gesamtdaten.rds")
+#saveRDS(schulden_bereinigt, "data/schulden_bereinigt.rds")  #saveRDS(schulden_bereinigt, "data/schulden_bereinigt.rds")
+*#saveRDS(bip_zeitreihe, "data/bip_zeitreihe.rds")  #saveRDS(bip_zeitreihe, "data/bip_zeitreihe.rds")
+```
+]
+ 
+.panel2-kombi5-auto[
+
+]
+
+&lt;style&gt;
+.panel1-kombi5-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-kombi5-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-kombi5-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+# Übungsaufgaben
+
+Laden Sie sich das durchschnittliche [Arbeitnehmerentgelt pro Arbeitnehmer und Landkreis](https://www.statistikportal.de/de/veroeffentlichungen/arbeitnehmerentgelt) auf der Seite der Statistischen Ämter des Bundes und der Länder herunter und lesen Sie diesen in R ein.
+
+- Bilden Sie ein Team von 4-5 Personen
+- Nutzung der Case-Study und bwGPT um die Aufgaben zu erledigen
+
+**Aufgabe:**
+
+- Finden Sie in dem heruntergeladenen Datensatz heraus, was der Unterschied zwischen *Arbeitnehmerentgelt* und *Bruttolöhne- und Gehälter* ist.
+- Lesen Sie die für Sie relevante Tabelle *Bruttolöhne- und Gehälter* in R ein.
+- Bereinigen Sie die Tabelle, d.h. der Datensatz sollte danach `tidy` sein.
+- Berechnen Sie die Bruttolöhne pro Bundesland mit den Bruttolöhnen der einzelnen Landkreise als Konsistenzcheck.
+- Vergleichen Sie ihren Datensatz mit dem auf Github bereitgestellten Datensatz ("einkommen.rds"). Stimmen diese überein?
+- Verbinden Sie die Informationen zu den durchschnittlichen Einkommen mit dem *gesamtdatensatz* aus dem vorherigen Abschnitt.
+
+<div class="countdown" id="timer_3057ddfe" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">20</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+## Hinweise zum Prompting von bwGPT
+
+.pull-left[
+**Wie sollte ein Prompt aufgebaut sein?**
+
+- **Aufgabe:** Was soll ChatGPT tun? 
+    - Möglichst genau und spezifisch sein
+- **Instruktionen:** Wie soll ChatGPT es tun?
+    - Soll ChatGPT eine besondere Persona sein?
+    - Beispiele für den gewünschten Output mitgeben
+    - ChatGPT fragen zur Lösung Schritt-für-Schritt zu kommen
+- **Kontext:** Was sollte ChatGPT zu seiner Aufgabe wissen?
+    - Wie passt die Aufgabe z.B. zur Vorlesung die Sie gerade besuchen?
+]
+
+.pull-right[
+**Wenn Sie nicht weiter wissen, dann Fragen Sie ChatGPT welche Infos es noch benötigt**
+
+- "Sag mir, welche Informationen du benötigst, um ...“
+- "Stelle mir 5 Fragen, die dir helfen werden, mir die bestmögliche Antwort zu geben."
+  	
+**Wenn Sie glauben ChatGPT hat einen Fehler gemacht, dann sagen Sie ihm dies**
+
+**Komplexe Aufgaben in kleine Unteraufgaben herunterbrechen**
+]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "atelier-forest-light",
+"highlightLanguage": ["r", "yaml", "markdown"],
+"slideNumberFormat": "",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
