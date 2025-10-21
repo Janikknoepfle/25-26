@@ -97,7 +97,7 @@ Anwenden auf
 ## Wichtig für die Datenbeschaffung
 
 
-- Zuverlässige und qualitativ hochwertige Datenquellen ausfinding machen 
+- Zuverlässige und qualitativ hochwertige Datenquellen ausfinding machen ([Hier ein Beispiel warum man BIP Daten von diktatorisch regierten Staaten nicht trauen kann](https://www.journals.uchicago.edu/doi/full/10.1086/720458))
 - Automatisierten Download programmieren
 - Einlesen, verarbeiten und zusammenführen verschiedener Datensätze in R
 
@@ -148,9 +148,9 @@ Woher beziehen wir unsere Informationen?
 
 ## Klonen Sie unsere Github Seite
 
-- Gehen Sie auf die [Github Seite des Projektkurses](https://github.com/projektkurs-datascience/24-25)
+- Gehen Sie auf die [Github Seite des Projektkurses](https://github.com/projektkurs-datascience/25-26)
 - Klicken Sie auf des grünen "Code" Button
-- Kopieren Sie sich die [angezeigte HTTPS](https://github.com/projektkurs-datascience/24-25.git)
+- Kopieren Sie sich die [angezeigte HTTPS](https://github.com/projektkurs-datascience/25-26.git)
 - Gehen Sie in Github Desktop und fügen dort die kopierte HTTPS in "Clone a repository" -> "URL"
 
 [Hier eine Step-by-Step Anleitung](https://docs.github.com/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-a-repository-from-github-to-github-desktop?platform=windows)
@@ -162,7 +162,6 @@ countdown(minutes = 5)
 ```
 
 ---
-
 
 ## Nötige Pakete laden
 
@@ -176,7 +175,6 @@ library(tidyverse)
 
 .question[Was bedeuten die "Messages" nach dem Laden von library(tidyverse)?]
 
-
 ---
 
 # Daten einlesen
@@ -186,9 +184,9 @@ Unterschiedliche Dateien und unterschiedliche Tabellenblätter, was sollten wir 
 ```{r}
 # Öffnen des ZIP-Archivs
 # Es sind zwei Tabellen in dem ZIP Archiv, wir interessieren uns für die Anzahl der Arbeitslosen und wählen diese mit dem kleinen [1] aus
-alo_name <- as.character(unzip("../case-study/data/Arbeitslose_2022.xlsx.zip", list = TRUE)$Name)
+alo_name <- as.character(unzip("../case-study/data/Arbeitslose_2023.xlsx.zip", list = TRUE)$Name)
 alo_name <- alo_name[1]
-unzip("../case-study/data/Arbeitslose_2022.xlsx.zip", alo_name)
+unzip("../case-study/data/Arbeitslose_2023.xlsx.zip", alo_name)
 ```
 --
 
@@ -272,7 +270,7 @@ include_graphics("./figs/Einlesen_Alo.png")
 ## Spezifizieren welche Spalten eingelesen werden sollen
 
 Welche Information benötigen wir aus der Tabelle
-  - Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2022**
+  - Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2023**
   - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis (z.B. nur SGB II)
   - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis und ein bestimmtes Alter (z.B. SGB II alle unter 25 Jahre)
 
@@ -281,7 +279,7 @@ Welche Information benötigen wir aus der Tabelle
 ## Spezifizieren welche Spalten eingelesen werden sollen
 
 Welche Information benötigen wir aus der Tabelle
-  - .alert[Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2022**]
+  - .alert[Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2023**]
   - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis (z.B. nur SGB II)
   - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis und ein bestimmtes Alter (z.B. SGB II alle unter 25 Jahre)
 
@@ -292,14 +290,14 @@ Welche Information benötigen wir aus der Tabelle
 ---
 
 ```{r, out.width='150%', echo = F}
-include_graphics("./figs/Alo_Ueberblick.png")
+include_graphics("./figs/Alo_Ueberblick2023.png")
 ```
 
 ---
 
 ## Spezifizieren welche Spalten eingelesen werden sollen
 
-Neben der Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2022** benötigen wir noch die "Gemeinde-ID" und den Gemeindenamen.
+Neben der Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2023** benötigen wir noch die "Gemeinde-ID" und den Gemeindenamen.
 
 Wie können wir die von uns benötigte Information möglichst einfach extrahieren?
 --
@@ -375,10 +373,10 @@ data_alo <- data_alo[-c(1,2),]
 - Informationen aggregieren und mit anderen Quellen vergleichen
 --
 
-- Zunächst: Anzahl an Arbeitslosen für jedes **Bundesland** in 2022. 
+- Zunächst: Anzahl an Arbeitslosen für jedes **Bundesland** in 2023. 
   - zweistelligen `Regionalschluessel`
   - "Buchstaben" für jeden `Regionalschluessel` zählen (`nchar()` (number of characters))
-- **Alternative Datenquelle:** [Die Anzahl der Arbeitslosen für das Jahr 2022 unterteilt nach Ländern der Arbeitsagentur](https://statistik.arbeitsagentur.de/Statistikdaten/Detail/202212/iiia4/akt-dat-jz/akt-dat-jz-d-0-202212-xlsx.xlsx)
+- **Alternative Datenquelle:** [Die Anzahl der Arbeitslosen für das Jahr 2023 unterteilt nach Ländern der Arbeitsagentur](https://statistik.arbeitsagentur.de/Statistikdaten/Detail/202312/iiia4/akt-dat-jz/akt-dat-jz-d-0-202312-xlsx.xlsx)
   - Wichtig: Tabellenblatt 8
 
 ---
@@ -416,7 +414,7 @@ check_alo_bundesland
 
 .pull-right[
 ```{r, out.width='65%', echo =F}
-include_graphics("./figs/Alo_Laender.png")
+include_graphics("./figs/Alo_Laender2023.png")
 ```
 
 ]
@@ -509,6 +507,12 @@ check_consitency %>%
 
 ---
 
+## Kahoot Quiz
+
+https://play.kahoot.it/v2/lobby?quizId=770e0894-11e9-4fd8-b8f5-682f64b1b25d
+
+---
+
 class: inverse, middle, center
 
 # Pro-Kopf Verschuldung
@@ -517,14 +521,14 @@ class: inverse, middle, center
 
 ## Pro-Kopf Verschuldung auf Gemeindeebene
 
-- Auf Gemeindeebene aus dem Jahr 2022
+- Auf Gemeindeebene aus dem Jahr 2023
 - Querschnittsdaten
 - Vom Statistischen Bundesamt direkt als Excel-Tabelle heruntergeladen (`r emo::ji("heavy_check_mark")`)
 
 .question[Welche Tabellenblätter sollten wir nutzen?]
 
 ```{r}
-excel_sheets("../case-study/data/Schulden_2022.xlsx")
+excel_sheets("../case-study/data/Schulden_2023.xlsx")
 ```
 
 ---
@@ -544,7 +548,7 @@ excel_sheets("../case-study/data/Schulden_2022.xlsx")
 ## Mehrere Tabellenblätter einlesen
 
 ```{r, message=FALSE}
-sh <- read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH")
+sh <- read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = "SH")
 head(sh,20)
 ```
 
@@ -571,7 +575,7 @@ Der Übersicht halber wollen wir noch eine Spalte hinzufügen, welche den Namen 
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE}
 # Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
-schulden_individuell <- read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7]
+schulden_individuell <- read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = "SH", skip = 5)[1:7]
 # Umbenennen der ersten 7 Spalten
 colnames(schulden_individuell) <- c("Regionalschluessel", "Gemeinde", 
                                     "Verwaltungsform", "Einwohner", "Schulden_gesamt", "Veraenderung_Vorjahr", "Schulden_pro_kopf")
@@ -586,7 +590,7 @@ colnames(schulden_individuell) <- c("Regionalschluessel", "Gemeinde",
 
 ```{r schulden_einlesen, message=FALSE, warning=FALSE, include = F}
 # Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
-read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7] ->
+read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = "SH", skip = 5)[1:7] ->
   schulden_individuell
 
 # Umbenennen der ersten 7 Spalten
@@ -605,7 +609,7 @@ schulden_individuell
 
 .instructions[Formen Sie Teams von zwei Personen und erarbeiten Sie auf Basis des Beispiels für ein Bundesland einen Code um alle Bundesländer in R einzulesen.]
 
-.alert[Nutzen Sie für diese Aufgabe **bwGPT**.]
+.alert[Nutzen Sie für diese Aufgabe **Chat AI**.]
 
 Posten Sie ihren Code hier:
 
@@ -614,7 +618,7 @@ include_graphics("./figs/Code_mehrere_Tabellen.png")
 ```
 
 ```{r, echo=FALSE}
-countdown(minutes = 10)
+countdown(minutes = 20)
 ```
 
 ---
@@ -623,13 +627,13 @@ countdown(minutes = 10)
 
 ```{r, eval =T, echo = F}
 # Daten mit map_df() eine Vektorisierte Form um die Daten einzulesen (Struktur gleich wie im vorherigen Chunk)
-sheet_names <- excel_sheets("../case-study/data/Schulden_2022.xlsx")
+sheet_names <- excel_sheets("../case-study/data/Schulden_2023.xlsx")
 # Einlesen der Tabellenblätter 6-18 (alle Bundesländer)
 sheet_read <- sheet_names[6:18]
 
 # Vektorisierte Form mit purrr::map_df() um die unterschiedlichen Tabellenblätter einzulesen und die Daten zu einem Datensatz zusammenzufügen
 schulden_individuell <- map_df(sheet_read, function(sheet) {
-  tmp <- read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = sheet, skip = 5)[1:7]
+  tmp <- read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = sheet, skip = 5)[1:7]
   tmp$Bundesland <- sheet
   colnames(tmp) <- c("Regionalschluessel", "Gemeinde", "Verwaltungsform", 
                      "Einwohner", "Schulden_gesamt", "Veraenderung_Vorjahr", "Schulden_pro_kopf", "Bundesland")
@@ -696,7 +700,7 @@ class: middle, inverse, center
 
 - `Schulden_pro_Kopf_new` von Hand berechnen
 - **Beachte:**
-  - Geschweiften Klammern entfernen bei `Schulden_gesamt` (mit `gsub([{}])`), als auch die Leerzeichen innerhalb der Zahlen (z.B. 15 653), was wir mit `gsub("[[:space:]]")` erreichen. 
+  - Geschweifte Klammern entfernen bei `Schulden_gesamt` (mit `gsub([{}])`), als auch die Leerzeichen innerhalb der Zahlen (z.B. 15 653), was wir mit `gsub("[[:space:]]")` erreichen. 
   - Tun wir das nicht, so würden wir wieder `NA`s im Datensatz erhalten
 
 .tiny[
@@ -1009,7 +1013,7 @@ Das [OpenData Portal des Bundesamts für Kartographie und Geodäsie](https://gdz
 
 Zuerst müssen wir folgende Schritte unternehmen:
 - Informationen zur Verschuldung auf Landkreisebene aggregieren 
-- Daten zum BIP auf das Jahr 2022 einschränken. 
+- Daten zum BIP auf das Jahr 2022 einschränken (letzter verfügbarer Zeitpunkt, wenn 2023 verfügbar wäre es besser!)
 - Datensätze anhand des Regionalschlüssels miteinander verbinden.
 
 Weiterhin können wir die geografischen Daten separat abspeichern und bei Bedarf anhand des Regionalschlüssels zu unserem Datensatz hinzumergen.
@@ -1098,7 +1102,7 @@ gesamtdaten
 Laden Sie sich das durchschnittliche [Arbeitnehmerentgelt pro Arbeitnehmer und Landkreis](https://www.statistikportal.de/de/veroeffentlichungen/arbeitnehmerentgelt) auf der Seite der Statistischen Ämter des Bundes und der Länder herunter und lesen Sie diesen in R ein.
 
 - Bilden Sie ein Team von 4-5 Personen
-- Nutzung der Case-Study und bwGPT um die Aufgaben zu erledigen
+- Nutzung der Case-Study und Chat AI um die Aufgaben zu erledigen
 
 **Aufgabe:**
 
@@ -1115,28 +1119,28 @@ countdown(minutes = 20)
 
 ---
 
-## Hinweise zum Prompting von bwGPT
+## Hinweise zum Prompting von Chat AI
 
 .pull-left[
 **Wie sollte ein Prompt aufgebaut sein?**
 
-- **Aufgabe:** Was soll ChatGPT tun? 
+- **Aufgabe:** Was soll Chat AI tun? 
     - Möglichst genau und spezifisch sein
-- **Instruktionen:** Wie soll ChatGPT es tun?
-    - Soll ChatGPT eine besondere Persona sein?
+- **Instruktionen:** Wie soll Chat AI es tun?
+    - Soll Chat AI  eine besondere Persona sein?
     - Beispiele für den gewünschten Output mitgeben
-    - ChatGPT fragen zur Lösung Schritt-für-Schritt zu kommen
-- **Kontext:** Was sollte ChatGPT zu seiner Aufgabe wissen?
+    - Chat AI  fragen zur Lösung Schritt-für-Schritt zu kommen
+- **Kontext:** Was sollte Chat AI  zu seiner Aufgabe wissen?
     - Wie passt die Aufgabe z.B. zur Vorlesung die Sie gerade besuchen?
 ]
 
 .pull-right[
-**Wenn Sie nicht weiter wissen, dann Fragen Sie ChatGPT welche Infos es noch benötigt**
+**Wenn Sie nicht weiter wissen, dann Fragen Sie Chat AI  welche Infos es noch benötigt**
 
 - "Sag mir, welche Informationen du benötigst, um ...“
 - "Stelle mir 5 Fragen, die dir helfen werden, mir die bestmögliche Antwort zu geben."
   	
-**Wenn Sie glauben ChatGPT hat einen Fehler gemacht, dann sagen Sie ihm dies**
+**Wenn Sie glauben Chat AI  hat einen Fehler gemacht, dann sagen Sie ihm dies**
 
 **Komplexe Aufgaben in kleine Unteraufgaben herunterbrechen**
 ]

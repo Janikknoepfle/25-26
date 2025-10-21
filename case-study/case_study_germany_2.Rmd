@@ -72,7 +72,7 @@ gesamtdaten <- gesamtdaten |>
 
 ### Anzahl an Beobachtungen
 
-Wir wollen zuerst einen Blick auf die Anzahl an Erwerbstätigen und Einwohnern in Deutschland werfen. Hier haben wir 42,1 Mio. Erwerbstätige und 77,8 Mio. Einwohner in Deutschland. Dies sollte stimmen, da wir Hamburg (1,8 Mio.), Berlin (3,87 Mio.) und Bremen (0,6 Mio.), sowie Bremerhaven (0,1 Mio.) nicht in unserem Datensatz haben. Die Daten wollen wir uns als einfachen Tibble Datensatz anzeigen lassen:
+Wir wollen zuerst einen Blick auf die Anzahl an Erwerbstätigen und Einwohnern in Deutschland werfen. Hier haben wir 42,1 Mio. Erwerbstätige und 78,1 Mio. Einwohner in Deutschland. Dies sollte stimmen, da wir Hamburg (1,8 Mio.), Berlin (3,8 Mio.) und Bremen (0,6 Mio.), sowie Bremerhaven (0,1 Mio.) nicht in unserem Datensatz haben. Die Daten wollen wir uns als einfachen Tibble Datensatz anzeigen lassen:
 
 ```{r}
 # Wie viele Erwerbstätige und Einwohner (ohne Berlin, Hamburg, Bremen und Bremerhaven) hat Deutschland?
@@ -113,12 +113,12 @@ Leider haben wir hier in den Originaldaten keine Informationen zu Schulden und B
 
 **Arbeitslosenquote**
 
-Im Durchschnitt liegt die Arbeitslosenquote in 2023 bei 4,89 Prozent. Dies mag uns zuerst etwas hoch erscheinen, jedoch sollten wir bedenken, dass wir **alle** Arbeitslosen mit in unsere Analyse einbezogen haben, d.h. Bezieher von SGB II und SGB III. Ein kurzer Konsistenzcheck auf [Statista](https://de.statista.com/statistik/daten/studie/1224/umfrage/arbeitslosenquote-in-deutschland-seit-1995/) zeigt uns die dort gemeldete Arbeitslosenquote von 5.3% für 2022. Unsere niedrigere Quote könnte insbesondere daran liegen, dass die Großstädte Berlin und Hamburg nicht in unserer Analyse enthalten sind.
-Die Standardabweichung beträgt 2,01 und zeigt damit, dass es in Deutschland deutliche regionale Unterschiede bzgl. der Arbeitslosenquote gibt. Ein Blick auf die Verteilung zeigt, dass der Landkreis mit der geringsten Arbeitslosenquote nur eine Arbeitslosenquote von 1,50% (`p0` in der obigen Tabelle) aufweist und der Landkreis mit der höchsten Arbeitslosenquote von 13,7% (`p100` in der obigen Tabelle). Zwar sind die Werte noch ein ganzes Stück von dem Durchschnitt der Arbeitslosenquote in Spanien entfernt ([fast 13% im Jahr 2022](https://de.statista.com/statistik/daten/studie/17327/umfrage/arbeitslosenquote-in-spanien/)), zeigen jedoch schon, dass es auch in Deutschland durchaus Regionen mit einer sehr hohen Arbeitslosenquote gibt.
+Im Durchschnitt liegt die Arbeitslosenquote in 2023 bei 5,29 Prozent. Dies mag uns zuerst etwas hoch erscheinen, jedoch sollten wir bedenken, dass wir **alle** Arbeitslosen mit in unsere Analyse einbezogen haben, d.h. Bezieher von SGB II und SGB III. Ein kurzer Konsistenzcheck auf [Statista](https://de.statista.com/statistik/daten/studie/1224/umfrage/arbeitslosenquote-in-deutschland-seit-1995/) zeigt uns die dort gemeldete Arbeitslosenquote von 5.7% für 2023. Unsere niedrigere Quote könnte insbesondere daran liegen, dass die Großstädte Berlin und Hamburg nicht in unserer Analyse enthalten sind.
+Die Standardabweichung beträgt 2,08 und zeigt damit, dass es in Deutschland deutliche regionale Unterschiede bzgl. der Arbeitslosenquote gibt. Ein Blick auf die Verteilung zeigt, dass der Landkreis mit der geringsten Arbeitslosenquote nur eine Arbeitslosenquote von 1,64% (`p0` in der obigen Tabelle) aufweist und der Landkreis mit der höchsten Arbeitslosenquote von 14,2% (`p100` in der obigen Tabelle). Zwar sind die Werte noch ein ganzes Stück von dem Durchschnitt der Arbeitslosenquote in Spanien entfernt ([fast 12,2% im Jahr 2023](https://de.statista.com/statistik/daten/studie/17327/umfrage/arbeitslosenquote-in-spanien/)), zeigen jedoch schon, dass es auch in Deutschland durchaus Regionen mit einer sehr hohen Arbeitslosenquote gibt.
 
 **Verschuldung pro Kopf**
 
-Bei der Verschuldung der Landkreise ergibt sich ein ähnliches Bild. Durchschnittlich beträgt die Verschuldung der Landkreise 3003€, mit einer Standardabweichung von 2300€. D.h. auch hier gibt es eine große Bandbreite bzgl. der Verschuldung einzelner Landkreise.
+Bei der Verschuldung der Landkreise ergibt sich ein ähnliches Bild. Durchschnittlich beträgt die Verschuldung der Landkreise 3052€, mit einer Standardabweichung von 2303€. D.h. auch hier gibt es eine große Bandbreite bzgl. der Verschuldung einzelner Landkreise.
 
 **BIP pro Kopf**
 
@@ -126,7 +126,7 @@ Wie schon bei der Arbeitslosenquote und der Verschuldung sehen wir auch bei dem 
 
 ## Summary Statistics auf Bundeslandebene für die Arbeitslosigkeit
 
-Nachdem wir im vorherigen Abschnitt bereits gesehen haben, dass es wohl deutliche regionale Unterschiede bei allen Variablen geben muss, wollen wir uns nun noch die Arbeitslosenquote auf Bundeslandebene anschauen. Erinnern wir uns daran das wir hier Querschnittsdaten für das Jahr 2022 für alle deutschen Landkreise betrachten. Weiterhin hat uns die vorherige Tabelle bereits gezeigt, dass wir mit "missing Values" rechnen müssen (`n_missing` bei der skimr-Tabelle). Um nun einen ersten Überblick über die regionale Verteilung der Arbeitsenquote in 2022 zu gewinnen schauen wir uns die Arbeitslosenquote auf Bundeslandebene an, aggregiert über die Landkreise eines Bundeslandes. Hierzu wollen wir uns des Pakets `kableExtra` bedienen um schönere Tabellen zu erstellen:
+Nachdem wir im vorherigen Abschnitt bereits gesehen haben, dass es wohl deutliche regionale Unterschiede bei allen Variablen geben muss, wollen wir uns nun noch die Arbeitslosenquote auf Bundeslandebene anschauen. Erinnern wir uns daran das wir hier Querschnittsdaten für das Jahr 2023 für alle deutschen Landkreise betrachten. Weiterhin hat uns die vorherige Tabelle bereits gezeigt, dass wir mit "missing Values" rechnen müssen (`n_missing` bei der skimr-Tabelle). Um nun einen ersten Überblick über die regionale Verteilung der Arbeitsenquote in 2023 zu gewinnen schauen wir uns die Arbeitslosenquote auf Bundeslandebene an, aggregiert über die Landkreise eines Bundeslandes. Hierzu wollen wir uns des Pakets `kableExtra` bedienen um schönere Tabellen zu erstellen:
 
 ```{r}
 bula_data <- gesamtdaten |> 
@@ -144,14 +144,14 @@ bula_data |>
                     "Median"), digits = 2) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) |>
   kable_paper(full_width = F) |>
-  row_spec(c(6,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") |>
+  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") |>
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 3), align = "c") |>
   footnote(general = "Wir haben keine Informationen zu Berlin und Hamburg, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
            general_title = "Bitte beachten: ",
            number = "Die ostdeutschen Bundesländer sind grau hinterlegt.")
 ```
 
-Hier sehen wir insbesondere für Landkreise in Bayern und Baden-Württemberg Arbeitslosenquoten von durchschnittlich unter 3,5% und für Landkreise in Sachsen-Anhalt, Bremen, Nordrhein-Westfalen und Mecklenburg-Vorpommern Arbeitslosenquoten von durchschnittlich über 6,5%. Es fällt weiterhin auf, dass die Landkreise in ehemaligen ostdeutschen Bundesländern tendenziell höhere Arbeitslosenquoten aufweisen. Weiterhin ist die Standardabweichung, d.h. die Streuung um den Mittelwert, insgesamt für die Landkreise der einzelnen Bundesländer oft vergleichbar (in Nordrhein-Westfalen, Niedersachen und Bremen jedoch recht hoch). Mit rund 1 Prozentpunkten ist die Standardabweichung oft recht moderat, d.h. die Landkreise pro Bundesland sind recht ähnlich zueinander. Bei einer Standardabweichung um die 2.37 Prozentpunkte ist die Standardabweichung in Nordrhein-Westfalen jedoch recht hoch, was auf große regionale Unterschiede zwischen den einzelnen Landkreisen schließen lässt. Der Median für die Arbeitslosenquote der Landkreise liegt recht nahe am Mittelwert, was auch darauf hindeutet, dass die Landkreise in den einzelnen Bundesländern sich nicht stark voneinander unterscheiden. 
+Hier sehen wir insbesondere für Landkreise in Bayern und Baden-Württemberg Arbeitslosenquoten von durchschnittlich unter 4% und für Landkreise in Sachsen-Anhalt, Bremen, Nordrhein-Westfalen und Mecklenburg-Vorpommern Arbeitslosenquoten von durchschnittlich über 7%. Es fällt weiterhin auf, dass die Landkreise in ehemaligen ostdeutschen Bundesländern tendenziell höhere Arbeitslosenquoten aufweisen. Weiterhin ist die Standardabweichung, d.h. die Streuung um den Mittelwert, insgesamt für die Landkreise der einzelnen Bundesländer oft vergleichbar (in Nordrhein-Westfalen und Bremen jedoch recht hoch). Mit rund einem Prozentpunkt ist die Standardabweichung oft moderat, d.h. die Landkreise pro Bundesland sind recht ähnlich zueinander. Bei einer Standardabweichung von 2,35 Prozentpunkten ist die Standardabweichung in Nordrhein-Westfalen hoch, was auf große regionale Unterschiede zwischen den einzelnen Landkreisen schließen lässt. Der Median für die Arbeitslosenquote der Landkreise liegt recht nahe am Mittelwert, was auch darauf hindeutet, dass die Landkreise in den einzelnen Bundesländern sich nicht stark voneinander unterscheiden. 
 Da wir hier tendenziell größere Unterschiede zwischen Ost- und Westdeutschland festgestellt haben wollen wir uns eine Dummyvariable "ost" generieren, welche 0 für alle ehemaligen westdeutschen und 1 für alle ehemaligen ostdeutschen Bundesländer ist:
 
 ```{r}
@@ -160,7 +160,7 @@ gesamtdaten <- gesamtdaten |>
           ost_name = ifelse(ost == 1, "Ostdeutschland", "Westdeutschland"))
 ```
 
-Durch diese Aufteilung treten die Unterschiede in der Arbeitslosenquote zwischen den ehemaligen ost- und westdeutschen Landkreisen besonders stark zutage. Insbesondere wenn wir uns die Quantile anschauen: Im **25% Quantil** in **Ostdeutschland** ist die Arbeitslosenquote bei **5,16%**, in **Westdeutschland** ist das **75% Quantil** bei einer Arbeitslosenquote von **5,74%**!
+Durch diese Aufteilung treten die Unterschiede in der Arbeitslosenquote zwischen den ehemaligen ost- und westdeutschen Landkreisen besonders stark zutage. Insbesondere wenn wir uns die Quantile anschauen: Im **25% Quantil** in **Ostdeutschland** ist die Arbeitslosenquote bei **5,69%**, in **Westdeutschland** ist das **75% Quantil** bei einer Arbeitslosenquote von **6,17%**!
 
 ```{r}
 gesamtdaten |>
@@ -182,7 +182,7 @@ gesamtdaten |>
            general_title = "Bitte beachten: ")
 ```
 
-Nun haben wir uns ein erstes Bild über die Daten, insbesondere die Arbeitslosigkeit in 2022 machen können.
+Nun haben wir uns ein erstes Bild über die Daten, insbesondere die Arbeitslosigkeit in 2023 machen können.
 Natürlich sollten die von uns heruntergeladenen Informationen zum BIP und den Schulden der einzelnen Landkreise auch berücksichtigt werden und wir können diese unseren Tabellen hinzufügen:
 
 ```{r}
@@ -203,7 +203,7 @@ bula_data_all |>
   #kbl(col.names = c("Mittelwert","Std.", "Mittelwert","Std."), digits = 0) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) |>
   kable_paper(full_width = F) |>
-  row_spec(c(6,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") |>
+  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") |>
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 2, "BIP pro Kopf" = 2, "Schulden pro Kopf" = 2), align = "c") |>
   footnote(general = "Wir haben keine Informationen zu Berlin, Hamburg und Bremen bzgl. ihrer Schulden pro Kopf, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
            general_title = "Bitte beachten: ",
@@ -211,7 +211,7 @@ bula_data_all |>
 ```
 
 Was wir hier gut sehen können ist folgendes:
-Für alle Bundesländer in denen wir niedrige Arbeitslosenquoten pro Landkreis haben gibt es auch durchschnittlich ein hohes BIP pro Kopf über die Landkreise des Bundeslandes hinweg. D.h. speziell in unserem Datensatz von 2022 ist in den Bundesländern mit einer durchschnittlich hohen Wirtschaftsleistung in den Landkreisen die Arbeitslosenquote gering. Insbesondere für ostdeutsche Landkreise ist das BIP pro Kopf durchschnittliche _unter_ 35 000€, bei den westdeutschen Landkreisen liegt das BIP pro Kopf hingegen durchschnittliche überall _über_ 35 000€. Bei den Schulden ist dieser Sachverhalt weniger deutlich ausgeprägt. Es gibt westdeutsche Landkreise, wie z.B. in den Bundesländern Bayern und Niedersachsen, mit sehr geringen Schulden pro Kopf, doch dies trifft auch für Landkreise in Sachsen oder Brandenburg zu. Insbesondere Landkreise im Saarland haben durchschnittlich eine sehr hohe Verschuldung pro Kopf von über 5100€.
+Für alle Bundesländer in denen wir niedrige Arbeitslosenquoten pro Landkreis haben gibt es auch durchschnittlich ein hohes BIP pro Kopf über die Landkreise des Bundeslandes hinweg. D.h. speziell in unserem Datensatz von 2023 ist in den Bundesländern mit einer durchschnittlich hohen Wirtschaftsleistung in den Landkreisen die Arbeitslosenquote gering. Insbesondere für ostdeutsche Landkreise ist das BIP pro Kopf durchschnittliche _unter_ 36 000€, bei den westdeutschen Landkreisen liegt das BIP pro Kopf hingegen durchschnittliche überall _über_ 36 000€. Bei den Schulden ist dieser Sachverhalt weniger deutlich ausgeprägt. Es gibt westdeutsche Landkreise, wie z.B. in den Bundesländern Bayern und Niedersachsen, mit sehr geringen Schulden pro Kopf, doch dies trifft auch für Landkreise in Sachsen oder Brandenburg zu. Insbesondere Landkreise im Saarland haben durchschnittlich eine sehr hohe Verschuldung pro Kopf von über 5200€.
 
 Allein durch den Mittelwert und die Standardabweichung konnten wir bereits sehr viel über unsere Daten lernen und haben hier schon einige deutliche Unterschiede zwischen ostdeutschen und westdeutschen Landkreisen feststellen können.
 
@@ -276,7 +276,7 @@ Tabellen sind hilfreich um Informationen kompakt zu präsentieren. Jedoch ist es
 
 ### Arbeitslosenquote
 
-Die Variable, welche uns besonders interessiert ist die Arbeitslosenquote, insbesondere da ihr Cousin gemeint hat, dass Deutschland kein Problem mit der Arbeitslosigkeit hat. Wir wollen hier alle Datenpunkte zeigen, d.h. die Arbeitslosenquote eines jeden Landkreises für das Jahr 2022, getrennt nach Ost- und Westdeutschland. Weiterhin wollen wir unsere Grafik um einen Boxplot erweitern um einen Vergleich des Medians der Arbeitslosenquote in Ost- und Westdeutschland zu ermöglichen.
+Die Variable, welche uns besonders interessiert ist die Arbeitslosenquote, insbesondere da ihr Cousin gemeint hat, dass Deutschland kein Problem mit der Arbeitslosigkeit hat. Wir wollen hier alle Datenpunkte zeigen, d.h. die Arbeitslosenquote eines jeden Landkreises für das Jahr 2023, getrennt nach Ost- und Westdeutschland. Weiterhin wollen wir unsere Grafik um einen Boxplot erweitern um einen Vergleich des Medians der Arbeitslosenquote in Ost- und Westdeutschland zu ermöglichen.
 
 ```{r, warning=FALSE}
 alo_quote_jitter <- gesamtdaten |>
@@ -289,7 +289,7 @@ alo_quote_jitter <- gesamtdaten |>
        subtitle = "Eine Beobachtung repräsentiert einen Landkreis",
        x = "",
        y = "Arbeitslosenquote",
-       caption = "Quelle: Daten der Agentur für Arbeit aus dem Jahr 2022")
+       caption = "Quelle: Daten der Agentur für Arbeit aus dem Jahr 2023")
   
 alo_quote_jitter
 
@@ -314,7 +314,7 @@ alo_quote_jitter_farbe <- gesamtdaten |>
        subtitle = "Eine Beobachtung repräsentiert einen Landkreis",
        x = "",
        y = "Arbeitslosenquote",
-       caption = "Quelle: Daten der Agentur für Arbeit aus dem Jahr 2022\nDie roten Datenpunkte sind Landkreise aus Baden-Württemberg") +
+       caption = "Quelle: Daten der Agentur für Arbeit aus dem Jahr 2023\nDie roten Datenpunkte sind Landkreise aus Baden-Württemberg") +
   theme(legend.position = "none")
   
 alo_quote_jitter_farbe
@@ -336,7 +336,7 @@ alo_quote_jitter_plotly <- gesamtdaten |>
        subtitle = "Eine Beobachtung repräsentiert einen Landkreis",
        x = "",
        y = "Arbeitslosenquote",
-       caption = "Quelle: Daten der Bundesagentur Agentur für Arbeit aus dem Jahr 2022.") +
+       caption = "Quelle: Daten der Bundesagentur Agentur für Arbeit aus dem Jahr 2023.") +
   scale_fill_manual(values = c("Baden-Württemberg" = "darkred", "Other" = "grey")) +
   guides(fill = "none")
 
@@ -345,7 +345,7 @@ ggplotly(alo_quote_jitter_plotly)
 
 ### Bruttoinlandsprodukt pro Kopf
 
-Wir haben im vorherigen Abschnitt gesehen, dass es durchaus deutliche regionale Unterschiede in der Arbeitslosenquote in 2022 gibt. Doch was könnten die Treiber dafür sein? 
+Wir haben im vorherigen Abschnitt gesehen, dass es durchaus deutliche regionale Unterschiede in der Arbeitslosenquote in 2023 gibt. Doch was könnten die Treiber dafür sein? 
 
 In diesem Unterabschnitt wollen wir uns das Bruttoinlandsprodukt pro Kopf auf Landkreisebene näher anschauen. Hierbei haben wir nicht nur die Daten für 2022, sondern können uns einer längeren Zeitreihe bedienen. Somit können wir uns die Entwicklung des BIP pro Kopf in den ehemaligen ost- und westdeutschen Bundesländern näher anschauen. Diese Zeitreihen sind für uns nützliche Hinweise, denn dadurch können wir sehen:
 
@@ -412,25 +412,45 @@ In der oben dargestellten Grafik sehen wir keinen großen Anpassungsprozess seit
 ```{r}
 bip_zeitreihe_namen |>
   group_by(ost_name, Jahr) |>
-  mutate( durchschnitt = mean(bip_pro_kopf, na.rm = T),
-          ulm = ifelse(landkreis_name == "Ulm", bip_pro_kopf,NA)) |>
-  ggplot() +
-  geom_line(aes(x = Jahr, y = durchschnitt, group = Regionalschluessel, color = ost_name)) +
+  summarise(durchschnitt = mean(bip_pro_kopf, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(x = Jahr, y = durchschnitt, color = ost_name)) +
+  geom_line(linewidth = 0.6) +
   scale_color_manual(values = c("#D55E00", "#0072B2")) +
-  scale_y_continuous(trans = "log10", breaks = c(5000,10000,15000,20000,25000,30000,35000, 40000, 45000), limits = c(5000,50000)) + 
+  scale_y_continuous(
+    trans = "log10",
+    breaks = c(5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000),
+    limits = c(5000, 50000)
+  ) +
   scale_x_continuous(breaks = c(1992, 1995, 2000, 2005, 2010, 2015, 2020)) +
   theme_minimal() +
   theme(legend.position = "none") +
-  labs(title = "Ein Vergleich des BIP pro Kopf von ost- und westdeutschen Landkreisen",
-       subtitle = "Zeitreihe ab 1992 bis 2022",
-       caption = "Quelle: Daten der Statistischen Ämter der Länder und des Bundes.",
-       x = "Jahr",
-       y = "BIP pro Kopf") +
-  geom_text(aes(x=2000, y=15000, label = "Durchschnitt für ostdeutsche Landkreise"), color = "#D55E00", hjust=0, size=4, alpha = 0.1) +
-  geom_curve(aes(x = 2007, xend = 2005, y = 15500, yend = 18500), curvature = .3, color = "#D55E00", size = 0.1) +
-  geom_text(aes(x=1991, y=31000, label = "Durchschnitt für westdeutsche Landkreise"), color = "#0072B2", hjust=0, size=4, alpha = 0.1) +
-  geom_curve(aes(x = 1995, xend = 1997, y = 29000, yend = 25000), curvature = .2, color = "#0072B2", size = 0.1)
-
+  labs(
+    title = "Ein Vergleich des BIP pro Kopf von ost- und westdeutschen Landkreisen",
+    subtitle = "Zeitreihe ab 1992 bis 2022",
+    caption = "Quelle: Daten der Statistischen Ämter der Länder und des Bundes.",
+    x = "Jahr",
+    y = "BIP pro Kopf"
+  ) +
+  annotate(
+    "text",
+    x = 2000, y = 15000, label = "Durchschnitt für ostdeutsche Landkreise",
+    color = "#D55E00", hjust = 0, size = 3
+  ) +
+  annotate(
+    "curve",
+    x = 2007, xend = 2005, y = 15500, yend = 18500,
+    curvature = 0.3, color = "#D55E00", linewidth = 0.1
+  ) +
+  annotate(
+    "text",
+    x = 1991, y = 31000, label = "Durchschnitt für westdeutsche Landkreise",
+    color = "#0072B2", hjust = 0, size = 3
+  ) +
+  annotate(
+    "curve",
+    x = 1995, xend = 1997, y = 29000, yend = 25000,
+    curvature = 0.2, color = "#0072B2", linewidth = 0.1
+  )
 ```
 
 Wie wir aus der Grafik deutlich sehen können hatten die ostdeutschen Landkreise zu Beginn der 1990er Jahre einen deutlich steileren Wachstumspfad als die westdeutschen Landkreise. Für manche ostdeutschen Landkreise haben wir leider keine Information ab 1992, jedoch deutet das Bild schon sehr stark darauf hin, dass es in den ersten Jahren nach der Wende einen starken Anpassungsprozess gegeben hat mit hohen Wachstumsraten des BIP pro Kopf. Dieser hat jedoch Mitte der 1990 Jahre etwas an Fahrt verloren und ab dem Jahr 2010 liegen ost- und westdeutsche Landkreise praktisch auf dem gleichen Wachstumspfad. D.h. hier sehen wir keine weitere Anpassung der ostdeutschen Landkreise an die westdeutschen Landkreise mehr. Einen ähnlichen Schluss hatten wir bereits bei der Analyse der `gt` Tabelle im Abschnitt zu den deskriptiven Tabellen gesehen. 
@@ -471,21 +491,48 @@ bip_wachstum <- bip_zeitreihe_namen |>
   mutate( durchschnitt = mean(bip_pro_kopf_wachstum, na.rm=TRUE)) |>
   ungroup()
 
-bip_wachstum |>
-  filter( Jahr >= 2000 ) |>
-  ggplot() +
-  geom_line(aes(x = Jahr, y = bip_pro_kopf_wachstum, group = Regionalschluessel), color = "grey") +
-  geom_line(aes(x = Jahr, y = durchschnitt, group = Regionalschluessel, color = ost_name)) +
+base <- bip_wachstum |>
+  filter(Jahr >= 2000) |>
+  filter(!is.na(bip_pro_kopf_wachstum))
+
+avg <- base |>
+  group_by(ost_name, Jahr) |>
+  summarise(durchschnitt = mean(bip_pro_kopf_wachstum, na.rm = TRUE), .groups = "drop")
+
+ggplot() +
+  # alle Landkreise (grau)
+  geom_line(
+    data = base,
+    aes(x = Jahr, y = bip_pro_kopf_wachstum, group = Regionalschluessel),
+    color = "grey", linewidth = 0.2, alpha = 0.6, na.rm = TRUE
+  ) +
+  # Durchschnittslinien ost/west
+  geom_line(
+    data = avg,
+    aes(x = Jahr, y = durchschnitt, color = ost_name),
+    linewidth = 0.9, na.rm = TRUE
+  ) +
   scale_color_manual(values = c("#D55E00", "#0072B2")) +
   theme_minimal() +
-  labs(color = "Durchschnitt der Landkreise",
-       title = "Die Wachstumsrate des BIP pro Kopf von ost- und westdeutschen Landkreisen",
-       caption = "Quelle: Daten der Statistischen Ämter der Länder und des Bundes.",
-       x = "Jahr",
-       y = "Veränderung des BIP pro Kopf") +
+  labs(
+    color = "Durchschnitt der Landkreise",
+    title = "Die Wachstumsrate des BIP pro Kopf von\nost- und westdeutschen Landkreisen",
+    caption = "Quelle: Daten der Statistischen Ämter der Länder und des Bundes.",
+    x = "Jahr",
+    y = "Veränderung des BIP pro Kopf"
+  ) +
   theme(legend.position = "none") +
-  geom_text(aes(x=2000, y=40, label = "-- Durchschnitt für ostdeutsche Landkreise"), color = "#D55E00", hjust=0, size=4, alpha = 0.1) +
-  geom_text(aes(x=2000, y=35, label = "-- Durchschnitt für westdeutsche Landkreise"), color = "#0072B2", hjust=0, size=4, alpha = 0.1)
+  # feste Labels: annotate statt aes()
+  annotate(
+    "text", x = 2000, y = 40,
+    label = "-- Durchschnitt für ostdeutsche Landkreise",
+    color = "#D55E00", hjust = 0, size = 4
+  ) +
+  annotate(
+    "text", x = 2000, y = 35,
+    label = "-- Durchschnitt für westdeutsche Landkreise",
+    color = "#0072B2", hjust = 0, size = 4
+  )
 
 ```
 
@@ -504,7 +551,7 @@ gesamtdaten |>
   facet_grid(ost_name~.) +
   geom_vline(aes(xintercept = durchschnitt), color = "blue") +
   theme_bw() +
-  labs(title = "Verteilung des BIP pro Kopf für Ost- und Westdeutschland",
+  labs(title = "Verteilung des BIP pro Kopf für Ost- und\nWestdeutschland",
        subtitle = "Beobachtungen auf Landkreisebene in 2022",
        x = "BIP pro Kopf",
        y = "Anzahl an Beobachtungen")
@@ -587,7 +634,7 @@ plot_schulden_lk <- ggplot(
   labs(x = NULL,
        y = NULL,
        title = "Wie verschuldet sind die deutschen Landkreise?",
-       subtitle = "Öffentliche Schulden pro Kopf in 2022") +
+       subtitle = "Öffentliche Schulden pro Kopf in 2023") +
   theme_void()
 
 plot_schulden_lk
@@ -639,7 +686,7 @@ plot_schulden_lk <- ggplot(
   labs(x = NULL,
        y = NULL,
        title = "Wie verschuldet sind die deutschen Landkreise?",
-       subtitle = "Öffentliche Schulden im Verhältnis zum BIP in 2022") +
+       subtitle = "Öffentliche Schulden im Verhältnis zum BIP in 2023") +
   theme_void()
 
 plot_schulden_lk
@@ -691,7 +738,7 @@ plot_alo_lk <- ggplot(
   labs(x = NULL,
        y = NULL,
        title = "Arbeitslosigkeit in Deutschland",
-       subtitle = "Dargestellt ist die Arbeitslosenquote für alle Landkreise in 2022") +
+       subtitle = "Dargestellt ist die Arbeitslosenquote für alle Landkreise in 2023") +
   theme_void()
 
 
@@ -705,13 +752,13 @@ Daher könnte die Verschuldung des öffentlichen Haushalts durchaus auch ein Fak
 
 ## Die Korrelation
 
-In unseren aktuellen Analysen hatten wir uns mit univariaten deskriptiven Analysen beschäftigt, d.h nur mit einer Variablen an sich. Nun wollen wir uns noch anschauen, wie die Arbeitslosenquote mit dem BIP Wachstum und dem Anteil der öffentlichen Schulden am BIP im Jahr 2022 für die einzelnen Landkreise in Deutschland zusammenhängen, d.h. eine bivariate deskriptive Analyse.
+In unseren aktuellen Analysen hatten wir uns mit univariaten deskriptiven Analysen beschäftigt, d.h nur mit einer Variablen an sich. Nun wollen wir uns noch anschauen, wie die Arbeitslosenquote mit dem BIP Wachstum und dem Anteil der öffentlichen Schulden am BIP im Jahr 2023 für die einzelnen Landkreise in Deutschland zusammenhängen, d.h. eine bivariate deskriptive Analyse.
 
 Durch die bisherigen deskriptiven Analysen haben wir eine große Streuung des BIP pro Kopf innerhalb Deutschlands festgestellt. Insbesondere gab es einen deutlichen Unterschied zwischen ost- und westdeutschen Landkreisen. Im BIP Wachstum waren sich ost- und westdeutsche Landkreise im Durchschnitt recht ähnlich, doch auch hier gab es beträchtliche Unterschiede zwischen den Landkreisen. Um etwas darüber Aussagen zu können, wie die Arbeitslosenquote mit dem BIP-Wachstum oder der öffentlichen Verschuldung zusammenhängt, wollen wir uns die Korrelation der einzelnen Variablen untereinander näher anschauen.
 
 ### Arbeitslosenquote und BIP-Wachstum
 
-Zuerst wollen wir das zuvor berechnete BIP-Wachstum auf das Jahr 2021 einschränken und dies zu unseren Gesamtdaten hinzufügen.
+Zuerst wollen wir das zuvor berechnete BIP-Wachstum auf das Jahr 2022 einschränken und dies zu unseren Gesamtdaten hinzufügen.
 
 ```{r}
 bip_wachstum <- bip_wachstum |>
@@ -747,7 +794,7 @@ gesamtdaten |>
   theme_minimal()
 ```
 
-Anhand der Punktewolke könnten wir abschätzen, dass der Zusammenhang zwischen der Arbeitslosenquote und dem BIP-pro-Kopf-Wachstum nahe Null sein müsste. D.h. wir würden vermuten das es keinen Zusammenhang zwischen der BIP-pro-Kopf Wachstumsrate und der Arbeitslosenquote eines Landkreises in 2022 gibt. 
+Anhand der Punktewolke könnten wir abschätzen, dass der Zusammenhang zwischen der Arbeitslosenquote und dem BIP-pro-Kopf-Wachstum nahe Null sein müsste. D.h. wir würden vermuten das es keinen Zusammenhang zwischen der BIP-pro-Kopf Wachstumsrate und der Arbeitslosenquote eines Landkreises in 2023 gibt. 
 
 Wenn wir uns die Korrelation zwischen den zwei Variablen ausgeben lassen, so erhalten wir die eine (schwach) positive Korrelation nahe Null:
 
@@ -837,7 +884,7 @@ Der Analyse von Zusammenhängen mittels linearer Regression werden wir uns im dr
 
 # Zusammenfassung und Ausblick
 
-Nun haben wir uns einen Überblick über unsere Daten verschafft und schon einiges zu den regionalen Unterschieden in Deutschland gelernt. Sowohl die deskriptive Analyse mittels Tabellen als auch die grafische Analyse durch verschiedene Plots zeigen uns auch 33 Jahre nach dem Mauerfall (wir analysieren Daten aus 2022) einen deutlichen Unterschied auf Landkreisebene zwischen dem ehemaligen Ostdeutschland und Westdeutschland. Jedoch sind die Unterschiede in den Arbeitslosenquoten nicht nur zwischen Ost- und Westdeutschland erkennbar, sondern es gibt auch einige Landkreise in Westdeutschland, wie z.B. im Saarland oder Nordrhein-Westfalen, welche eine recht hohe Arbeitslosenquote aufweisen. Durch die Analyse der Korrelation der unterschiedlichen Variablen konnten wir insbesondere zwischen der Arbeitslosenquote und dem Anteil der Schulden am BIP einen positiven Zusammenhang feststellen.
+Nun haben wir uns einen Überblick über unsere Daten verschafft und schon einiges zu den regionalen Unterschieden in Deutschland gelernt. Sowohl die deskriptive Analyse mittels Tabellen als auch die grafische Analyse durch verschiedene Plots zeigen uns auch 34 Jahre nach dem Mauerfall (wir analysieren Daten aus 2023) einen deutlichen Unterschied auf Landkreisebene zwischen dem ehemaligen Ostdeutschland und Westdeutschland. Jedoch sind die Unterschiede in den Arbeitslosenquoten nicht nur zwischen Ost- und Westdeutschland erkennbar, sondern es gibt auch einige Landkreise in Westdeutschland, wie z.B. im Saarland oder Nordrhein-Westfalen, welche eine recht hohe Arbeitslosenquote aufweisen. Durch die Analyse der Korrelation der unterschiedlichen Variablen konnten wir insbesondere zwischen der Arbeitslosenquote und dem Anteil der Schulden am BIP einen positiven Zusammenhang feststellen.
 
 Im letzten Teil der Case Study wollen wir mittels linearer Regression ein tiefgreifendes Verständnis von den möglichen Einflussfaktoren auf die Arbeitslosenquote erhalten.
 

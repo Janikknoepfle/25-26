@@ -265,12 +265,12 @@ gesamtdaten %>%
 ```
 --
 
-- 42,1 Mio. Erwerbstätige und 77,8 Mio Einwohner in Deutschland
+- 42,1 Mio. Erwerbstätige und 78,1 Mio. Einwohner in Deutschland
 - Folgende Stadtstaaten sind nicht in unseren Berechnungen enthalten:
   - Hamburg (1,8 Mio.)
-  - Berlin (3,87 Mio.) 
-  - Bremen (0.6 Mio.) 
-  - Bremerhaven (0.1 Mio.) 
+  - Berlin (3,8 Mio.) 
+  - Bremen (0,6 Mio.) 
+  - Bremerhaven (0,1 Mio.) 
 
 ---
 
@@ -406,18 +406,18 @@ countdown(minutes = 5)
 
 ## Arbeitslosenquote
 
-Mittelwert: 4,89 Prozent
+Mittelwert: 5,29 Prozent
   - Hoch
   - Jedoch SGB II und SGB III
-  - Konsistenzcheck auf [Statista](https://de.statista.com/statistik/daten/studie/1224/umfrage/arbeitslosenquote-in-deutschland-seit-1995/) zeigt eine Arbeitslosenquote von 5,3% für 2022
+  - Konsistenzcheck auf [Statista](https://de.statista.com/statistik/daten/studie/1224/umfrage/arbeitslosenquote-in-deutschland-seit-1995/) zeigt eine Arbeitslosenquote von 5,7% für 2023
   - **Jedoch:** Wir haben nicht Berlin und Hamburg in den Daten
 
-Standardabweichung: 2,01
+Standardabweichung: 2,08
   - Sehr hohe Streuung
   - Deutliche regionale Unterschiede
   - Ist in Prozentpunkten 
  
-Median: 4,66 Prozent
+Median: 5,07 Prozent
   - Nahe am Mittelwert
   - Deutet darauf hin das es wenige Landkreise mit sehr extremen Ausreißern gibt
 
@@ -425,14 +425,14 @@ Median: 4,66 Prozent
 
 ## Verschuldung pro Kopf
 
-Mittelwert: 3003€
+Mittelwert: 3052€
   - Relativ hoch
 
-Standardabweichung: 2300€
+Standardabweichung: 2303€
   - Sehr hohe Streuung
   - Deutliche regionale Unterschiede
  
-Median: 2338€
+Median: 2368€
   - Weiter weg vom Mittelwert
   - Deutet darauf hin das es einzelne Landkreise mit sehr extremen Ausreißern gibt
 
@@ -466,11 +466,11 @@ class: inverse, center, middle
 .instructions[Es gibt deutliche Unterschiede in der Arbeitslosenquote über die Bundesländer hinweg!]
 
 Wir betrachten:
-  - Querschnittsdaten aus 2022
+  - Querschnittsdaten aus 2023
   - Alle Landkreise
   - Für einige Landkreise haben wir keine Informationen (sogenannte "Missing values" -> `n_missing`)
 
-Wir möchten nun die regionale Verteilung der Arbeitslosenquote in Deutschland im Jahr 2022 näher betrachten. 
+Wir möchten nun die regionale Verteilung der Arbeitslosenquote in Deutschland im Jahr 2023 näher betrachten. 
 
 ---
 
@@ -526,7 +526,7 @@ bula_data %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 font_size = 8) %>%
   kable_paper(full_width = F) %>%
-  row_spec(c(6,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
+  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 3), align = "c") %>%
   footnote(general = "Wir haben keine Informationen zu Berlin und Hamburg, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
            general_title = "Bitte beachten: ",
@@ -552,7 +552,7 @@ bula_data %>%
                     "Median"), digits = 2) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
   kable_paper(full_width = F) %>%
-  row_spec(c(6,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
+  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 3), align = "c") %>%
   footnote(general = "Wir haben keine Informationen zu Berlin und Hamburg, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
            general_title = "Bitte beachten: ",
@@ -573,7 +573,7 @@ bula_data %>%
                     "Median"), digits = 2) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
   kable_paper(full_width = F) %>%
-  row_spec(c(6,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
+  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 3), align = "c") %>%
   footnote(general = "Wir haben keine Informationen zu Berlin und Hamburg, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
            general_title = "Bitte beachten: ",
@@ -595,7 +595,7 @@ bula_data %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 font_size = 11) %>%
   kable_paper(full_width = F) %>%
-  row_spec(c(6,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
+  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 3), align = "c") %>%
   footnote(general = "Wir haben keine Informationen zu Berlin und Hamburg, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
            general_title = "Bitte beachten: ",
@@ -609,7 +609,7 @@ bula_data %>%
 .question[Was lernen wir aus der deskriptiven Tabelle?]
 
 --
-- Landkreise im Süden Deutschlands haben durchschnittlich eine eher niedrige Arbeitslosenquote (<3.5%)
+- Landkreise im Süden Deutschlands haben durchschnittlich eine eher niedrige Arbeitslosenquote (<4%)
 --
 
 - Landkreise in den ostdeutschen Bundesländern haben tendenziell höhere Arbeitslosenquoten (>5.5%)
@@ -618,7 +618,7 @@ bula_data %>%
 - Bundesländer wie Bayern oder Baden-Württemberg haben relativ niedrige Arbeitslosenquoten und relativ geringe regionale Unterschiede (niedrige Standardabweichungen).
 --
 
-- Bundesländer wie Nordrhein-Westfalen und Niedersachsen haben zwar eine relativ niedrige Arbeitslosenquote, aber sehr unterschiedliche regionale Verteilungen (hohe Standardabweichungen), was auf starke regionale Unterschiede hinweist.
+- Bundesländer wie Nordrhein-Westfalen haben zwar eine relativ niedrige Arbeitslosenquote, aber sehr unterschiedliche regionale Verteilungen (hohe Standardabweichungen), was auf starke regionale Unterschiede hinweist.
 
 --
 - Median liegt recht nahe am Mittelwert für die Bundesländern
@@ -713,11 +713,11 @@ gesamtdaten %>%
 ## Die Arbeitslosenquote zwischen Ost- und Westdeutschland
 
 Große Unterschiede werden sichtbar:
-- Mittelwert über 1,7 Prozentpunkte niedriger in den Landkreisen der westdeutschen Bundesländer
+- Mittelwert über 1,8 Prozentpunkte niedriger in den Landkreisen der westdeutschen Bundesländer
 - Die Standardabweichung ist in Westdeutschland deutlich höher als in Ostdeutschland
 - Der Median der ostdeutschen Landkreise liegt nahe dem Mittelwert dieser Landkreise. Der Median in den westdeutschen Landkreisen liegt jedoch deutlich unter deren Mittelwert
-- Im **25% Quantil** in den **ostdeutschen Landkreisen** ist die Arbeitslosenquote bei **5,16%**
-- Bei den **westdeutschen Landkreisen** ist das **75% Quantil** bei einer Arbeitslosenquote von **5,74%**!
+- Im **25% Quantil** in den **ostdeutschen Landkreisen** ist die Arbeitslosenquote bei **5,69%**
+- Bei den **westdeutschen Landkreisen** ist das **75% Quantil** bei einer Arbeitslosenquote von **6,17%**!
 
 ---
 
@@ -738,7 +738,7 @@ bula_data_all %>%
       caption = "Deskriptive Tabelle komplett") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
   kable_paper(full_width = F) %>%
-  row_spec(c(6,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
+  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 2, "BIP pro Kopf" = 2, "Schulden pro Kopf" = 2), align = "c") %>%
   footnote(general = "Wir haben keine Informationen zu Berlin, Hamburg und Bremen bzgl. ihrer Schulden pro Kopf, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
            general_title = "Bitte beachten: ",
@@ -763,7 +763,7 @@ bula_data_all %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 font_size = 9) %>%
   kable_paper(full_width = F) %>%
-  row_spec(c(6,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
+  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 2, "BIP pro Kopf" = 2, "Schulden pro Kopf" = 2), align = "c") %>%
   footnote(general = "Wir haben keine Informationen zu Berlin, Hamburg und Bremen bzgl. ihrer Schulden pro Kopf, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
            general_title = "Bitte beachten: ",
@@ -788,7 +788,7 @@ bula_data_all %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 font_size = 9) %>%
   kable_paper(full_width = F) %>%
-  row_spec(c(6,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
+  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") %>%
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 2, "BIP pro Kopf" = 2, "Schulden pro Kopf" = 2), align = "c") %>%
   footnote(general = "Wir haben keine Informationen zu Berlin, Hamburg und Bremen bzgl. ihrer Schulden pro Kopf, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
            general_title = "Bitte beachten: ",
@@ -802,8 +802,8 @@ bula_data_all %>%
 ### Arbeitslosenquote, BIP pro Kopf und Schulden pro Kopf 
 
 - Landkreise in Bundesländer mit niedrigen Arbeitslosenquoten haben durchschnittlich ein hohes BIP pro Kopf
-- Ostdeutsche Landkreise haben im Durchschnitt ein BIP pro Kopf < 35000€
-- Westdeutsche Landkreise haben im Durchschnitt ein BIP pro Kopf > 35000€
+- Ostdeutsche Landkreise haben im Durchschnitt ein BIP pro Kopf < 36000€
+- Westdeutsche Landkreise haben im Durchschnitt ein BIP pro Kopf > 36000€
 - Kein klares Bild der Landkreise hinsichtlich der Schulden pro Kopf
 
 --
@@ -818,7 +818,7 @@ Auch zeitliche Entwicklungen können in einer Tabelle dargestellt werden
 
 .instructions[Als Beispiel sollten Sie sich die Tabelle zur Entwicklung des BIP pro Kopf in der Case-Study anschauen]
 
-Hier gelangen Sie direkt zur [entsprechenden Sektion in der ausformulierten Case-Study](https://projektkurs-data-science-ulm2425.netlify.app/case-study/case_study_germany_2#Summary_Statistics_auf_Bundeslandebene_f%C3%BCr_die_Arbeitslosigkeit)
+Hier gelangen Sie direkt zur [entsprechenden Sektion in der ausformulierten Case-Study](https://projektkurs-data-science-ulm2526.netlify.app/case-study/case_study_germany_2#Summary_Statistics_auf_Bundeslandebene_f%C3%BCr_die_Arbeitslosigkeit)
 
 ---
 
@@ -836,7 +836,7 @@ class: inverse, center, middle
 
 Daher ist es wichtig Grafiken in den desktiptiven Analysen mit einzubeziehen
 
-**Daten:** Querschnittsdaten zur Arbeitslosigkeit in den Landkreisen aus dem Jahr 2022
+**Daten:** Querschnittsdaten zur Arbeitslosigkeit in den Landkreisen aus dem Jahr 2023
 
 --
 
@@ -862,7 +862,7 @@ gesamtdaten %>%
        subtitle = "Eine Beobachtung repräsentiert einen Landkreis, Baden-Württemberg rot eingefärbt",
        x = "",
        y = "Arbeitslosenquote",
-       caption = "Quelle: Daten der Agentur für Arbeit aus dem Jahr 2022")
+       caption = "Quelle: Daten der Agentur für Arbeit aus dem Jahr 2023")
 ```
 
 ---
@@ -885,7 +885,7 @@ alo_quote_jitter_farben <- gesamtdaten %>%
        subtitle = "Eine Beobachtung repräsentiert einen Landkreis, Baden-Württemberg rot eingefärbt",
        x = "",
        y = "Arbeitslosenquote",
-       caption = "Quelle: Daten der Agentur für Arbeit aus dem Jahr 2022")
+       caption = "Quelle: Daten der Agentur für Arbeit aus dem Jahr 2023")
 
 alo_quote_jitter_farben
 ```
@@ -898,7 +898,7 @@ alo_quote_jitter_farben
 - Rote Datenpunkte Baden-Württemberg, fast alle unter dem Median in Westdeutschland
 - Median in Westdeutschland deutlich geringer als in Ostdeutschland
 - 75% Quantil in Westdeutschland deutlich unter dem Median in Ostdeutschland
-- Alle Landkreise unter 15% Arbeitslosenquote; Verglichen mit den europäischen Daten sehr gut
+- Die meisten Landkreise unter 15% Arbeitslosenquote; Verglichen mit den europäischen Daten sehr gut
 
 ---
 
@@ -1228,7 +1228,7 @@ ggplot(
   labs(x = NULL,
        y = NULL,
        title = "Wie verschuldet sind die deutschen Landkreise?",
-       subtitle = "Öffentliche Schulden im Vergleich zum BIP in 2022") +
+       subtitle = "Öffentliche Schulden im Vergleich zum BIP in 2023") +
   theme_void() -> plot_schulden_lk
 
 plot_schulden_lk
@@ -1268,7 +1268,7 @@ ggplot(
   labs(x = NULL,
        y = NULL,
        title = "Wie verschuldet sind die deutschen Landkreise?",
-       subtitle = "Öffentliche Schulden im Vergleich zum BIP in 2022") +
+       subtitle = "Öffentliche Schulden im Vergleich zum BIP in 2023") +
   theme_void() -> plot_schulden_lk
 
 plot_schulden_lk
@@ -1343,7 +1343,7 @@ plot_alo_lk <- ggplot(
   labs(x = NULL,
        y = NULL,
        title = "Arbeitslosigkeit in Deutschland",
-       subtitle = "Dargestellt ist die Arbeitslosenquote für alle Landkreise in 2022") +
+       subtitle = "Dargestellt ist die Arbeitslosenquote für alle Landkreise in 2023") +
   theme_void()
 
 
@@ -1375,8 +1375,8 @@ Karten sind eine schöne Art geografisch unterschiedliche Informationen darzuste
 
 - Gruppenbildung (4-5 Personen)
 - Datenauswahl & Analyse: Welche Information möchten Sie visualisieren? (Zeitreihe oder Querschnitt aus 2022?)
-- Visualisierung: Was ist die geeignete Grafik für ihre Fragestellung? Lassen Sie sich von [R Graph Gallery](https://r-graph-gallery.com/) oder der [Case-Study](https://projektkurs-data-science-ulm2425.netlify.app/case-study/case_study_germany_2) inspirieren und erstellen Sie die für Sie passende Grafik in R
-    - Nutzen Sie die [R Graph Gallery](https://r-graph-gallery.com/) und [bwGPT](gpt.scc.kit.edu/) für die Erstellung
+- Visualisierung: Was ist die geeignete Grafik für ihre Fragestellung? Lassen Sie sich von [R Graph Gallery](https://r-graph-gallery.com/) oder der [Case-Study](https://projektkurs-data-science-ulm2526.netlify.app/case-study/case_study_germany_2) inspirieren und erstellen Sie die für Sie passende Grafik in R
+    - Nutzen Sie die [R Graph Gallery](https://r-graph-gallery.com/) und [Chat AI](https://chat-ai.academiccloud.de/) für die Erstellung
 - Interpretation der Grafik: Diskutieren Sie die Grafik in der Gruppe
 - Upload: Code für Grafik + kurze Interpretation im Google Forms hochladen: https://forms.gle/R4qJEegZnFoTHU7f7
 - Feedback-Runde im Plenum: Anonymes Feedback von Kommiliton*innen und mir.
@@ -1396,28 +1396,28 @@ countdown(minutes = 30)
 
 ---
 
-## Hinweise zum Prompting von bwGPT
+## Hinweise zum Prompting von Chat AI
 
 .pull-left[
 **Wie sollte ein Prompt aufgebaut sein?**
 
-- **Aufgabe:** Was soll ChatGPT tun? 
+- **Aufgabe:** Was soll Chat AI tun? 
     - Möglichst genau und spezifisch sein
-- **Instruktionen:** Wie soll ChatGPT es tun?
-    - Soll ChatGPT eine besondere Persona sein?
+- **Instruktionen:** Wie soll Chat AI es tun?
+    - Soll Chat AI eine besondere Persona sein?
     - Beispiele für den gewünschten Output mitgeben
-    - ChatGPT fragen zur Lösung Schritt-für-Schritt zu kommen
-- **Kontext:** Was sollte ChatGPT zu seiner Aufgabe wissen?
+    - Chat AI fragen zur Lösung Schritt-für-Schritt zu kommen
+- **Kontext:** Was sollte Chat AI zu seiner Aufgabe wissen?
     - Wie passt die Aufgabe z.B. zur Vorlesung die Sie gerade besuchen?
 ]
 
 .pull-right[
-**Wenn Sie nicht weiter wissen, dann Fragen Sie ChatGPT welche Infos es noch benötigt**
+**Wenn Sie nicht weiter wissen, dann Fragen Sie Chat AI welche Infos es noch benötigt**
 
 - "Sag mir, welche Informationen du benötigst, um ...“
 - "Stelle mir 5 Fragen, die dir helfen werden, mir die bestmögliche Antwort zu geben."
   	
-**Wenn Sie glauben ChatGPT hat einen Fehler gemacht, dann sagen Sie ihm dies**
+**Wenn Sie glauben Chat AI hat einen Fehler gemacht, dann sagen Sie ihm dies**
 
 **Komplexe Aufgaben in kleine Unteraufgaben herunterbrechen**
 ]
@@ -1531,7 +1531,7 @@ gesamtdaten %>%
 
 Hier ist der positive Zusammenhang zwischen Verschuldung (x-Achse) und Arbeitslosenquote (y-Achse) deutlicher
 
-Korrelationskoeffizient zeigt mit $rho$ = 0.56 auch einen starken Zusammenhang
+Korrelationskoeffizient zeigt mit $rho$ = 0.54 auch einen starken Zusammenhang
 
 $rho$ | Beschreibung (nährungsweise)
 ---|---

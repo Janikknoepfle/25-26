@@ -3,7 +3,7 @@
   <head>
     <title>Case-Study zur Arbeitslosigkeit in Deutschland</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.28/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/countdown-0.4.0/countdown.css" rel="stylesheet" />
     <script src="libs/countdown-0.4.0/countdown.js"></script>
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
@@ -92,7 +92,7 @@ Anwenden auf
 ## Wichtig für die Datenbeschaffung
 
 
-- Zuverlässige und qualitativ hochwertige Datenquellen ausfinding machen 
+- Zuverlässige und qualitativ hochwertige Datenquellen ausfinding machen ([Hier ein Beispiel warum man BIP Daten von diktatorisch regierten Staaten nicht trauen kann](https://www.journals.uchicago.edu/doi/full/10.1086/720458))
 - Automatisierten Download programmieren
 - Einlesen, verarbeiten und zusammenführen verschiedener Datensätze in R
 
@@ -143,22 +143,21 @@ Woher beziehen wir unsere Informationen?
 
 ## Klonen Sie unsere Github Seite
 
-- Gehen Sie auf die [Github Seite des Projektkurses](https://github.com/projektkurs-datascience/24-25)
+- Gehen Sie auf die [Github Seite des Projektkurses](https://github.com/projektkurs-datascience/25-26)
 - Klicken Sie auf des grünen "Code" Button
-- Kopieren Sie sich die [angezeigte HTTPS](https://github.com/projektkurs-datascience/24-25.git)
+- Kopieren Sie sich die [angezeigte HTTPS](https://github.com/projektkurs-datascience/25-26.git)
 - Gehen Sie in Github Desktop und fügen dort die kopierte HTTPS in "Clone a repository" -&gt; "URL"
 
 [Hier eine Step-by-Step Anleitung](https://docs.github.com/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-a-repository-from-github-to-github-desktop?platform=windows)
 
 .alert[Wenn Sie zu Beginn der Woche in Github Desktop auf "Pull" klicken werden alle Vorlesungsinhalte automatisch aktualisiert, d.h. alle Vorlesungsfolien, die Case-Study, Tutorials etc.!]
 
-<div class="countdown" id="timer_b4e973cc" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_8fdef510" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
 ---
-
 
 ## Nötige Pakete laden
 
@@ -172,10 +171,10 @@ library(tidyverse)
 ```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-## ✔ purrr     1.0.2     
+## ✔ forcats   1.0.0     ✔ stringr   1.5.2
+## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.1.0     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
@@ -185,7 +184,6 @@ library(tidyverse)
 --
 
 .question[Was bedeuten die "Messages" nach dem Laden von library(tidyverse)?]
-
 
 ---
 
@@ -197,9 +195,9 @@ Unterschiedliche Dateien und unterschiedliche Tabellenblätter, was sollten wir 
 ``` r
 # Öffnen des ZIP-Archivs
 # Es sind zwei Tabellen in dem ZIP Archiv, wir interessieren uns für die Anzahl der Arbeitslosen und wählen diese mit dem kleinen [1] aus
-alo_name &lt;- as.character(unzip("../case-study/data/Arbeitslose_2022.xlsx.zip", list = TRUE)$Name)
+alo_name &lt;- as.character(unzip("../case-study/data/Arbeitslose_2023.xlsx.zip", list = TRUE)$Name)
 alo_name &lt;- alo_name[1]
-unzip("../case-study/data/Arbeitslose_2022.xlsx.zip", alo_name)
+unzip("../case-study/data/Arbeitslose_2023.xlsx.zip", alo_name)
 ```
 --
 
@@ -307,7 +305,7 @@ head(alo_inhalt, 15)
 ## Spezifizieren welche Spalten eingelesen werden sollen
 
 Welche Information benötigen wir aus der Tabelle
-  - Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2022**
+  - Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2023**
   - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis (z.B. nur SGB II)
   - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis und ein bestimmtes Alter (z.B. SGB II alle unter 25 Jahre)
 
@@ -316,7 +314,7 @@ Welche Information benötigen wir aus der Tabelle
 ## Spezifizieren welche Spalten eingelesen werden sollen
 
 Welche Information benötigen wir aus der Tabelle
-  - .alert[Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2022**]
+  - .alert[Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2023**]
   - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis (z.B. nur SGB II)
   - Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis und ein bestimmtes Alter (z.B. SGB II alle unter 25 Jahre)
 
@@ -326,13 +324,13 @@ Welche Information benötigen wir aus der Tabelle
 
 ---
 
-&lt;img src="./figs/Alo_Ueberblick.png" width="150%" /&gt;
+&lt;img src="./figs/Alo_Ueberblick2023.png" width="150%" /&gt;
 
 ---
 
 ## Spezifizieren welche Spalten eingelesen werden sollen
 
-Neben der Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2022** benötigen wir noch die "Gemeinde-ID" und den Gemeindenamen.
+Neben der Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2023** benötigen wir noch die "Gemeinde-ID" und den Gemeindenamen.
 
 Wie können wir die von uns benötigte Information möglichst einfach extrahieren?
 --
@@ -374,20 +372,20 @@ alo_skip &lt;- read_xlsx(alo_name, sheet = "Gesamt", skip = 8)
 .panel2-einlesen_alo-auto[
 
 ```
-## # A tibble: 11,230 × 27
+## # A tibble: 11,219 × 27
 ##    ...1       Jahresdurchschnitte ...3  Rechtskreis Insgesam…¹ ...5  ...6  ...7 
 ##    &lt;chr&gt;      &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;                  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-##  1 &lt;NA&gt;       Jahresdurch-schnitt Jahr… 44197                  44228 44256 44287
-##  2 Region     2021                2022  1                      2     3     4    
-##  3 Deutschla… 2613489             2418… 2900663                2904… 2827… 2771…
-##  4 01 Schles… 88864.75            8156… 98931                  99931 97683 95571
-##  5 01001 Fle… 4369.166666666667   3970… 4852                   4790  4709  4740 
-##  6 01001000 … 4369.166666666667   3970… 4852                   4790  4709  4740 
-##  7 01002 Kie… 11096.833333333334  1031… 12070                  12051 11966 12072
-##  8 01002000 … 11096.833333333334  1031… 12070                  12051 11966 12072
-##  9 01003 Lüb… 9346.9166666666661  8776… 10073                  10113 10275 10237
-## 10 01003000 … 9346.9166666666661  8776… 10073                  10113 10275 10237
-## # ℹ 11,220 more rows
+##  1 &lt;NA&gt;       Jahresdurch-schnitt Jahr… 44562                  44593 44621 44652
+##  2 Region     2022                2023  1                      2     3     4    
+##  3 Deutschla… 2418132.75          2608… 2462162                2427… 2362… 2309…
+##  4 01 Schles… 81564.083333333328  8775… 83746                  83077 80512 78034
+##  5 01001 Fle… 3970.3333333333335  4131… 3972                   3944  3901  3882 
+##  6 01001000 … 3970.3333333333335  4131… 3972                   3944  3901  3882 
+##  7 01002 Kie… 10315.166666666666  10581 10154                  10049 9924  9906 
+##  8 01002000 … 10315.166666666666  10581 10154                  10049 9924  9906 
+##  9 01003 Lüb… 8776.4166666666661  9215… 8783                   8642  8509  8467 
+## 10 01003000 … 8776.4166666666661  9215… 8783                   8642  8509  8467 
+## # ℹ 11,209 more rows
 ## # ℹ abbreviated name:
 ## #   ¹​`Rechtskreis Insgesamt - Bestand an Arbeitslosen - Gesamt...4`
 ## # ℹ 20 more variables: ...8 &lt;chr&gt;, ...9 &lt;chr&gt;, ...10 &lt;chr&gt;, ...11 &lt;chr&gt;,
@@ -414,20 +412,20 @@ alo_skip %&gt;%
 .panel2-einlesen_alo-auto[
 
 ```
-## # A tibble: 11,230 × 3
+## # A tibble: 11,219 × 3
 ##    ...1                            Jahresdurchschnitte ...3               
 ##    &lt;chr&gt;                           &lt;chr&gt;               &lt;chr&gt;              
 ##  1 &lt;NA&gt;                            Jahresdurch-schnitt Jahresdurch-schnitt
-##  2 Region                          2021                2022               
-##  3 Deutschland                     2613489             2418132.75         
-##  4 01 Schleswig-Holstein           88864.75            81564.083333333328 
-##  5 01001 Flensburg, Stadt          4369.166666666667   3970.3333333333335 
-##  6 01001000 Flensburg, Stadt       4369.166666666667   3970.3333333333335 
-##  7 01002 Kiel, Landeshauptstadt    11096.833333333334  10315.166666666666 
-##  8 01002000 Kiel, Landeshauptstadt 11096.833333333334  10315.166666666666 
-##  9 01003 Lübeck, Hansestadt        9346.9166666666661  8776.4166666666661 
-## 10 01003000 Lübeck, Hansestadt     9346.9166666666661  8776.4166666666661 
-## # ℹ 11,220 more rows
+##  2 Region                          2022                2023               
+##  3 Deutschland                     2418132.75          2608671.5          
+##  4 01 Schleswig-Holstein           81564.083333333328  87757.333333333328 
+##  5 01001 Flensburg, Stadt          3970.3333333333335  4131.333333333333  
+##  6 01001000 Flensburg, Stadt       3970.3333333333335  4131.333333333333  
+##  7 01002 Kiel, Landeshauptstadt    10315.166666666666  10581              
+##  8 01002000 Kiel, Landeshauptstadt 10315.166666666666  10581              
+##  9 01003 Lübeck, Hansestadt        8776.4166666666661  9215.5             
+## 10 01003000 Lübeck, Hansestadt     8776.4166666666661  9215.5             
+## # ℹ 11,209 more rows
 ```
 ]
 
@@ -450,20 +448,20 @@ alo_skip %&gt;%
 .panel2-einlesen_alo-auto[
 
 ```
-## # A tibble: 11,230 × 5
+## # A tibble: 11,219 × 5
 ##    ...1                    Jahresdurchschnitte ...3  Regionalschluessel Gemeinde
 ##    &lt;chr&gt;                   &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;   
 ##  1 &lt;NA&gt;                    Jahresdurch-schnitt Jahr… &lt;NA&gt;               &lt;NA&gt;    
-##  2 Region                  2021                2022  &lt;NA&gt;               Region  
-##  3 Deutschland             2613489             2418… &lt;NA&gt;               Deutsch…
-##  4 01 Schleswig-Holstein   88864.75            8156… 01                 Schlesw…
-##  5 01001 Flensburg, Stadt  4369.166666666667   3970… 01001              Flensbu…
-##  6 01001000 Flensburg, St… 4369.166666666667   3970… 01001000           Flensbu…
-##  7 01002 Kiel, Landeshaup… 11096.833333333334  1031… 01002              Kiel, L…
-##  8 01002000 Kiel, Landesh… 11096.833333333334  1031… 01002000           Kiel, L…
-##  9 01003 Lübeck, Hansesta… 9346.9166666666661  8776… 01003              Lübeck,…
-## 10 01003000 Lübeck, Hanse… 9346.9166666666661  8776… 01003000           Lübeck,…
-## # ℹ 11,220 more rows
+##  2 Region                  2022                2023  &lt;NA&gt;               Region  
+##  3 Deutschland             2418132.75          2608… &lt;NA&gt;               Deutsch…
+##  4 01 Schleswig-Holstein   81564.083333333328  8775… 01                 Schlesw…
+##  5 01001 Flensburg, Stadt  3970.3333333333335  4131… 01001              Flensbu…
+##  6 01001000 Flensburg, St… 3970.3333333333335  4131… 01001000           Flensbu…
+##  7 01002 Kiel, Landeshaup… 10315.166666666666  10581 01002              Kiel, L…
+##  8 01002000 Kiel, Landesh… 10315.166666666666  10581 01002000           Kiel, L…
+##  9 01003 Lübeck, Hansesta… 8776.4166666666661  9215… 01003              Lübeck,…
+## 10 01003000 Lübeck, Hanse… 8776.4166666666661  9215… 01003000           Lübeck,…
+## # ℹ 11,209 more rows
 ```
 ]
 
@@ -487,20 +485,20 @@ alo_skip %&gt;%
 .panel2-einlesen_alo-auto[
 
 ```
-## # A tibble: 11,230 × 6
+## # A tibble: 11,219 × 6
 ##    ...1            Jahresdurchschnitte ...3  Regionalschluessel Gemeinde     alo
 ##    &lt;chr&gt;           &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;      &lt;dbl&gt;
 ##  1 &lt;NA&gt;            Jahresdurch-schnitt Jahr… &lt;NA&gt;               &lt;NA&gt;     NA     
-##  2 Region          2021                2022  &lt;NA&gt;               Region    2.02e3
-##  3 Deutschland     2613489             2418… &lt;NA&gt;               Deutsch…  2.42e6
-##  4 01 Schleswig-H… 88864.75            8156… 01                 Schlesw…  8.16e4
-##  5 01001 Flensbur… 4369.166666666667   3970… 01001              Flensbu…  3.97e3
-##  6 01001000 Flens… 4369.166666666667   3970… 01001000           Flensbu…  3.97e3
-##  7 01002 Kiel, La… 11096.833333333334  1031… 01002              Kiel, L…  1.03e4
-##  8 01002000 Kiel,… 11096.833333333334  1031… 01002000           Kiel, L…  1.03e4
-##  9 01003 Lübeck, … 9346.9166666666661  8776… 01003              Lübeck,…  8.78e3
-## 10 01003000 Lübec… 9346.9166666666661  8776… 01003000           Lübeck,…  8.78e3
-## # ℹ 11,220 more rows
+##  2 Region          2022                2023  &lt;NA&gt;               Region    2.02e3
+##  3 Deutschland     2418132.75          2608… &lt;NA&gt;               Deutsch…  2.61e6
+##  4 01 Schleswig-H… 81564.083333333328  8775… 01                 Schlesw…  8.78e4
+##  5 01001 Flensbur… 3970.3333333333335  4131… 01001              Flensbu…  4.13e3
+##  6 01001000 Flens… 3970.3333333333335  4131… 01001000           Flensbu…  4.13e3
+##  7 01002 Kiel, La… 10315.166666666666  10581 01002              Kiel, L…  1.06e4
+##  8 01002000 Kiel,… 10315.166666666666  10581 01002000           Kiel, L…  1.06e4
+##  9 01003 Lübeck, … 8776.4166666666661  9215… 01003              Lübeck,…  9.22e3
+## 10 01003000 Lübec… 8776.4166666666661  9215… 01003000           Lübeck,…  9.22e3
+## # ℹ 11,209 more rows
 ```
 ]
 
@@ -525,20 +523,20 @@ alo_skip %&gt;%
 .panel2-einlesen_alo-auto[
 
 ```
-## # A tibble: 11,230 × 3
+## # A tibble: 11,219 × 3
 ##    Regionalschluessel Gemeinde                    alo
 ##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt;
 ##  1 &lt;NA&gt;               &lt;NA&gt;                        NA 
-##  2 &lt;NA&gt;               Region                    2022 
-##  3 &lt;NA&gt;               Deutschland            2418133.
-##  4 01                 Schleswig-Holstein       81564.
-##  5 01001              Flensburg, Stadt          3970.
-##  6 01001000           Flensburg, Stadt          3970.
-##  7 01002              Kiel, Landeshauptstadt   10315.
-##  8 01002000           Kiel, Landeshauptstadt   10315.
-##  9 01003              Lübeck, Hansestadt        8776.
-## 10 01003000           Lübeck, Hansestadt        8776.
-## # ℹ 11,220 more rows
+##  2 &lt;NA&gt;               Region                    2023 
+##  3 &lt;NA&gt;               Deutschland            2608672.
+##  4 01                 Schleswig-Holstein       87757.
+##  5 01001              Flensburg, Stadt          4131.
+##  6 01001000           Flensburg, Stadt          4131.
+##  7 01002              Kiel, Landeshauptstadt   10581 
+##  8 01002000           Kiel, Landeshauptstadt   10581 
+##  9 01003              Lübeck, Hansestadt        9216.
+## 10 01003000           Lübeck, Hansestadt        9216.
+## # ℹ 11,209 more rows
 ```
 ]
 
@@ -564,20 +562,20 @@ alo_skip %&gt;%
 .panel2-einlesen_alo-auto[
 
 ```
-## # A tibble: 11,186 × 3
+## # A tibble: 11,177 × 3
 ##    Regionalschluessel Gemeinde                    alo
 ##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt;
-##  1 &lt;NA&gt;               Region                    2022 
-##  2 &lt;NA&gt;               Deutschland            2418133.
-##  3 01                 Schleswig-Holstein       81564.
-##  4 01001              Flensburg, Stadt          3970.
-##  5 01001000           Flensburg, Stadt          3970.
-##  6 01002              Kiel, Landeshauptstadt   10315.
-##  7 01002000           Kiel, Landeshauptstadt   10315.
-##  8 01003              Lübeck, Hansestadt        8776.
-##  9 01003000           Lübeck, Hansestadt        8776.
-## 10 01004              Neumünster, Stadt         3359.
-## # ℹ 11,176 more rows
+##  1 &lt;NA&gt;               Region                    2023 
+##  2 &lt;NA&gt;               Deutschland            2608672.
+##  3 01                 Schleswig-Holstein       87757.
+##  4 01001              Flensburg, Stadt          4131.
+##  5 01001000           Flensburg, Stadt          4131.
+##  6 01002              Kiel, Landeshauptstadt   10581 
+##  7 01002000           Kiel, Landeshauptstadt   10581 
+##  8 01003              Lübeck, Hansestadt        9216.
+##  9 01003000           Lübeck, Hansestadt        9216.
+## 10 01004              Neumünster, Stadt         3604.
+## # ℹ 11,167 more rows
 ```
 ]
 
@@ -603,20 +601,20 @@ alo_skip %&gt;%
 .panel2-einlesen_alo-auto[
 
 ```
-## # A tibble: 11,186 × 3
+## # A tibble: 11,177 × 3
 ##    Regionalschluessel Gemeinde                    alo
 ##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt;
-##  1 &lt;NA&gt;               Region                    2022 
-##  2 &lt;NA&gt;               Deutschland            2418133.
-##  3 01                 Schleswig-Holstein       81564.
-##  4 01001              Flensburg, Stadt          3970.
-##  5 01001000           Flensburg, Stadt          3970.
-##  6 01002              Kiel, Landeshauptstadt   10315.
-##  7 01002000           Kiel, Landeshauptstadt   10315.
-##  8 01003              Lübeck, Hansestadt        8776.
-##  9 01003000           Lübeck, Hansestadt        8776.
-## 10 01004              Neumünster, Stadt         3359.
-## # ℹ 11,176 more rows
+##  1 &lt;NA&gt;               Region                    2023 
+##  2 &lt;NA&gt;               Deutschland            2608672.
+##  3 01                 Schleswig-Holstein       87757.
+##  4 01001              Flensburg, Stadt          4131.
+##  5 01001000           Flensburg, Stadt          4131.
+##  6 01002              Kiel, Landeshauptstadt   10581 
+##  7 01002000           Kiel, Landeshauptstadt   10581 
+##  8 01003              Lübeck, Hansestadt        9216.
+##  9 01003000           Lübeck, Hansestadt        9216.
+## 10 01004              Neumünster, Stadt         3604.
+## # ℹ 11,167 more rows
 ```
 ]
 
@@ -677,10 +675,10 @@ data_alo &lt;- data_alo[-c(1,2),]
 - Informationen aggregieren und mit anderen Quellen vergleichen
 --
 
-- Zunächst: Anzahl an Arbeitslosen für jedes **Bundesland** in 2022. 
+- Zunächst: Anzahl an Arbeitslosen für jedes **Bundesland** in 2023. 
   - zweistelligen `Regionalschluessel`
   - "Buchstaben" für jeden `Regionalschluessel` zählen (`nchar()` (number of characters))
-- **Alternative Datenquelle:** [Die Anzahl der Arbeitslosen für das Jahr 2022 unterteilt nach Ländern der Arbeitsagentur](https://statistik.arbeitsagentur.de/Statistikdaten/Detail/202212/iiia4/akt-dat-jz/akt-dat-jz-d-0-202212-xlsx.xlsx)
+- **Alternative Datenquelle:** [Die Anzahl der Arbeitslosen für das Jahr 2023 unterteilt nach Ländern der Arbeitsagentur](https://statistik.arbeitsagentur.de/Statistikdaten/Detail/202312/iiia4/akt-dat-jz/akt-dat-jz-d-0-202312-xlsx.xlsx)
   - Wichtig: Tabellenblatt 8
 
 ---
@@ -698,20 +696,20 @@ count: false
 .panel2-konsistenz_alo-auto[
 
 ```
-## # A tibble: 11,184 × 3
+## # A tibble: 11,175 × 3
 ##    Regionalschluessel Gemeinde                  alo
 ##    &lt;chr&gt;              &lt;chr&gt;                   &lt;dbl&gt;
-##  1 01                 Schleswig-Holstein     81564.
-##  2 01001              Flensburg, Stadt        3970.
-##  3 01001000           Flensburg, Stadt        3970.
-##  4 01002              Kiel, Landeshauptstadt 10315.
-##  5 01002000           Kiel, Landeshauptstadt 10315.
-##  6 01003              Lübeck, Hansestadt      8776.
-##  7 01003000           Lübeck, Hansestadt      8776.
-##  8 01004              Neumünster, Stadt       3359.
-##  9 01004000           Neumünster, Stadt       3359.
-## 10 01051              Dithmarschen            3858.
-## # ℹ 11,174 more rows
+##  1 01                 Schleswig-Holstein     87757.
+##  2 01001              Flensburg, Stadt        4131.
+##  3 01001000           Flensburg, Stadt        4131.
+##  4 01002              Kiel, Landeshauptstadt 10581 
+##  5 01002000           Kiel, Landeshauptstadt 10581 
+##  6 01003              Lübeck, Hansestadt      9216.
+##  7 01003000           Lübeck, Hansestadt      9216.
+##  8 01004              Neumünster, Stadt       3604.
+##  9 01004000           Neumünster, Stadt       3604.
+## 10 01051              Dithmarschen            4126.
+## # ℹ 11,165 more rows
 ```
 ]
 
@@ -733,22 +731,22 @@ data_alo %&gt;%
 ## # A tibble: 16 × 3
 ##    Regionalschluessel Gemeinde                   alo
 ##    &lt;chr&gt;              &lt;chr&gt;                    &lt;dbl&gt;
-##  1 01                 Schleswig-Holstein      81564.
-##  2 02                 Hamburg                 73800.
-##  3 03                 Niedersachsen          230553.
-##  4 04                 Bremen                  37214.
-##  5 05                 Nordrhein-Westfalen    668502.
-##  6 06                 Hessen                 164492.
-##  7 07                 Rheinland-Pfalz        102515.
-##  8 08                 Baden-Württemberg      223119.
-##  9 09                 Bayern                 235850.
-## 10 10                 Saarland                33017.
-## 11 11                 Berlin                 179327.
-## 12 12                 Brandenburg             74242 
-## 13 13                 Mecklenburg-Vorpommern  59571.
-## 14 14                 Sachsen                118216.
-## 15 15                 Sachsen-Anhalt          77978.
-## 16 16                 Thüringen               58172.
+##  1 01                 Schleswig-Holstein      87757.
+##  2 02                 Hamburg                 80806.
+##  3 03                 Niedersachsen          251873.
+##  4 04                 Bremen                  39050.
+##  5 05                 Nordrhein-Westfalen    710175.
+##  6 06                 Hessen                 181344 
+##  7 07                 Rheinland-Pfalz        110716 
+##  8 08                 Baden-Württemberg      245466.
+##  9 09                 Bayern                 257096.
+## 10 10                 Saarland                35598.
+## 11 11                 Berlin                 187930.
+## 12 12                 Brandenburg             78996.
+## 13 13                 Mecklenburg-Vorpommern  63191.
+## 14 14                 Sachsen                131069.
+## 15 15                 Sachsen-Anhalt          82627 
+## 16 16                 Thüringen               64978.
 ```
 ]
 
@@ -771,22 +769,22 @@ data_alo %&gt;%
 ## # A tibble: 16 × 3
 ##    bundesland Gemeinde                   alo
 ##    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;
-##  1 01         Schleswig-Holstein      81564.
-##  2 02         Hamburg                 73800.
-##  3 03         Niedersachsen          230553.
-##  4 04         Bremen                  37214.
-##  5 05         Nordrhein-Westfalen    668502.
-##  6 06         Hessen                 164492.
-##  7 07         Rheinland-Pfalz        102515.
-##  8 08         Baden-Württemberg      223119.
-##  9 09         Bayern                 235850.
-## 10 10         Saarland                33017.
-## 11 11         Berlin                 179327.
-## 12 12         Brandenburg             74242 
-## 13 13         Mecklenburg-Vorpommern  59571.
-## 14 14         Sachsen                118216.
-## 15 15         Sachsen-Anhalt          77978.
-## 16 16         Thüringen               58172.
+##  1 01         Schleswig-Holstein      87757.
+##  2 02         Hamburg                 80806.
+##  3 03         Niedersachsen          251873.
+##  4 04         Bremen                  39050.
+##  5 05         Nordrhein-Westfalen    710175.
+##  6 06         Hessen                 181344 
+##  7 07         Rheinland-Pfalz        110716 
+##  8 08         Baden-Württemberg      245466.
+##  9 09         Bayern                 257096.
+## 10 10         Saarland                35598.
+## 11 11         Berlin                 187930.
+## 12 12         Brandenburg             78996.
+## 13 13         Mecklenburg-Vorpommern  63191.
+## 14 14         Sachsen                131069.
+## 15 15         Sachsen-Anhalt          82627 
+## 16 16         Thüringen               64978.
 ```
 ]
 
@@ -844,28 +842,28 @@ check_alo_bundesland
 ## # A tibble: 16 × 3
 ##    bundesland Gemeinde                   alo
 ##    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;
-##  1 01         Schleswig-Holstein      81564.
-##  2 02         Hamburg                 73800.
-##  3 03         Niedersachsen          230553.
-##  4 04         Bremen                  37214.
-##  5 05         Nordrhein-Westfalen    668502.
-##  6 06         Hessen                 164492.
-##  7 07         Rheinland-Pfalz        102515.
-##  8 08         Baden-Württemberg      223119.
-##  9 09         Bayern                 235850.
-## 10 10         Saarland                33017.
-## 11 11         Berlin                 179327.
-## 12 12         Brandenburg             74242 
-## 13 13         Mecklenburg-Vorpommern  59571.
-## 14 14         Sachsen                118216.
-## 15 15         Sachsen-Anhalt          77978.
-## 16 16         Thüringen               58172.
+##  1 01         Schleswig-Holstein      87757.
+##  2 02         Hamburg                 80806.
+##  3 03         Niedersachsen          251873.
+##  4 04         Bremen                  39050.
+##  5 05         Nordrhein-Westfalen    710175.
+##  6 06         Hessen                 181344 
+##  7 07         Rheinland-Pfalz        110716 
+##  8 08         Baden-Württemberg      245466.
+##  9 09         Bayern                 257096.
+## 10 10         Saarland                35598.
+## 11 11         Berlin                 187930.
+## 12 12         Brandenburg             78996.
+## 13 13         Mecklenburg-Vorpommern  63191.
+## 14 14         Sachsen                131069.
+## 15 15         Sachsen-Anhalt          82627 
+## 16 16         Thüringen               64978.
 ```
 
 ]
 
 .pull-right[
-&lt;img src="./figs/Alo_Laender.png" width="65%" /&gt;
+&lt;img src="./figs/Alo_Laender2023.png" width="65%" /&gt;
 
 ]
 
@@ -912,20 +910,20 @@ count: false
 .panel2-interne_konsistenz1-auto[
 
 ```
-## # A tibble: 11,184 × 3
+## # A tibble: 11,175 × 3
 ##    Regionalschluessel Gemeinde                  alo
 ##    &lt;chr&gt;              &lt;chr&gt;                   &lt;dbl&gt;
-##  1 01                 Schleswig-Holstein     81564.
-##  2 01001              Flensburg, Stadt        3970.
-##  3 01001000           Flensburg, Stadt        3970.
-##  4 01002              Kiel, Landeshauptstadt 10315.
-##  5 01002000           Kiel, Landeshauptstadt 10315.
-##  6 01003              Lübeck, Hansestadt      8776.
-##  7 01003000           Lübeck, Hansestadt      8776.
-##  8 01004              Neumünster, Stadt       3359.
-##  9 01004000           Neumünster, Stadt       3359.
-## 10 01051              Dithmarschen            3858.
-## # ℹ 11,174 more rows
+##  1 01                 Schleswig-Holstein     87757.
+##  2 01001              Flensburg, Stadt        4131.
+##  3 01001000           Flensburg, Stadt        4131.
+##  4 01002              Kiel, Landeshauptstadt 10581 
+##  5 01002000           Kiel, Landeshauptstadt 10581 
+##  6 01003              Lübeck, Hansestadt      9216.
+##  7 01003000           Lübeck, Hansestadt      9216.
+##  8 01004              Neumünster, Stadt       3604.
+##  9 01004000           Neumünster, Stadt       3604.
+## 10 01051              Dithmarschen            4126.
+## # ℹ 11,165 more rows
 ```
 ]
 
@@ -944,20 +942,20 @@ data_alo %&gt;%
 .panel2-interne_konsistenz1-auto[
 
 ```
-## # A tibble: 10,745 × 3
+## # A tibble: 10,736 × 3
 ##    Regionalschluessel Gemeinde                    alo
 ##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt;
-##  1 01001000           Flensburg, Stadt        3970.  
-##  2 01002000           Kiel, Landeshauptstadt 10315.  
-##  3 01003000           Lübeck, Hansestadt      8776.  
-##  4 01004000           Neumünster, Stadt       3359.  
-##  5 01051001           Albersdorf                95.1 
-##  6 01051002           Arkebek                    3.92
-##  7 01051003           Averlak                   10   
-##  8 01051004           Bargenstedt                7.42
-##  9 01051005           Barkenholm                 3   
-## 10 01051006           Barlt                     14.7 
-## # ℹ 10,735 more rows
+##  1 01001000           Flensburg, Stadt        4131.  
+##  2 01002000           Kiel, Landeshauptstadt 10581   
+##  3 01003000           Lübeck, Hansestadt      9216.  
+##  4 01004000           Neumünster, Stadt       3604.  
+##  5 01051001           Albersdorf               123.  
+##  6 01051002           Arkebek                    6.08
+##  7 01051003           Averlak                    9.75
+##  8 01051004           Bargenstedt               14   
+##  9 01051005           Barkenholm                 5.17
+## 10 01051006           Barlt                     16.6 
+## # ℹ 10,726 more rows
 ```
 ]
 
@@ -977,20 +975,20 @@ data_alo %&gt;%
 .panel2-interne_konsistenz1-auto[
 
 ```
-## # A tibble: 10,745 × 4
+## # A tibble: 10,736 × 4
 ##    Regionalschluessel Gemeinde                    alo landkreis
 ##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;    
-##  1 01001000           Flensburg, Stadt        3970.   01001    
-##  2 01002000           Kiel, Landeshauptstadt 10315.   01002    
-##  3 01003000           Lübeck, Hansestadt      8776.   01003    
-##  4 01004000           Neumünster, Stadt       3359.   01004    
-##  5 01051001           Albersdorf                95.1  01051    
-##  6 01051002           Arkebek                    3.92 01051    
-##  7 01051003           Averlak                   10    01051    
-##  8 01051004           Bargenstedt                7.42 01051    
-##  9 01051005           Barkenholm                 3    01051    
-## 10 01051006           Barlt                     14.7  01051    
-## # ℹ 10,735 more rows
+##  1 01001000           Flensburg, Stadt        4131.   01001    
+##  2 01002000           Kiel, Landeshauptstadt 10581    01002    
+##  3 01003000           Lübeck, Hansestadt      9216.   01003    
+##  4 01004000           Neumünster, Stadt       3604.   01004    
+##  5 01051001           Albersdorf               123.   01051    
+##  6 01051002           Arkebek                    6.08 01051    
+##  7 01051003           Averlak                    9.75 01051    
+##  8 01051004           Bargenstedt               14    01051    
+##  9 01051005           Barkenholm                 5.17 01051    
+## 10 01051006           Barlt                     16.6  01051    
+## # ℹ 10,726 more rows
 ```
 ]
 
@@ -1011,20 +1009,20 @@ data_alo %&gt;%
 .panel2-interne_konsistenz1-auto[
 
 ```
-## # A tibble: 10,745 × 5
+## # A tibble: 10,736 × 5
 ##    Regionalschluessel Gemeinde                    alo landkreis bundesland
 ##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
-##  1 01001000           Flensburg, Stadt        3970.   01001     01        
-##  2 01002000           Kiel, Landeshauptstadt 10315.   01002     01        
-##  3 01003000           Lübeck, Hansestadt      8776.   01003     01        
-##  4 01004000           Neumünster, Stadt       3359.   01004     01        
-##  5 01051001           Albersdorf                95.1  01051     01        
-##  6 01051002           Arkebek                    3.92 01051     01        
-##  7 01051003           Averlak                   10    01051     01        
-##  8 01051004           Bargenstedt                7.42 01051     01        
-##  9 01051005           Barkenholm                 3    01051     01        
-## 10 01051006           Barlt                     14.7  01051     01        
-## # ℹ 10,735 more rows
+##  1 01001000           Flensburg, Stadt        4131.   01001     01        
+##  2 01002000           Kiel, Landeshauptstadt 10581    01002     01        
+##  3 01003000           Lübeck, Hansestadt      9216.   01003     01        
+##  4 01004000           Neumünster, Stadt       3604.   01004     01        
+##  5 01051001           Albersdorf               123.   01051     01        
+##  6 01051002           Arkebek                    6.08 01051     01        
+##  7 01051003           Averlak                    9.75 01051     01        
+##  8 01051004           Bargenstedt               14    01051     01        
+##  9 01051005           Barkenholm                 5.17 01051     01        
+## 10 01051006           Barlt                     16.6  01051     01        
+## # ℹ 10,726 more rows
 ```
 ]
 
@@ -1093,20 +1091,20 @@ count: false
 .panel2-interne_konsistenz2-auto[
 
 ```
-## # A tibble: 10,745 × 5
+## # A tibble: 10,736 × 5
 ##    Regionalschluessel Gemeinde                    alo landkreis bundesland
 ##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
-##  1 01001000           Flensburg, Stadt        3970.   01001     01        
-##  2 01002000           Kiel, Landeshauptstadt 10315.   01002     01        
-##  3 01003000           Lübeck, Hansestadt      8776.   01003     01        
-##  4 01004000           Neumünster, Stadt       3359.   01004     01        
-##  5 01051001           Albersdorf                95.1  01051     01        
-##  6 01051002           Arkebek                    3.92 01051     01        
-##  7 01051003           Averlak                   10    01051     01        
-##  8 01051004           Bargenstedt                7.42 01051     01        
-##  9 01051005           Barkenholm                 3    01051     01        
-## 10 01051006           Barlt                     14.7  01051     01        
-## # ℹ 10,735 more rows
+##  1 01001000           Flensburg, Stadt        4131.   01001     01        
+##  2 01002000           Kiel, Landeshauptstadt 10581    01002     01        
+##  3 01003000           Lübeck, Hansestadt      9216.   01003     01        
+##  4 01004000           Neumünster, Stadt       3604.   01004     01        
+##  5 01051001           Albersdorf               123.   01051     01        
+##  6 01051002           Arkebek                    6.08 01051     01        
+##  7 01051003           Averlak                    9.75 01051     01        
+##  8 01051004           Bargenstedt               14    01051     01        
+##  9 01051005           Barkenholm                 5.17 01051     01        
+## 10 01051006           Barlt                     16.6  01051     01        
+## # ℹ 10,726 more rows
 ```
 ]
 
@@ -1125,21 +1123,21 @@ alo_meta %&gt;%
 .panel2-interne_konsistenz2-auto[
 
 ```
-## # A tibble: 10,745 × 5
+## # A tibble: 10,736 × 5
 ## # Groups:   bundesland [16]
 ##    Regionalschluessel Gemeinde                    alo landkreis bundesland
 ##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
-##  1 01001000           Flensburg, Stadt        3970.   01001     01        
-##  2 01002000           Kiel, Landeshauptstadt 10315.   01002     01        
-##  3 01003000           Lübeck, Hansestadt      8776.   01003     01        
-##  4 01004000           Neumünster, Stadt       3359.   01004     01        
-##  5 01051001           Albersdorf                95.1  01051     01        
-##  6 01051002           Arkebek                    3.92 01051     01        
-##  7 01051003           Averlak                   10    01051     01        
-##  8 01051004           Bargenstedt                7.42 01051     01        
-##  9 01051005           Barkenholm                 3    01051     01        
-## 10 01051006           Barlt                     14.7  01051     01        
-## # ℹ 10,735 more rows
+##  1 01001000           Flensburg, Stadt        4131.   01001     01        
+##  2 01002000           Kiel, Landeshauptstadt 10581    01002     01        
+##  3 01003000           Lübeck, Hansestadt      9216.   01003     01        
+##  4 01004000           Neumünster, Stadt       3604.   01004     01        
+##  5 01051001           Albersdorf               123.   01051     01        
+##  6 01051002           Arkebek                    6.08 01051     01        
+##  7 01051003           Averlak                    9.75 01051     01        
+##  8 01051004           Bargenstedt               14    01051     01        
+##  9 01051005           Barkenholm                 5.17 01051     01        
+## 10 01051006           Barlt                     16.6  01051     01        
+## # ℹ 10,726 more rows
 ```
 ]
 
@@ -1162,22 +1160,22 @@ alo_meta %&gt;%
 ## # A tibble: 16 × 2
 ##    bundesland total_alo
 ##    &lt;chr&gt;          &lt;dbl&gt;
-##  1 01            81564.
-##  2 02            73800.
-##  3 03           230553.
-##  4 04            37214.
-##  5 05           668502.
-##  6 06           164492.
-##  7 07           102515.
-##  8 08           223119.
-##  9 09           235850.
-## 10 10            33017.
-## 11 11           179327.
-## 12 12            74242 
-## 13 13            59571.
-## 14 14           118216.
-## 15 15            77978.
-## 16 16            58172.
+##  1 01            87757.
+##  2 02            80806.
+##  3 03           251873.
+##  4 04            39050.
+##  5 05           710175.
+##  6 06           181344 
+##  7 07           110716 
+##  8 08           245466.
+##  9 09           257096.
+## 10 10            35598.
+## 11 11           187930.
+## 12 12            78996.
+## 13 13            63191.
+## 14 14           131069.
+## 15 15            82627 
+## 16 16            64978.
 ```
 ]
 
@@ -1245,20 +1243,20 @@ count: false
 .panel2-interne_konsistenz3-auto[
 
 ```
-## # A tibble: 10,745 × 5
+## # A tibble: 10,736 × 5
 ##    Regionalschluessel Gemeinde                    alo landkreis bundesland
 ##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
-##  1 01001000           Flensburg, Stadt        3970.   01001     01        
-##  2 01002000           Kiel, Landeshauptstadt 10315.   01002     01        
-##  3 01003000           Lübeck, Hansestadt      8776.   01003     01        
-##  4 01004000           Neumünster, Stadt       3359.   01004     01        
-##  5 01051001           Albersdorf                95.1  01051     01        
-##  6 01051002           Arkebek                    3.92 01051     01        
-##  7 01051003           Averlak                   10    01051     01        
-##  8 01051004           Bargenstedt                7.42 01051     01        
-##  9 01051005           Barkenholm                 3    01051     01        
-## 10 01051006           Barlt                     14.7  01051     01        
-## # ℹ 10,735 more rows
+##  1 01001000           Flensburg, Stadt        4131.   01001     01        
+##  2 01002000           Kiel, Landeshauptstadt 10581    01002     01        
+##  3 01003000           Lübeck, Hansestadt      9216.   01003     01        
+##  4 01004000           Neumünster, Stadt       3604.   01004     01        
+##  5 01051001           Albersdorf               123.   01051     01        
+##  6 01051002           Arkebek                    6.08 01051     01        
+##  7 01051003           Averlak                    9.75 01051     01        
+##  8 01051004           Bargenstedt               14    01051     01        
+##  9 01051005           Barkenholm                 5.17 01051     01        
+## 10 01051006           Barlt                     16.6  01051     01        
+## # ℹ 10,726 more rows
 ```
 ]
 
@@ -1277,21 +1275,21 @@ alo_meta %&gt;%
 .panel2-interne_konsistenz3-auto[
 
 ```
-## # A tibble: 10,745 × 5
+## # A tibble: 10,736 × 5
 ## # Groups:   landkreis [400]
 ##    Regionalschluessel Gemeinde                    alo landkreis bundesland
 ##    &lt;chr&gt;              &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     
-##  1 01001000           Flensburg, Stadt        3970.   01001     01        
-##  2 01002000           Kiel, Landeshauptstadt 10315.   01002     01        
-##  3 01003000           Lübeck, Hansestadt      8776.   01003     01        
-##  4 01004000           Neumünster, Stadt       3359.   01004     01        
-##  5 01051001           Albersdorf                95.1  01051     01        
-##  6 01051002           Arkebek                    3.92 01051     01        
-##  7 01051003           Averlak                   10    01051     01        
-##  8 01051004           Bargenstedt                7.42 01051     01        
-##  9 01051005           Barkenholm                 3    01051     01        
-## 10 01051006           Barlt                     14.7  01051     01        
-## # ℹ 10,735 more rows
+##  1 01001000           Flensburg, Stadt        4131.   01001     01        
+##  2 01002000           Kiel, Landeshauptstadt 10581    01002     01        
+##  3 01003000           Lübeck, Hansestadt      9216.   01003     01        
+##  4 01004000           Neumünster, Stadt       3604.   01004     01        
+##  5 01051001           Albersdorf               123.   01051     01        
+##  6 01051002           Arkebek                    6.08 01051     01        
+##  7 01051003           Averlak                    9.75 01051     01        
+##  8 01051004           Bargenstedt               14    01051     01        
+##  9 01051005           Barkenholm                 5.17 01051     01        
+## 10 01051006           Barlt                     16.6  01051     01        
+## # ℹ 10,726 more rows
 ```
 ]
 
@@ -1314,16 +1312,16 @@ alo_meta %&gt;%
 ## # A tibble: 400 × 2
 ##    landkreis total_alo
 ##    &lt;chr&gt;         &lt;dbl&gt;
-##  1 01001         3970.
-##  2 01002        10315.
-##  3 01003         8776.
-##  4 01004         3359.
-##  5 01051         3858.
-##  6 01053         5351.
-##  7 01054         4155.
-##  8 01055         4824.
-##  9 01056         8547.
-## 10 01057         2572.
+##  1 01001         4131.
+##  2 01002        10581 
+##  3 01003         9216.
+##  4 01004         3604.
+##  5 01051         4126.
+##  6 01053         5586.
+##  7 01054         4491.
+##  8 01055         5176.
+##  9 01056         9280.
+## 10 01057         2848.
 ## # ℹ 390 more rows
 ```
 ]
@@ -1348,16 +1346,16 @@ alo_meta %&gt;%
 ## # A tibble: 400 × 2
 ##    Regionalschluessel total_alo
 ##    &lt;chr&gt;                  &lt;dbl&gt;
-##  1 01001                  3970.
-##  2 01002                 10315.
-##  3 01003                  8776.
-##  4 01004                  3359.
-##  5 01051                  3858.
-##  6 01053                  5351.
-##  7 01054                  4155.
-##  8 01055                  4824.
-##  9 01056                  8547.
-## 10 01057                  2572.
+##  1 01001                  4131.
+##  2 01002                 10581 
+##  3 01003                  9216.
+##  4 01004                  3604.
+##  5 01051                  4126.
+##  6 01053                  5586.
+##  7 01054                  4491.
+##  8 01055                  5176.
+##  9 01056                  9280.
+## 10 01057                  2848.
 ## # ℹ 390 more rows
 ```
 ]
@@ -1439,22 +1437,22 @@ count: false
 ## # A tibble: 16 × 4
 ##    bundesland Gemeinde                   alo total_alo
 ##    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;
-##  1 01         Schleswig-Holstein      81564.    81564.
-##  2 02         Hamburg                 73800.    73800.
-##  3 03         Niedersachsen          230553.   230553.
-##  4 04         Bremen                  37214.    37214.
-##  5 05         Nordrhein-Westfalen    668502.   668502.
-##  6 06         Hessen                 164492.   164492.
-##  7 07         Rheinland-Pfalz        102515.   102515.
-##  8 08         Baden-Württemberg      223119.   223119.
-##  9 09         Bayern                 235850.   235850.
-## 10 10         Saarland                33017.    33017.
-## 11 11         Berlin                 179327.   179327.
-## 12 12         Brandenburg             74242     74242 
-## 13 13         Mecklenburg-Vorpommern  59571.    59571.
-## 14 14         Sachsen                118216.   118216.
-## 15 15         Sachsen-Anhalt          77978.    77978.
-## 16 16         Thüringen               58172.    58172.
+##  1 01         Schleswig-Holstein      87757.    87757.
+##  2 02         Hamburg                 80806.    80806.
+##  3 03         Niedersachsen          251873.   251873.
+##  4 04         Bremen                  39050.    39050.
+##  5 05         Nordrhein-Westfalen    710175.   710175.
+##  6 06         Hessen                 181344    181344 
+##  7 07         Rheinland-Pfalz        110716    110716 
+##  8 08         Baden-Württemberg      245466.   245466.
+##  9 09         Bayern                 257096.   257096.
+## 10 10         Saarland                35598.    35598.
+## 11 11         Berlin                 187930.   187930.
+## 12 12         Brandenburg             78996.    78996.
+## 13 13         Mecklenburg-Vorpommern  63191.    63191.
+## 14 14         Sachsen                131069.   131069.
+## 15 15         Sachsen-Anhalt          82627     82627 
+## 16 16         Thüringen               64978.    64978.
 ```
 ]
 
@@ -1494,22 +1492,22 @@ left_join(check_alo_bundesland, alo_bundesland, by = "bundesland") -&gt;
 ## # A tibble: 16 × 4
 ##    bundesland Gemeinde                   alo total_alo
 ##    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;
-##  1 01         Schleswig-Holstein      81564.    81564.
-##  2 02         Hamburg                 73800.    73800.
-##  3 03         Niedersachsen          230553.   230553.
-##  4 04         Bremen                  37214.    37214.
-##  5 05         Nordrhein-Westfalen    668502.   668502.
-##  6 06         Hessen                 164492.   164492.
-##  7 07         Rheinland-Pfalz        102515.   102515.
-##  8 08         Baden-Württemberg      223119.   223119.
-##  9 09         Bayern                 235850.   235850.
-## 10 10         Saarland                33017.    33017.
-## 11 11         Berlin                 179327.   179327.
-## 12 12         Brandenburg             74242     74242 
-## 13 13         Mecklenburg-Vorpommern  59571.    59571.
-## 14 14         Sachsen                118216.   118216.
-## 15 15         Sachsen-Anhalt          77978.    77978.
-## 16 16         Thüringen               58172.    58172.
+##  1 01         Schleswig-Holstein      87757.    87757.
+##  2 02         Hamburg                 80806.    80806.
+##  3 03         Niedersachsen          251873.   251873.
+##  4 04         Bremen                  39050.    39050.
+##  5 05         Nordrhein-Westfalen    710175.   710175.
+##  6 06         Hessen                 181344    181344 
+##  7 07         Rheinland-Pfalz        110716    110716 
+##  8 08         Baden-Württemberg      245466.   245466.
+##  9 09         Bayern                 257096.   257096.
+## 10 10         Saarland                35598.    35598.
+## 11 11         Berlin                 187930.   187930.
+## 12 12         Brandenburg             78996.    78996.
+## 13 13         Mecklenburg-Vorpommern  63191.    63191.
+## 14 14         Sachsen                131069.   131069.
+## 15 15         Sachsen-Anhalt          82627     82627 
+## 16 16         Thüringen               64978.    64978.
 ```
 ]
 
@@ -1534,22 +1532,22 @@ check_consitency %&gt;%
 ## # A tibble: 16 × 5
 ##    bundesland Gemeinde                   alo total_alo      diff
 ##    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-##  1 01         Schleswig-Holstein      81564.    81564.  0       
-##  2 02         Hamburg                 73800.    73800.  0       
-##  3 03         Niedersachsen          230553.   230553.  0       
-##  4 04         Bremen                  37214.    37214. -7.28e-12
-##  5 05         Nordrhein-Westfalen    668502.   668502.  0       
-##  6 06         Hessen                 164492.   164492.  0       
-##  7 07         Rheinland-Pfalz        102515.   102515.  0       
-##  8 08         Baden-Württemberg      223119.   223119.  0       
-##  9 09         Bayern                 235850.   235850.  0       
-## 10 10         Saarland                33017.    33017.  0       
-## 11 11         Berlin                 179327.   179327.  0       
-## 12 12         Brandenburg             74242     74242   0       
-## 13 13         Mecklenburg-Vorpommern  59571.    59571.  0       
-## 14 14         Sachsen                118216.   118216.  0       
-## 15 15         Sachsen-Anhalt          77978.    77978.  0       
-## 16 16         Thüringen               58172.    58172.  0
+##  1 01         Schleswig-Holstein      87757.    87757.  0       
+##  2 02         Hamburg                 80806.    80806.  0       
+##  3 03         Niedersachsen          251873.   251873.  0       
+##  4 04         Bremen                  39050.    39050. -7.28e-12
+##  5 05         Nordrhein-Westfalen    710175.   710175.  0       
+##  6 06         Hessen                 181344    181344   0       
+##  7 07         Rheinland-Pfalz        110716    110716   0       
+##  8 08         Baden-Württemberg      245466.   245466.  0       
+##  9 09         Bayern                 257096.   257096.  0       
+## 10 10         Saarland                35598.    35598.  0       
+## 11 11         Berlin                 187930.   187930.  0       
+## 12 12         Brandenburg             78996.    78996.  0       
+## 13 13         Mecklenburg-Vorpommern  63191.    63191.  0       
+## 14 14         Sachsen                131069.   131069.  0       
+## 15 15         Sachsen-Anhalt          82627     82627   0       
+## 16 16         Thüringen               64978.    64978.  0
 ```
 ]
 
@@ -1589,6 +1587,12 @@ check_consitency %&gt;%
 
 ---
 
+## Kahoot Quiz
+
+https://play.kahoot.it/v2/lobby?quizId=770e0894-11e9-4fd8-b8f5-682f64b1b25d
+
+---
+
 class: inverse, middle, center
 
 # Pro-Kopf Verschuldung
@@ -1597,7 +1601,7 @@ class: inverse, middle, center
 
 ## Pro-Kopf Verschuldung auf Gemeindeebene
 
-- Auf Gemeindeebene aus dem Jahr 2022
+- Auf Gemeindeebene aus dem Jahr 2023
 - Querschnittsdaten
 - Vom Statistischen Bundesamt direkt als Excel-Tabelle heruntergeladen (✔️)
 
@@ -1605,7 +1609,7 @@ class: inverse, middle, center
 
 
 ``` r
-excel_sheets("../case-study/data/Schulden_2022.xlsx")
+excel_sheets("../case-study/data/Schulden_2023.xlsx")
 ```
 
 ```
@@ -1636,7 +1640,7 @@ excel_sheets("../case-study/data/Schulden_2022.xlsx")
 
 
 ``` r
-sh &lt;- read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH")
+sh &lt;- read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = "SH")
 head(sh,20)
 ```
 
@@ -1648,22 +1652,22 @@ head(sh,20)
 ##  2  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
 ##  3 "Tabelle 1:    Schulde… &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
 ##  4 "nach Höhe der Beteili… &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
-##  5 "Regional-\r\nschlüsse… Geme… Verw… "Ein… Schu… Verä… "Sch… Schu… &lt;NA&gt;  &lt;NA&gt; 
+##  5 "Regional-\r\nschlüsse… Geme… Verw… "Bev… Schu… Verä… "Sch… Schu… &lt;NA&gt;  &lt;NA&gt; 
 ##  6  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; zusa… Verä… Schu…
 ##  7  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
 ##  8  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
 ##  9  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; EUR   %     "EUR" &lt;NA&gt;  %     EUR  
 ## 10  &lt;NA&gt;                   &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt; 1     2     "3"   4     5     6    
-## 11 "010010000000"          Flen… krei… "919… 4617… 1.6   "501… 2230… -3.3  3571…
-## 12 "010020000000"          Kiel… krei… "246… 1101… 5.2   "446… 5924… 7.1   5921…
-## 13 "010030000000"          Lübe… krei… "217… 9835… -7.5  "451… 3582… -16.8 3549…
-## 14 "010040000000"          Neum… krei… "798… 5036… 11    "630… 1245… 9.1   1142…
-## 15 "01051"                 Krei… Krei… "{13… 5767… 31    "427… 3696… 79.4… 3693…
-## 16 "010510011011"          Brun… amts… "125… 5788… 11.2  "462… 2522… 14.3  2245…
-## 17 "010510044044"          Heid… amts… "219… 4920… 14.7  "224… 3055… 21.8  2637…
-## 18 "010515163"             Amts… Amts… "{15… 8252… -3    "52.… 8252… -3    7942…
-## 19 "010515163003"          Aver… amts… "572" 2247… 12.1  "392… 1503… 15.7  5883…
-## 20 "010515163010"          Bric… amts… "202" 1435… 21.6  "710… 1101… 23.9  1865…
+## 11 "010010000000"          Flen… krei… "923… 4370… -5.0… "473… 2289… 2.7   3212…
+## 12 "010020000000"          Kiel… krei… "248… 1102… 0     "444… 5804… -6.7  5498…
+## 13 "010030000000"          Lübe… krei… "218… 1123… 12.5  "515… 4493… 17.7  3792…
+## 14 "010040000000"          Neum… krei… "797… 4607… -8.5  "577… 1183… -5.9  1077…
+## 15 "01051"                 Krei… Krei… "{13… 6323… 8.9   "466… 4436… 20    4433…
+## 16 "010510011011"          Brun… amts… "125… 6315… 10.5  "501… 3305… 31    2970…
+## 17 "010510044044"          Heid… amts… "222… 5383… 9.1   "241… 3376… 10    2664…
+## 18 "010515163"             Amts… Amts… "{15… 7866… -4.7  "49.… 7866… -4.7  7582…
+## 19 "010515163003"          Aver… amts… "587" 2379… 8.5   "405… 1643… 13.2  5328…
+## 20 "010515163010"          Bric… amts… "195" 1635… 14    "838… 1297… 17.7  1865…
 ## # ℹ 11 more variables: ...11 &lt;chr&gt;, ...12 &lt;chr&gt;, ...13 &lt;chr&gt;, ...14 &lt;chr&gt;,
 ## #   ...15 &lt;chr&gt;, ...16 &lt;chr&gt;, ...17 &lt;chr&gt;, ...18 &lt;chr&gt;, ...19 &lt;chr&gt;,
 ## #   `Zurück zum Inhalt...20` &lt;chr&gt;, ...21 &lt;chr&gt;
@@ -1693,7 +1697,7 @@ Der Übersicht halber wollen wir noch eine Spalte hinzufügen, welche den Namen 
 
 ``` r
 # Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
-schulden_individuell &lt;- read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7]
+schulden_individuell &lt;- read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = "SH", skip = 5)[1:7]
 # Umbenennen der ersten 7 Spalten
 colnames(schulden_individuell) &lt;- c("Regionalschluessel", "Gemeinde", 
                                     "Verwaltungsform", "Einwohner", "Schulden_gesamt", "Veraenderung_Vorjahr", "Schulden_pro_kopf")
@@ -1711,14 +1715,14 @@ count: false
 
 ``` r
 # Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
-*read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7]
+*read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = "SH", skip = 5)[1:7]
 ```
 ]
  
 .panel2-schulden_einlesen-auto[
 
 ```
-## # A tibble: 1,310 × 7
+## # A tibble: 1,307 × 7
 ##    `Regional-\r\nschlüssel` `Gemeinde/Gemeindeverband`   Verwaltungsform 
 ##    &lt;chr&gt;                    &lt;chr&gt;                        &lt;chr&gt;           
 ##  1 &lt;NA&gt;                     &lt;NA&gt;                         &lt;NA&gt;            
@@ -1731,10 +1735,11 @@ count: false
 ##  8 010030000000             Lübeck, Hansestadt           kreisfreie Stadt
 ##  9 010040000000             Neumünster, Stadt            kreisfreie Stadt
 ## 10 01051                    Kreisverwaltung Dithmarschen Kreisverwaltung 
-## # ℹ 1,300 more rows
-## # ℹ 4 more variables: `Einwohner/-innen\r\nam\r\n30.06.2022` &lt;chr&gt;,
+## # ℹ 1,297 more rows
+## # ℹ 4 more variables: `Bevölkerung\r\nam\r\n30.06.20231` &lt;chr&gt;,
 ## #   `Schulden des öffentlichen Bereichs insgesamt` &lt;chr&gt;,
-## #   `Veränderung zum Vorjahr` &lt;chr&gt;, `Schulden je \r\nEinwohner/-in` &lt;chr&gt;
+## #   `Veränderung zum Anfangsbestand am 01.01.2023` &lt;chr&gt;,
+## #   `Schulden pro \r\nKopf` &lt;chr&gt;
 ```
 ]
 
@@ -1746,7 +1751,7 @@ count: false
 
 ``` r
 # Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
-read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
+read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
 * schulden_individuell
 ```
 ]
@@ -1763,7 +1768,7 @@ count: false
 
 ``` r
 # Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
-read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
+read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
   schulden_individuell
 
 # Umbenennen der ersten 7 Spalten
@@ -1784,7 +1789,7 @@ count: false
 
 ``` r
 # Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
-read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
+read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
   schulden_individuell
 
 # Umbenennen der ersten 7 Spalten
@@ -1808,7 +1813,7 @@ count: false
 
 ``` r
 # Einlesen des Tabellenblattes "SH" ohne die ersten 5 Zeilen und nur die Spalten 1-7
-read_xlsx("../case-study/data/Schulden_2022.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
+read_xlsx("../case-study/data/Schulden_2023.xlsx", sheet = "SH", skip = 5)[1:7] -&gt;
   schulden_individuell
 
 # Umbenennen der ersten 7 Spalten
@@ -1825,7 +1830,7 @@ schulden_individuell$Bundesland &lt;- "SH"
 .panel2-schulden_einlesen-auto[
 
 ```
-## # A tibble: 1,310 × 8
+## # A tibble: 1,307 × 8
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
 ##  1 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
@@ -1833,12 +1838,12 @@ schulden_individuell$Bundesland &lt;- "SH"
 ##  3 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
 ##  4 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      EUR            
 ##  5 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      1              
-##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
-##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
-##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
-##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
-## 10 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
-## # ℹ 1,300 more rows
+##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 92323     437050633.5099…
+##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 248034    1102397047.889…
+##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 218062    1123041995.98  
+##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79711     460718488.1599…
+## 10 01051              Kreisverwaltung… Kreisverwaltung {135 462} 63235989.90999…
+## # ℹ 1,297 more rows
 ## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
 ## #   Bundesland &lt;chr&gt;
 ```
@@ -1881,15 +1886,15 @@ schulden_individuell$Bundesland &lt;- "SH"
 
 .instructions[Formen Sie Teams von zwei Personen und erarbeiten Sie auf Basis des Beispiels für ein Bundesland einen Code um alle Bundesländer in R einzulesen.]
 
-.alert[Nutzen Sie für diese Aufgabe **bwGPT**.]
+.alert[Nutzen Sie für diese Aufgabe **Chat AI**.]
 
 Posten Sie ihren Code hier:
 
 &lt;img src="./figs/Code_mehrere_Tabellen.png" width="30%" /&gt;
 
-<div class="countdown" id="timer_093cc204" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_efa8e2a3" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+<code class="countdown-time"><span class="countdown-digits minutes">20</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
 ---
@@ -1912,16 +1917,16 @@ head(schulden_individuell,15)
 ##  3 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
 ##  4 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      EUR            
 ##  5 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      1              
-##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
-##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
-##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
-##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
-## 10 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
-## 11 010510011011       Brunsbüttel, St… amtsfreie Geme… 12518     57881948.27000…
-## 12 010510044044       Heide, Stadt     amtsfreie Geme… 21919     49208227.03999…
-## 13 010515163          Amtsverwaltung … Amtsverwaltung  {15 770}  825202.43      
-## 14 010515163003       Averlak          amtsangehörige… 572       2247182.660000…
-## 15 010515163010       Brickeln         amtsangehörige… 202       1435532.829999…
+##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 92323     437050633.5099…
+##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 248034    1102397047.889…
+##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 218062    1123041995.98  
+##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79711     460718488.1599…
+## 10 01051              Kreisverwaltung… Kreisverwaltung {135 462} 63235989.90999…
+## 11 010510011011       Brunsbüttel, St… amtsfreie Geme… 12594     63155054.50999…
+## 12 010510044044       Heide, Stadt     amtsfreie Geme… 22252     53835429.41999…
+## 13 010515163          Amtsverwaltung … Amtsverwaltung  {15 806}  786603.17      
+## 14 010515163003       Averlak          amtsangehörige… 587       2379636.319999…
+## 15 010515163010       Brickeln         amtsangehörige… 195       1635054.099999…
 ## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
 ## #   Bundesland &lt;chr&gt;
 ```
@@ -1948,7 +1953,7 @@ schulden_individuell[28,]
 ## # A tibble: 1 × 8
 ##   Regionalschluessel   Gemeinde        Verwaltungsform Einwohner Schulden_gesamt
 ##   &lt;chr&gt;                &lt;chr&gt;           &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
-## 1 010515163_Summe(Amt) Amt Burg-St. M… Amtsgebiet      {15 770}  {50 131 118}   
+## 1 010515163_Summe(Amt) Amt Burg-St. M… Amtsgebiet      {15 806}  {51 577 930}   
 ## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
 ## #   Bundesland &lt;chr&gt;
 ```
@@ -1983,11 +1988,11 @@ count: false
 ##  3 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
 ##  4 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      EUR            
 ##  5 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      1              
-##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
-##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
-##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
-##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
-## 10 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
+##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 92323     437050633.5099…
+##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 248034    1102397047.889…
+##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 218062    1123041995.98  
+##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79711     460718488.1599…
+## 10 01051              Kreisverwaltung… Kreisverwaltung {135 462} 63235989.90999…
 ## # ℹ 13,256 more rows
 ## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
 ## #   Bundesland &lt;chr&gt;
@@ -2014,16 +2019,16 @@ schulden_individuell %&gt;%
 ## # A tibble: 13,149 × 8
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
-##  5 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
-##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12518     57881948.27000…
-##  7 010510044044       Heide, Stadt     amtsfreie Geme… 21919     49208227.03999…
-##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 770}  825202.43      
-##  9 010515163003       Averlak          amtsangehörige… 572       2247182.660000…
-## 10 010515163010       Brickeln         amtsangehörige… 202       1435532.829999…
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 92323     437050633.5099…
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 248034    1102397047.889…
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 218062    1123041995.98  
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79711     460718488.1599…
+##  5 01051              Kreisverwaltung… Kreisverwaltung {135 462} 63235989.90999…
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12594     63155054.50999…
+##  7 010510044044       Heide, Stadt     amtsfreie Geme… 22252     53835429.41999…
+##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 806}  786603.17      
+##  9 010515163003       Averlak          amtsangehörige… 587       2379636.319999…
+## 10 010515163010       Brickeln         amtsangehörige… 195       1635054.099999…
 ## # ℹ 13,139 more rows
 ## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
 ## #   Bundesland &lt;chr&gt;
@@ -2051,16 +2056,16 @@ schulden_individuell %&gt;%
 ## # A tibble: 13,149 × 8
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;               &lt;dbl&gt;
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 91992          461784579.
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712        1101148772.
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799         983573070.
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79889          503685791.
-##  5 01051              Kreisverwaltung… Kreisverwaltung {135 009}       57672347.
-##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12518           57881948.
-##  7 010510044044       Heide, Stadt     amtsfreie Geme… 21919           49208227.
-##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 770}          825202.
-##  9 010515163003       Averlak          amtsangehörige… 572              2247183.
-## 10 010515163010       Brickeln         amtsangehörige… 202              1435533.
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 92323          437050634.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 248034        1102397048.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 218062        1123041996.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79711          460718488.
+##  5 01051              Kreisverwaltung… Kreisverwaltung {135 462}       63235990.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12594           63155055.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme… 22252           53835429.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 806}          786603.
+##  9 010515163003       Averlak          amtsangehörige… 587              2379636.
+## 10 010515163010       Brickeln         amtsangehörige… 195              1635054.
 ## # ℹ 13,139 more rows
 ## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
 ## #   Bundesland &lt;chr&gt;
@@ -2089,16 +2094,16 @@ schulden_individuell %&gt;%
 ## # A tibble: 13,149 × 8
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
-##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       57672347.
-##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
-##  7 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
-##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         825202.
-##  9 010515163003       Averlak          amtsangehörige…       572        2247183.
-## 10 010515163010       Brickeln         amtsangehörige…       202        1435533.
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     92323      437050634.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    248034     1102397048.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    218062     1123041996.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79711      460718488.
+##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       63235990.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12594       63155055.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme…     22252       53835429.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         786603.
+##  9 010515163003       Averlak          amtsangehörige…       587        2379636.
+## 10 010515163010       Brickeln         amtsangehörige…       195        1635054.
 ## # ℹ 13,139 more rows
 ## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
 ## #   Bundesland &lt;chr&gt;
@@ -2128,16 +2133,16 @@ schulden_individuell %&gt;%
 ## # A tibble: 13,149 × 8
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
-##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       57672347.
-##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
-##  7 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
-##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         825202.
-##  9 010515163003       Averlak          amtsangehörige…       572        2247183.
-## 10 010515163010       Brickeln         amtsangehörige…       202        1435533.
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     92323      437050634.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    248034     1102397048.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    218062     1123041996.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79711      460718488.
+##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       63235990.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12594       63155055.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme…     22252       53835429.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         786603.
+##  9 010515163003       Averlak          amtsangehörige…       587        2379636.
+## 10 010515163010       Brickeln         amtsangehörige…       195        1635054.
 ## # ℹ 13,139 more rows
 ## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;dbl&gt;,
 ## #   Bundesland &lt;chr&gt;
@@ -2168,16 +2173,16 @@ schulden_individuell %&gt;%
 ## # A tibble: 13,149 × 9
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
-##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       57672347.
-##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
-##  7 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
-##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         825202.
-##  9 010515163003       Averlak          amtsangehörige…       572        2247183.
-## 10 010515163010       Brickeln         amtsangehörige…       202        1435533.
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     92323      437050634.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    248034     1102397048.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    218062     1123041996.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79711      460718488.
+##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       63235990.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12594       63155055.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme…     22252       53835429.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         786603.
+##  9 010515163003       Averlak          amtsangehörige…       587        2379636.
+## 10 010515163010       Brickeln         amtsangehörige…       195        1635054.
 ## # ℹ 13,139 more rows
 ## # ℹ 4 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;dbl&gt;,
 ## #   Bundesland &lt;chr&gt;, landkreis &lt;chr&gt;
@@ -2209,16 +2214,16 @@ schulden_individuell %&gt;%
 ## # A tibble: 13,149 × 8
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
-##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       57672347.
-##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
-##  7 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
-##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         825202.
-##  9 010515163003       Averlak          amtsangehörige…       572        2247183.
-## 10 010515163010       Brickeln         amtsangehörige…       202        1435533.
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     92323      437050634.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    248034     1102397048.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    218062     1123041996.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79711      460718488.
+##  5 01051              Kreisverwaltung… Kreisverwaltung        NA       63235990.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme…     12594       63155055.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme…     22252       53835429.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung         NA         786603.
+##  9 010515163003       Averlak          amtsangehörige…       587        2379636.
+## 10 010515163010       Brickeln         amtsangehörige…       195        1635054.
 ## # ℹ 13,139 more rows
 ## # ℹ 3 more variables: Schulden_pro_kopf &lt;dbl&gt;, Bundesland &lt;chr&gt;,
 ## #   landkreis &lt;chr&gt;
@@ -2249,20 +2254,20 @@ schulden_individuell %&gt;%
 .panel2-schulden_umformen-auto[
 
 ```
-## # A tibble: 10,782 × 8
+## # A tibble: 10,771 × 8
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
-##  5 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
-##  6 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
-##  7 010515163003       Averlak          amtsangehörige…       572        2247183.
-##  8 010515163010       Brickeln         amtsangehörige…       202        1435533.
-##  9 010515163012       Buchholz         amtsangehörige…       998        3675650.
-## 10 010515163016       Burg (Dithmarsc… amtsangehörige…      4212       14377298.
-## # ℹ 10,772 more rows
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     92323      437050634.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    248034     1102397048.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    218062     1123041996.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79711      460718488.
+##  5 010510011011       Brunsbüttel, St… amtsfreie Geme…     12594       63155055.
+##  6 010510044044       Heide, Stadt     amtsfreie Geme…     22252       53835429.
+##  7 010515163003       Averlak          amtsangehörige…       587        2379636.
+##  8 010515163010       Brickeln         amtsangehörige…       195        1635054.
+##  9 010515163012       Buchholz         amtsangehörige…      1003        3827671.
+## 10 010515163016       Burg (Dithmarsc… amtsangehörige…      4204       14462185.
+## # ℹ 10,761 more rows
 ## # ℹ 3 more variables: Schulden_pro_kopf &lt;dbl&gt;, Bundesland &lt;chr&gt;,
 ## #   landkreis &lt;chr&gt;
 ```
@@ -2364,7 +2369,7 @@ class: middle, inverse, center
 
 - `Schulden_pro_Kopf_new` von Hand berechnen
 - **Beachte:**
-  - Geschweiften Klammern entfernen bei `Schulden_gesamt` (mit `gsub([{}])`), als auch die Leerzeichen innerhalb der Zahlen (z.B. 15 653), was wir mit `gsub("[[:space:]]")` erreichen. 
+  - Geschweifte Klammern entfernen bei `Schulden_gesamt` (mit `gsub([{}])`), als auch die Leerzeichen innerhalb der Zahlen (z.B. 15 653), was wir mit `gsub("[[:space:]]")` erreichen. 
   - Tun wir das nicht, so würden wir wieder `NA`s im Datensatz erhalten
 
 .tiny[
@@ -2415,11 +2420,11 @@ count: false
 ##  3 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      &lt;NA&gt;           
 ##  4 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      EUR            
 ##  5 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;      1              
-##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
-##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
-##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
-##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
-## 10 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
+##  6 010010000000       Flensburg, Stadt kreisfreie Sta… 92323     437050633.5099…
+##  7 010020000000       Kiel, Landeshau… kreisfreie Sta… 248034    1102397047.889…
+##  8 010030000000       Lübeck, Hansest… kreisfreie Sta… 218062    1123041995.98  
+##  9 010040000000       Neumünster, Sta… kreisfreie Sta… 79711     460718488.1599…
+## 10 01051              Kreisverwaltung… Kreisverwaltung {135 462} 63235989.90999…
 ## # ℹ 13,256 more rows
 ## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
 ## #   Bundesland &lt;chr&gt;
@@ -2442,20 +2447,20 @@ schulden_individuell %&gt;%
 .panel2-schulden_konsistenz-auto[
 
 ```
-## # A tibble: 13,108 × 8
+## # A tibble: 13,095 × 8
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;          
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 91992     461784578.9700…
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712    1101148771.960…
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799    983573069.7400…
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79889     503685790.8199…
-##  5 01051              Kreisverwaltung… Kreisverwaltung {135 009} 57672347.28999…
-##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12518     57881948.27000…
-##  7 010510044044       Heide, Stadt     amtsfreie Geme… 21919     49208227.03999…
-##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 770}  825202.43      
-##  9 010515163003       Averlak          amtsangehörige… 572       2247182.660000…
-## 10 010515163010       Brickeln         amtsangehörige… 202       1435532.829999…
-## # ℹ 13,098 more rows
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 92323     437050633.5099…
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 248034    1102397047.889…
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 218062    1123041995.98  
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79711     460718488.1599…
+##  5 01051              Kreisverwaltung… Kreisverwaltung {135 462} 63235989.90999…
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12594     63155054.50999…
+##  7 010510044044       Heide, Stadt     amtsfreie Geme… 22252     53835429.41999…
+##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 806}  786603.17      
+##  9 010515163003       Averlak          amtsangehörige… 587       2379636.319999…
+## 10 010515163010       Brickeln         amtsangehörige… 195       1635054.099999…
+## # ℹ 13,085 more rows
 ## # ℹ 3 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;chr&gt;,
 ## #   Bundesland &lt;chr&gt;
 ```
@@ -2485,20 +2490,20 @@ schulden_individuell %&gt;%
 .panel2-schulden_konsistenz-auto[
 
 ```
-## # A tibble: 13,108 × 12
+## # A tibble: 13,095 × 12
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;               &lt;dbl&gt;
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 91992          461784579.
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 246712        1101148772.
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 217799         983573070.
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79889          503685791.
-##  5 01051              Kreisverwaltung… Kreisverwaltung {135 009}       57672347.
-##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12518           57881948.
-##  7 010510044044       Heide, Stadt     amtsfreie Geme… 21919           49208227.
-##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 770}          825202.
-##  9 010515163003       Averlak          amtsangehörige… 572              2247183.
-## 10 010515163010       Brickeln         amtsangehörige… 202              1435533.
-## # ℹ 13,098 more rows
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta… 92323          437050634.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta… 248034        1102397048.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta… 218062        1123041996.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta… 79711          460718488.
+##  5 01051              Kreisverwaltung… Kreisverwaltung {135 462}       63235990.
+##  6 010510011011       Brunsbüttel, St… amtsfreie Geme… 12594           63155055.
+##  7 010510044044       Heide, Stadt     amtsfreie Geme… 22252           53835429.
+##  8 010515163          Amtsverwaltung … Amtsverwaltung  {15 806}          786603.
+##  9 010515163003       Averlak          amtsangehörige… 587              2379636.
+## 10 010515163010       Brickeln         amtsangehörige… 195              1635054.
+## # ℹ 13,085 more rows
 ## # ℹ 7 more variables: Veraenderung_Vorjahr &lt;chr&gt;, Schulden_pro_kopf &lt;dbl&gt;,
 ## #   Bundesland &lt;chr&gt;, Einwohner_num &lt;dbl&gt;, Schulden_pro_kopf_new &lt;dbl&gt;,
 ## #   landkreis &lt;chr&gt;, differenz &lt;dbl&gt;
@@ -2530,20 +2535,20 @@ schulden_individuell %&gt;%
 .panel2-schulden_konsistenz-auto[
 
 ```
-## # A tibble: 13,108 × 12
+## # A tibble: 13,095 × 12
 ##    Regionalschluessel Einwohner Einwohner_num Schulden_pro_kopf
 ##    &lt;chr&gt;              &lt;chr&gt;             &lt;dbl&gt;             &lt;dbl&gt;
-##  1 010010000000       91992             91992            5020. 
-##  2 010020000000       246712           246712            4463. 
-##  3 010030000000       217799           217799            4516. 
-##  4 010040000000       79889             79889            6305. 
-##  5 01051              {135 009}        135009             427. 
-##  6 010510011011       12518             12518            4624. 
-##  7 010510044044       21919             21919            2245  
-##  8 010515163          {15 770}          15770              52.3
-##  9 010515163003       572                 572            3929. 
-## 10 010515163010       202                 202            7107. 
-## # ℹ 13,098 more rows
+##  1 010010000000       92323             92323            4734. 
+##  2 010020000000       248034           248034            4445. 
+##  3 010030000000       218062           218062            5150. 
+##  4 010040000000       79711             79711            5780. 
+##  5 01051              {135 462}        135462             467. 
+##  6 010510011011       12594             12594            5015. 
+##  7 010510044044       22252             22252            2419. 
+##  8 010515163          {15 806}          15806              49.8
+##  9 010515163003       587                 587            4054. 
+## 10 010515163010       195                 195            8385. 
+## # ℹ 13,085 more rows
 ## # ℹ 8 more variables: Schulden_pro_kopf_new &lt;dbl&gt;, Gemeinde &lt;chr&gt;,
 ## #   Verwaltungsform &lt;chr&gt;, Schulden_gesamt &lt;dbl&gt;, Veraenderung_Vorjahr &lt;chr&gt;,
 ## #   Bundesland &lt;chr&gt;, landkreis &lt;chr&gt;, differenz &lt;dbl&gt;
@@ -2638,12 +2643,13 @@ filter(schulden_consistency, is.na(differenz))
 ```
 
 ```
-## # A tibble: 0 × 12
-## # ℹ 12 variables: Regionalschluessel &lt;chr&gt;, Einwohner &lt;chr&gt;,
-## #   Einwohner_num &lt;dbl&gt;, Schulden_pro_kopf &lt;dbl&gt;, Schulden_pro_kopf_new &lt;dbl&gt;,
-## #   Gemeinde &lt;chr&gt;, Verwaltungsform &lt;chr&gt;, Schulden_gesamt &lt;dbl&gt;,
-## #   Veraenderung_Vorjahr &lt;chr&gt;, Bundesland &lt;chr&gt;, landkreis &lt;chr&gt;,
-## #   differenz &lt;dbl&gt;
+## # A tibble: 1 × 12
+##   Regionalschluessel                   Einwohner Einwohner_num Schulden_pro_kopf
+##   &lt;chr&gt;                                &lt;chr&gt;             &lt;dbl&gt;             &lt;dbl&gt;
+## 1 091765116_Summe(Verwaltungsgemeinsc… {4 803}            4803                NA
+## # ℹ 8 more variables: Schulden_pro_kopf_new &lt;dbl&gt;, Gemeinde &lt;chr&gt;,
+## #   Verwaltungsform &lt;chr&gt;, Schulden_gesamt &lt;dbl&gt;, Veraenderung_Vorjahr &lt;chr&gt;,
+## #   Bundesland &lt;chr&gt;, landkreis &lt;chr&gt;, differenz &lt;dbl&gt;
 ```
 
 
@@ -3447,7 +3453,7 @@ Das [OpenData Portal des Bundesamts für Kartographie und Geodäsie](https://gdz
 
 Zuerst müssen wir folgende Schritte unternehmen:
 - Informationen zur Verschuldung auf Landkreisebene aggregieren 
-- Daten zum BIP auf das Jahr 2022 einschränken. 
+- Daten zum BIP auf das Jahr 2022 einschränken (letzter verfügbarer Zeitpunkt, wenn 2023 verfügbar wäre es besser!)
 - Datensätze anhand des Regionalschlüssels miteinander verbinden.
 
 Weiterhin können wir die geografischen Daten separat abspeichern und bei Bedarf anhand des Regionalschlüssels zu unserem Datensatz hinzumergen.
@@ -3468,20 +3474,20 @@ count: false
 .panel2-kombi1-auto[
 
 ```
-## # A tibble: 10,782 × 8
+## # A tibble: 10,771 × 8
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
-##  5 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
-##  6 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
-##  7 010515163003       Averlak          amtsangehörige…       572        2247183.
-##  8 010515163010       Brickeln         amtsangehörige…       202        1435533.
-##  9 010515163012       Buchholz         amtsangehörige…       998        3675650.
-## 10 010515163016       Burg (Dithmarsc… amtsangehörige…      4212       14377298.
-## # ℹ 10,772 more rows
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     92323      437050634.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    248034     1102397048.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    218062     1123041996.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79711      460718488.
+##  5 010510011011       Brunsbüttel, St… amtsfreie Geme…     12594       63155055.
+##  6 010510044044       Heide, Stadt     amtsfreie Geme…     22252       53835429.
+##  7 010515163003       Averlak          amtsangehörige…       587        2379636.
+##  8 010515163010       Brickeln         amtsangehörige…       195        1635054.
+##  9 010515163012       Buchholz         amtsangehörige…      1003        3827671.
+## 10 010515163016       Burg (Dithmarsc… amtsangehörige…      4204       14462185.
+## # ℹ 10,761 more rows
 ## # ℹ 3 more variables: Schulden_pro_kopf &lt;dbl&gt;, Bundesland &lt;chr&gt;,
 ## #   landkreis &lt;chr&gt;
 ```
@@ -3503,21 +3509,21 @@ schulden_bereinigt %&gt;%
 .panel2-kombi1-auto[
 
 ```
-## # A tibble: 10,782 × 8
+## # A tibble: 10,771 × 8
 ## # Groups:   landkreis [396]
 ##    Regionalschluessel Gemeinde         Verwaltungsform Einwohner Schulden_gesamt
 ##    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;
-##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     91992      461784579.
-##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    246712     1101148772.
-##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    217799      983573070.
-##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79889      503685791.
-##  5 010510011011       Brunsbüttel, St… amtsfreie Geme…     12518       57881948.
-##  6 010510044044       Heide, Stadt     amtsfreie Geme…     21919       49208227.
-##  7 010515163003       Averlak          amtsangehörige…       572        2247183.
-##  8 010515163010       Brickeln         amtsangehörige…       202        1435533.
-##  9 010515163012       Buchholz         amtsangehörige…       998        3675650.
-## 10 010515163016       Burg (Dithmarsc… amtsangehörige…      4212       14377298.
-## # ℹ 10,772 more rows
+##  1 010010000000       Flensburg, Stadt kreisfreie Sta…     92323      437050634.
+##  2 010020000000       Kiel, Landeshau… kreisfreie Sta…    248034     1102397048.
+##  3 010030000000       Lübeck, Hansest… kreisfreie Sta…    218062     1123041996.
+##  4 010040000000       Neumünster, Sta… kreisfreie Sta…     79711      460718488.
+##  5 010510011011       Brunsbüttel, St… amtsfreie Geme…     12594       63155055.
+##  6 010510044044       Heide, Stadt     amtsfreie Geme…     22252       53835429.
+##  7 010515163003       Averlak          amtsangehörige…       587        2379636.
+##  8 010515163010       Brickeln         amtsangehörige…       195        1635054.
+##  9 010515163012       Buchholz         amtsangehörige…      1003        3827671.
+## 10 010515163016       Burg (Dithmarsc… amtsangehörige…      4204       14462185.
+## # ℹ 10,761 more rows
 ## # ℹ 3 more variables: Schulden_pro_kopf &lt;dbl&gt;, Bundesland &lt;chr&gt;,
 ## #   landkreis &lt;chr&gt;
 ```
@@ -3545,16 +3551,16 @@ schulden_bereinigt %&gt;%
 ## # A tibble: 396 × 4
 ##    landkreis Schulden_pro_kopf_lk Einwohner Schulden_gesamt
 ##    &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;
-##  1 01001                    5020.     91992      461784579.
-##  2 01002                    4463.    246712     1101148772.
-##  3 01003                    4516.    217799      983573070.
-##  4 01004                    6305.     79889      503685791.
-##  5 01051                    3344.    135009      451514241.
-##  6 01053                    1751.    203365      356087687.
-##  7 01054                    3360.    169183      568447168.
-##  8 01055                    2835.    204097      578703178.
-##  9 01056                    3049.    320985      978605223.
-## 10 01057                    2495.    130724      326157495.
+##  1 01001                    4734.     92323      437050634.
+##  2 01002                    4445.    248034     1102397048.
+##  3 01003                    5150.    218062     1123041996.
+##  4 01004                    5780.     79711      460718488.
+##  5 01051                    3748.    135462      507701224.
+##  6 01053                    1814.    204293      370625747.
+##  7 01054                    3570.    170722      609555752.
+##  8 01055                    3333.    204522      681615233.
+##  9 01056                    3290.    322829     1061981989.
+## 10 01057                    2667.    131234      350063798.
 ## # ℹ 386 more rows
 ```
 ]
@@ -3582,16 +3588,16 @@ schulden_bereinigt %&gt;%
 ## # A tibble: 396 × 4
 ##    landkreis Schulden_pro_kopf_lk Einwohner Schulden_gesamt
 ##    &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;
-##  1 01001                    5020.     91992      461784579.
-##  2 01002                    4463.    246712     1101148772.
-##  3 01003                    4516.    217799      983573070.
-##  4 01004                    6305.     79889      503685791.
-##  5 01051                    3344.    135009      451514241.
-##  6 01053                    1751.    203365      356087687.
-##  7 01054                    3360.    169183      568447168.
-##  8 01055                    2835.    204097      578703178.
-##  9 01056                    3049.    320985      978605223.
-## 10 01057                    2495.    130724      326157495.
+##  1 01001                    4734.     92323      437050634.
+##  2 01002                    4445.    248034     1102397048.
+##  3 01003                    5150.    218062     1123041996.
+##  4 01004                    5780.     79711      460718488.
+##  5 01051                    3748.    135462      507701224.
+##  6 01053                    1814.    204293      370625747.
+##  7 01054                    3570.    170722      609555752.
+##  8 01055                    3333.    204522      681615233.
+##  9 01056                    3290.    322829     1061981989.
+## 10 01057                    2667.    131234      350063798.
 ## # ℹ 386 more rows
 ```
 ]
@@ -3620,16 +3626,16 @@ schulden_bereinigt %&gt;%
 ## # A tibble: 396 × 4
 ##    Regionalschluessel Schulden_pro_kopf_lk Einwohner Schulden_gesamt
 ##    &lt;chr&gt;                             &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;
-##  1 01001                             5020.     91992      461784579.
-##  2 01002                             4463.    246712     1101148772.
-##  3 01003                             4516.    217799      983573070.
-##  4 01004                             6305.     79889      503685791.
-##  5 01051                             3344.    135009      451514241.
-##  6 01053                             1751.    203365      356087687.
-##  7 01054                             3360.    169183      568447168.
-##  8 01055                             2835.    204097      578703178.
-##  9 01056                             3049.    320985      978605223.
-## 10 01057                             2495.    130724      326157495.
+##  1 01001                             4734.     92323      437050634.
+##  2 01002                             4445.    248034     1102397048.
+##  3 01003                             5150.    218062     1123041996.
+##  4 01004                             5780.     79711      460718488.
+##  5 01051                             3748.    135462      507701224.
+##  6 01053                             1814.    204293      370625747.
+##  7 01054                             3570.    170722      609555752.
+##  8 01055                             3333.    204522      681615233.
+##  9 01056                             3290.    322829     1061981989.
+## 10 01057                             2667.    131234      350063798.
 ## # ℹ 386 more rows
 ```
 ]
@@ -4199,16 +4205,16 @@ count: false
 ## # A tibble: 400 × 2
 ##    Regionalschluessel total_alo
 ##    &lt;chr&gt;                  &lt;dbl&gt;
-##  1 01001                  3970.
-##  2 01002                 10315.
-##  3 01003                  8776.
-##  4 01004                  3359.
-##  5 01051                  3858.
-##  6 01053                  5351.
-##  7 01054                  4155.
-##  8 01055                  4824.
-##  9 01056                  8547.
-## 10 01057                  2572.
+##  1 01001                  4131.
+##  2 01002                 10581 
+##  3 01003                  9216.
+##  4 01004                  3604.
+##  5 01051                  4126.
+##  6 01053                  5586.
+##  7 01054                  4491.
+##  8 01055                  5176.
+##  9 01056                  9280.
+## 10 01057                  2848.
 ## # ℹ 390 more rows
 ```
 ]
@@ -4235,16 +4241,16 @@ alo_landkreis %&gt;%
 ## # A tibble: 400 × 3
 ##    Regionalschluessel total_alo bundesland
 ##    &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;     
-##  1 01001                  3970. 01        
-##  2 01002                 10315. 01        
-##  3 01003                  8776. 01        
-##  4 01004                  3359. 01        
-##  5 01051                  3858. 01        
-##  6 01053                  5351. 01        
-##  7 01054                  4155. 01        
-##  8 01055                  4824. 01        
-##  9 01056                  8547. 01        
-## 10 01057                  2572. 01        
+##  1 01001                  4131. 01        
+##  2 01002                 10581  01        
+##  3 01003                  9216. 01        
+##  4 01004                  3604. 01        
+##  5 01051                  4126. 01        
+##  6 01053                  5586. 01        
+##  7 01054                  4491. 01        
+##  8 01055                  5176. 01        
+##  9 01056                  9280. 01        
+## 10 01057                  2848. 01        
 ## # ℹ 390 more rows
 ```
 ]
@@ -4272,16 +4278,16 @@ alo_landkreis %&gt;%
 ## # A tibble: 400 × 6
 ##    Regionalschluessel total_alo bundesland Schulden_pro_kopf_lk Einwohner
 ##    &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;
-##  1 01001                  3970. 01                        5020.     91992
-##  2 01002                 10315. 01                        4463.    246712
-##  3 01003                  8776. 01                        4516.    217799
-##  4 01004                  3359. 01                        6305.     79889
-##  5 01051                  3858. 01                        3344.    135009
-##  6 01053                  5351. 01                        1751.    203365
-##  7 01054                  4155. 01                        3360.    169183
-##  8 01055                  4824. 01                        2835.    204097
-##  9 01056                  8547. 01                        3049.    320985
-## 10 01057                  2572. 01                        2495.    130724
+##  1 01001                  4131. 01                        4734.     92323
+##  2 01002                 10581  01                        4445.    248034
+##  3 01003                  9216. 01                        5150.    218062
+##  4 01004                  3604. 01                        5780.     79711
+##  5 01051                  4126. 01                        3748.    135462
+##  6 01053                  5586. 01                        1814.    204293
+##  7 01054                  4491. 01                        3570.    170722
+##  8 01055                  5176. 01                        3333.    204522
+##  9 01056                  9280. 01                        3290.    322829
+## 10 01057                  2848. 01                        2667.    131234
 ## # ℹ 390 more rows
 ## # ℹ 1 more variable: Schulden_gesamt &lt;dbl&gt;
 ```
@@ -4311,16 +4317,16 @@ alo_landkreis %&gt;%
 ## # A tibble: 400 × 8
 ##    Regionalschluessel total_alo bundesland Schulden_pro_kopf_lk Einwohner
 ##    &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;
-##  1 01001                  3970. 01                        5020.     91992
-##  2 01002                 10315. 01                        4463.    246712
-##  3 01003                  8776. 01                        4516.    217799
-##  4 01004                  3359. 01                        6305.     79889
-##  5 01051                  3858. 01                        3344.    135009
-##  6 01053                  5351. 01                        1751.    203365
-##  7 01054                  4155. 01                        3360.    169183
-##  8 01055                  4824. 01                        2835.    204097
-##  9 01056                  8547. 01                        3049.    320985
-## 10 01057                  2572. 01                        2495.    130724
+##  1 01001                  4131. 01                        4734.     92323
+##  2 01002                 10581  01                        4445.    248034
+##  3 01003                  9216. 01                        5150.    218062
+##  4 01004                  3604. 01                        5780.     79711
+##  5 01051                  4126. 01                        3748.    135462
+##  6 01053                  5586. 01                        1814.    204293
+##  7 01054                  4491. 01                        3570.    170722
+##  8 01055                  5176. 01                        3333.    204522
+##  9 01056                  9280. 01                        3290.    322829
+## 10 01057                  2848. 01                        2667.    131234
 ## # ℹ 390 more rows
 ## # ℹ 3 more variables: Schulden_gesamt &lt;dbl&gt;, bip &lt;dbl&gt;, bip_pro_kopf &lt;dbl&gt;
 ```
@@ -4352,16 +4358,16 @@ alo_landkreis %&gt;%
 ## # A tibble: 400 × 9
 ##    Regionalschluessel total_alo bundesland Schulden_pro_kopf_lk Einwohner
 ##    &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;
-##  1 01001                  3970. 01                        5020.     91992
-##  2 01002                 10315. 01                        4463.    246712
-##  3 01003                  8776. 01                        4516.    217799
-##  4 01004                  3359. 01                        6305.     79889
-##  5 01051                  3858. 01                        3344.    135009
-##  6 01053                  5351. 01                        1751.    203365
-##  7 01054                  4155. 01                        3360.    169183
-##  8 01055                  4824. 01                        2835.    204097
-##  9 01056                  8547. 01                        3049.    320985
-## 10 01057                  2572. 01                        2495.    130724
+##  1 01001                  4131. 01                        4734.     92323
+##  2 01002                 10581  01                        4445.    248034
+##  3 01003                  9216. 01                        5150.    218062
+##  4 01004                  3604. 01                        5780.     79711
+##  5 01051                  4126. 01                        3748.    135462
+##  6 01053                  5586. 01                        1814.    204293
+##  7 01054                  4491. 01                        3570.    170722
+##  8 01055                  5176. 01                        3333.    204522
+##  9 01056                  9280. 01                        3290.    322829
+## 10 01057                  2848. 01                        2667.    131234
 ## # ℹ 390 more rows
 ## # ℹ 4 more variables: Schulden_gesamt &lt;dbl&gt;, bip &lt;dbl&gt;, bip_pro_kopf &lt;dbl&gt;,
 ## #   erw &lt;dbl&gt;
@@ -4515,7 +4521,7 @@ gesamtdaten
 Laden Sie sich das durchschnittliche [Arbeitnehmerentgelt pro Arbeitnehmer und Landkreis](https://www.statistikportal.de/de/veroeffentlichungen/arbeitnehmerentgelt) auf der Seite der Statistischen Ämter des Bundes und der Länder herunter und lesen Sie diesen in R ein.
 
 - Bilden Sie ein Team von 4-5 Personen
-- Nutzung der Case-Study und bwGPT um die Aufgaben zu erledigen
+- Nutzung der Case-Study und Chat AI um die Aufgaben zu erledigen
 
 **Aufgabe:**
 
@@ -4526,35 +4532,35 @@ Laden Sie sich das durchschnittliche [Arbeitnehmerentgelt pro Arbeitnehmer und L
 - Vergleichen Sie ihren Datensatz mit dem auf Github bereitgestellten Datensatz ("einkommen.rds"). Stimmen diese überein?
 - Verbinden Sie die Informationen zu den durchschnittlichen Einkommen mit dem *gesamtdatensatz* aus dem vorherigen Abschnitt.
 
-<div class="countdown" id="timer_3057ddfe" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_547be4a4" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">20</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
 ---
 
-## Hinweise zum Prompting von bwGPT
+## Hinweise zum Prompting von Chat AI
 
 .pull-left[
 **Wie sollte ein Prompt aufgebaut sein?**
 
-- **Aufgabe:** Was soll ChatGPT tun? 
+- **Aufgabe:** Was soll Chat AI tun? 
     - Möglichst genau und spezifisch sein
-- **Instruktionen:** Wie soll ChatGPT es tun?
-    - Soll ChatGPT eine besondere Persona sein?
+- **Instruktionen:** Wie soll Chat AI es tun?
+    - Soll Chat AI  eine besondere Persona sein?
     - Beispiele für den gewünschten Output mitgeben
-    - ChatGPT fragen zur Lösung Schritt-für-Schritt zu kommen
-- **Kontext:** Was sollte ChatGPT zu seiner Aufgabe wissen?
+    - Chat AI  fragen zur Lösung Schritt-für-Schritt zu kommen
+- **Kontext:** Was sollte Chat AI  zu seiner Aufgabe wissen?
     - Wie passt die Aufgabe z.B. zur Vorlesung die Sie gerade besuchen?
 ]
 
 .pull-right[
-**Wenn Sie nicht weiter wissen, dann Fragen Sie ChatGPT welche Infos es noch benötigt**
+**Wenn Sie nicht weiter wissen, dann Fragen Sie Chat AI  welche Infos es noch benötigt**
 
 - "Sag mir, welche Informationen du benötigst, um ...“
 - "Stelle mir 5 Fragen, die dir helfen werden, mir die bestmögliche Antwort zu geben."
   	
-**Wenn Sie glauben ChatGPT hat einen Fehler gemacht, dann sagen Sie ihm dies**
+**Wenn Sie glauben Chat AI  hat einen Fehler gemacht, dann sagen Sie ihm dies**
 
 **Komplexe Aufgaben in kleine Unteraufgaben herunterbrechen**
 ]
@@ -4563,12 +4569,12 @@ Laden Sie sich das durchschnittliche [Arbeitnehmerentgelt pro Arbeitnehmer und L
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "atelier-forest-light",
-"highlightLanguage": ["r", "yaml", "markdown"],
-"slideNumberFormat": "",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9"
+  "highlightStyle": "atelier-forest-light",
+  "highlightLanguage": ["r", "yaml", "markdown"],
+  "slideNumberFormat": "",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

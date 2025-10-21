@@ -173,7 +173,7 @@ Hierzu überlegen wir uns folgendes:
 
 -   Welche Information benötigen wir aus der Tabelle
 
-    -   Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2022**
+    -   Die Anzahl aller Arbeitslosen pro Gemeinde (d.h. SGB II und III gemeinsam) **aus dem Jahr 2023**
     -   Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis (z.B. nur SGB II)
     -   Die Anzahl der Arbeitslosen pro Gemeinde für einen bestimmten Rechtskreis und ein bestimmtes Alter (z.B. SGB II alle unter 25 Jahre)
 
@@ -410,7 +410,7 @@ Diese wollen wir uns noch näher anschauen:
 filter(schulden_bereinigt, is.na(Einwohner))
 ```
 
-Wir müssen wohl noch mehr ausschließen als nur `NA`s beim Regionalschlüssel, insgesamt 2400 Einträge bei denen die Variable "Einwohner" nicht vorhanden ist.
+Wir müssen wohl noch mehr ausschließen als nur `NA`s beim Regionalschlüssel, insgesamt 2378 Einträge bei denen die Variable "Einwohner" nicht vorhanden ist.
 Wir hatten bereits gesehen, dass die Summe aller Einwohner eines Landkreisen mit `{ Zahl }` in der Excel-Datei hervorgehoben wird.
 Wenn wir hier in R eine Typumwandlung erzwingen, dann kann R mit den `{}` nichts anfangen und gibt uns deshalb ein `NA` aus.
 Wir können hier alle Einträge, bei denen die Einwohner ein `NA` stehen haben, löschen, da wir die Daten selbst auf Basis der Informationen zu den Gemeinden des Landkreises berechnen können.
@@ -560,7 +560,7 @@ head(bip_wide)
 ```
 
 Dieser Datensatz ist ein sogenanntes Panel.
-In den vorherigen Datensätzen zur Anzahl der Arbeitslosen und der Pro-Kopf-Verschuldung hatten wir Querschnittsdaten (d.h. Daten nur das Jahr 2022) gegeben.
+In den vorherigen Datensätzen zur Anzahl der Arbeitslosen und der Pro-Kopf-Verschuldung hatten wir Querschnittsdaten (d.h. Daten nur das Jahr 2023) gegeben.
 Nun haben wir die Entwicklung des BIP, die Anzahl an Erwerbstätigen und die Anzahl an Einwohnern seit 1992 bis 2022 für alle Landkreise in Deutschland.
 
 ## Daten in das `long`-Format überführen
@@ -662,7 +662,7 @@ einwohner_long <- pivot_longer(einwohner_wide, cols = c("2000":"1999") , names_t
 
 ## Konsistenzchecks
 
-Wir haben bereits in dem Abschnitt "Pro-Kopf Verschuldung" die Einwohner zur Berechnung der Pro-Kopf-Verschuldung für 2022 eingelesen.
+Wir haben bereits in dem Abschnitt "Pro-Kopf Verschuldung" die Einwohner zur Berechnung der Pro-Kopf-Verschuldung für 2023 eingelesen.
 Für eine längerfristige Betrachtung konnten wir nun mit dem BIP Datensatz die Anzahl der Einwohner von 1992 bis 2022 einlesen.
 In diesem Konsistenzcheck wollen wir untersuchen ob die Anzahl der Einwohner aus beiden Datenquellen in 2022 identisch ist.
 Hierbei ist es natürlich wichtig, wann die Daten zur Einwohnerzahl erhoben wurden und deshalb könnten diese auch geringfügig abweichen.
@@ -687,7 +687,7 @@ head(arrange(einwohner_check, -diff),20)
 ```
 
 Die Differenz liegt im Durchschnitt bei 684 Einwohnern, was im Toleranzbereich bei den großen Städte mit mehr als 120.000 Einwohnern ist.
-Die Abweichungen in den Einwohnerzahlen könnten gut im Zeitpunkt der Erhebung der Einwohnerzahlen begründet sein (August 2023 beim BIP und Ende Dezember 2022 bei den Daten zur Verschuldung). Daher werden wir den Differenzen nicht weiter nachgehen.
+Die Abweichungen in den Einwohnerzahlen könnten gut im Zeitpunkt der Erhebung der Einwohnerzahlen begründet sein (August 2023 beim BIP und Ende Dezember 2023 bei den Daten zur Verschuldung). Daher werden wir den Differenzen nicht weiter nachgehen.
 
 Um die langfristigen Entwicklungen des BIP pro Kopf zu visualisieren werden wir die dazugehörigen Einwohnerzahlen aus der Datenquelle zum BIP verwenden.
 Für die Pro-Kopf-Verschuldung jedoch die in der "Integrierten Schulden der Gemeinden" angegebenen Einwohnerzahl.

@@ -260,7 +260,7 @@ class: inverse, center, middle
 
 - Bereits ab der 1. Vorlesungswoche gibt es ein vorlesungsbegleitendes Tutorium.
 - Die Tutorien werden während der Projektphase wöchentlich **online** stattfinden (für jede/n Tutor*in gibt es eigene Zoom-Räume mit Break-out Räumen pro Gruppe)
-- Die Tutor*innen beantworten auch ihre Fragen auf Moodle oder per Mail
+- Die Tutor*innen beantworten auch Fragen auf Moodle
   - Bitte stellen Sie ihre Fragen im Forum, wenn ihr Problem allgemeiner Natur ist
 
 --
