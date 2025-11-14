@@ -1,0 +1,384 @@
+---
+title: "Team- und KI-Guidelines"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["style/css/uni-ulm.css", "style/css/my-fonts.css"]
+    seal: true
+    nature:
+      highlightStyle: atelier-forest-light
+      highlightLanguage: ["r", "yaml", "markdown"]
+      slideNumberFormat: "" 
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    includes:
+      in_header: style/header.html 
+#xaringan::inf_mr() #[Start Preview -> Type into console]
+---
+
+class: center, middle, inverse
+
+# Organisatorisches für die Projektphase
+
+---
+
+## Probeklausur
+
+- Probeklausur erfolgt am Laptop über den Save Exam Browser
+- Save Exam Browser testen (wird morgen freigeschaltet)
+- Zur Probeklausur einen Laptop mitbringen $\rightarrow$ Save Exam Browser darauf getestet haben (4 Tests verfügbar)
+- Probeklausur ab **10:00 Uhr** im **H4/5** am 21.11.2025
+- Vorlesung geht an diesem Tag von 10:00 Uhr - ca. 11:45 Uhr
+- Experiment nach der Probeklausur (Echte Geldauszahlung, freiwillige Teilnahme)
+- Anschließend Kick-off 2. Projekt
+
+---
+
+## Leitlinien für die Projektausarbeitung
+
+- Wir haben in den [Leitlinien zur Projektarbeit](https://projektkurs-data-science-ulm2526.netlify.app/tutorials/leitlinien_zur_projektabgabe) definiert, wie wir uns die Antworten auf Fragen in den Projekten wünschen würden
+    - Ausformulierte Sätze als Antworttext
+    - Keine Code Chunks sichtbar in der geknitteten HTML
+    - Interpretation der _Ergebnisse_
+    
+.alert[Es lohnt sich durchaus dort mal einen Blick hinein zu werfen!]
+ 
+---
+
+## Projekt Kick-offs
+
+- Neue Gruppen vor jedem selbstständigen Projekt
+- Kick-offs vor jedem neuen Projekt mit ihrer/ihrem Tutor:in
+- Hälfte der Kick-offs online, die andere Hälfte in Präsenz
+    - Präsenz **Kick-off** mit **Kaffee (Kakao/Tee) und Plunder** für jede:n Teilnehmer:in
+    - Andere Hälfte der Teilnehmenden hat im SoSe den Präsenz Kick-off
+    - Kick-offs sind **verpflichtend** - Dienen dazu ihre Gruppen und das anstehende Projekt kennen zu lernen
+- Einladung zum GitHup Repo erhalten Sie im Laufe des heutigen Tages (innerhalb von 7 Tagen annehmen)
+
+.alert[Mail bzgl. Gruppenzuteilung und Tutoriumsterminen bzw. Kick-off Termin erhalten Sie am Freitag.]
+
+---
+
+class: center, middle, inverse
+
+# KI-Guidelines
+
+---
+
+## Quellenangaben & KI-Policy
+
+- Online-Code/Beispiele: Quelle im Text nennen + Link
+- Nicht zitieren = Plagiat & mit Note 5.0 belegt
+- Diskussion innerhalb des Kurses erlaubt – kein Code-Austausch zwischen Gruppen
+- Bitte beachten Sie unsere [Quellen und KI-Guidelines](https://projektkurs-data-science-ulm2526.netlify.app/tutorials/quellenverweise-und-ai-policy)
+
+---
+
+## KI als Werkzeug für Denken & Arbeiten
+
+- Nutzen Sie KI als **Partner**
+- KI verstärkt eigenes Denken – ersetzt es nicht
+- Iteratives Vorgehen: ausprobieren $\rightarrow$ prüfen $\rightarrow$ verbessern
+
+---
+
+## Hinweise zum Prompting
+
+.pull-left[
+**Wie sollte ein Prompt aufgebaut sein?**
+
+- **Aufgabe:** Was soll Chat AI tun? 
+    - Möglichst genau und spezifisch sein
+- **Instruktionen:** Wie soll Chat AI es tun?
+    - Soll Chat AI  eine besondere Persona sein?
+    - Beispiele für den gewünschten Output mitgeben
+    - Chat AI  fragen zur Lösung Schritt-für-Schritt zu kommen
+- **Kontext:** Was sollte Chat AI  zu seiner Aufgabe wissen?
+    - Wie passt die Aufgabe z.B. zur Vorlesung die Sie gerade besuchen?
+]
+
+.pull-right[
+**Wenn Sie nicht weiter wissen, dann Fragen Sie Chat AI  welche Infos es noch benötigt**
+
+- "Sag mir, welche Informationen du benötigst, um ...“
+- "Stelle mir 5 Fragen, die dir helfen werden, mir die bestmögliche Antwort zu geben."
+  	
+**Wenn Sie glauben Chat AI  hat einen Fehler gemacht, dann sagen Sie ihm dies**
+
+**Komplexe Aufgaben in kleine Unteraufgaben herunterbrechen**
+]
+
+---
+
+## Prompting: Formel
+
+**ROLE + TASK + CONTEXT + FORMAT + CONSTRAINTS**
+
+Beispiel:
+
+"Du bist mein R-Tutor. Erstelle ein sauberes ggplot-Beispiel, das die Korrelation zweier Variablen zeigt. Nutze tidyverse. Code kommentieren."
+
+---
+
+## Coding mit LLMs
+
+- Gut für Struktur, Boilerplate und einfache Analysen
+- Generierten Code **immer testen & debuggen**
+- Versionskontrolle nutzen
+- Nachfragen: "Erkläre jede Codezeile."
+- Debugging-Schritte erfragen
+
+---
+
+## Risiken & Sicherheitsnetz
+
+- Halluzinationen: erfundene Funktionen/Packages
+    - Fraglich ob Sie z.B. Code aus dem Paket "data.table" kennen können
+- Lösung: Syntax prüfen, Dokumentation checken
+- Versionsstände beachten
+- Alternative Lösungen anfordern
+
+.alert[Sie sind ale Gruppe immer voll für die abgegebene Ausarbeitung verantwortlich!]
+
+.instructions[**Hinweis:** Texte direkt aus der KI enthalten oft sehr wenig "Tiefe" (Copy-Paste nicht empfohlen)!]
+
+---
+
+## KI als Tutor nutzen
+
+- LLMs erklären Konzepte auf unterschiedlichem Niveau
+- Vorgehen:
+    - einfache Erklärung
+    - formale Erklärung
+    - Anwendung im Projekt
+- Sparringspartner: "Finde 3 Schwächen in meinem Ansatz."
+
+---
+
+## KI für Ideen & Struktur
+
+- Brainstorming: Hypothesen, Modelle, Analysestrategien
+- Explorative Fragen: "Welche Alternativen gibt es?"
+- Gliederung: Struktur meiner Antwort überprüfen
+- Reflexion: Kritische Einordnung der Antwort
+
+---
+
+## Nutzung von KI-Tools
+
+- LLMs wie Chat AI dürfen verwendet werden – aber:
+    - Antworten nicht blind übernehmen $\rightarrow$ kritisch prüfen
+    - Nutzung muss im Projekt dokumentiert werden
+    - In ihren Projekten sollten Sie in der Tabelle am Ende des Projekts angeben, ob Sie KI verwendet haben und wie sehr. Dabei bedeutet (1 = gar nicht; 5 = sehr viel)
+  
+```{r, echo = TRUE, eval = FALSE}
+| Aufgabe | Coding | Beschreibung | Interpretation | Textliche Verbesserungen  |
+|---------|--------|--------------|----------------|---------------------------|
+| 1       |   3    |       1      |        2       |            4              |
+| 2       |        |              |                |                           |
+| ...     |        |              |                |                           |
+```
+
+---
+
+class: center, middle, inverse
+
+# Zusammenarbeit im Team
+
+---
+
+## Erfolgreiche Teamarbeit
+
+- Rollen klar verteilen: 
+    - Koordinator/in 
+    - Verantwortliche/r 
+    - Kontrolleur/in
+- Stärken nutzen & Wissen teilen
+- Kommunikationskanäle definieren (z. B. E-Mail, Chat)
+- Regelmäßige Treffen planen & vorbereitet erscheinen
+
+---
+
+## Empfohlene Rollen im Team
+
+**Koordinator/in**
+- Zeitplan erstellen
+- Treffen organisieren
+- Kommunikation mit Dozent/Übungsleiter/Tutor:in
+- Fortschritt überwachen
+
+--
+
+.pull-left[
+**Verantwortliche/r**
+- Bearbeitung eigener Aufgaben
+- Gestaltung von Grafiken/Tabellen
+- Klare, prägnante Antworten
+]
+
+.pull-right[
+**Kontrolleur/in**
+- Code reviewen
+- Inhalte auf Konsistenz und Fehler prüfen
+- Stil, Rechtschreibung prüfen
+]
+
+.alert[Jeder sollte für einige Aufgaben selbst verantwortlich sein und andere kontrollieren!]
+
+---
+
+## Weitere Tipps zur Teamarbeit
+
+- Erwartungen im Team klären
+- Unterschiedliche Perspektiven wertschätzen
+- Konflikte früh ansprechen
+- Falls nötig: Dozent oder Tutor/in einschalten
+    - [Eskalationsmechanismus](https://projektkurs-data-science-ulm2526.netlify.app/tutorials/team-guidelines#Was_ist_bei_Problemen_im_Team_zu_tun) frühzeitig nutzen
+    
+---
+
+## Teamarbeit: Typische Herausforderungen
+
+- **Free-rider**: Vermeidet Arbeit, übernimmt aber die Anerkennung
+- **Couch Potato**: Freundlich, aber unmotiviert und unzuverlässig
+- **Auswirkung**: Unfaire Arbeitsverteilung, Stress, schlechtere Ergebnisse
+
+---
+
+class: center, middle, inverse
+
+# Beispiel 1 - Der Free-rider
+
+---
+
+## Beispiel 1: Jack – der Free-rider
+
+- Findet nie Zeit für Treffen
+- Antwortet nicht auf E-Mails oder Nachrichten
+- Liefert nur unfertige oder falsche Beiträge
+- Macht Ausreden („zu beschäftigt“)
+- Wirkt selbstsicher und schiebt die Schuld auf andere
+
+---
+
+## Was Gruppen oft tun: Absorbieren
+
+- Die Gruppe hat Jacks Probleme "aufgesaugt"
+- Alles selbst erledigt, um die Deadline zu schaffen
+- Jack profitierte und lernte nichts
+- Die Gruppe trainierte ihn ungewollt zum "Free-rider" $\rightarrow$ wird dies in anderen Gruppen wieder so machen
+
+---
+
+## Was die Gruppe tun sollte: Spiegeln
+
+- Problemverhalten zurückspiegeln, damit er die Konsequenzen trägt
+- **Klare Grenzen** setzen – früh und konsequent
+- Erwartungen deutlich kommunizieren
+- Frühzeitig [Eskalationsmechanismus](https://projektkurs-data-science-ulm2526.netlify.app/tutorials/team-guidelines#Was_ist_bei_Problemen_im_Team_zu_tun) nutzen und von der Ausarbeitung streichen
+
+---
+
+## Strategien gegen Free-rider
+
+- Früh erkennen, ob das Verhalten systematisch ist
+- Den Dozierenden/Übungsleiter rechtzeitig einbeziehen
+- Beiträge dokumentieren (E-Mail, Protokolle)
+- Fehlende oder schlechte Arbeit sofort ansprechen
+
+---
+
+class: center, middle, inverse
+
+# Beispiel 2: Die Couch Potato
+
+---
+
+## Beispiel 2: Henry – die Couch Potato
+
+- Nett, aber wenig produktiv
+- Erscheint motiviert, zeigt aber wenig Einsatz
+- Testet Grenzen
+- Mit klaren Vereinbarungen und konsistentem Einfordern gut steuerbar
+
+---
+
+## Warum klare Kommunikation schwer ist
+
+- Viele Studierende vermeiden Konflikte
+- Angst, unfreundlich oder unfair zu wirken
+- Nicht ernst genommen zu werden
+- Aber: Grenzen setzen ist lernbar und wichtig für die spätere Berufspraxis
+
+---
+
+## Häufige Verhaltensweisen, die Free-riden ermöglichen
+
+- Du übernimmst Verantwortung für andere
+- Du willst vermeiden, dass das Team scheitert – um jeden Preis
+- Du interpretierst minimale Beiträge als "Fortschritt"
+- Du machst die Arbeit anderer mit
+- Du scheust dich, Aufgaben zu delegieren
+
+---
+
+## Realistische Erwartungen und Teamregeln
+
+- **Transparente Rollenverteilung** (z.B. Datenanalyse, Text, Visualisierung)
+- **Klare Deadlines** innerhalb des Teams
+- **Regelmäßige kurze Check-ins** (max. 10 Minuten)
+- **Dokumentation** von Aufgaben und Ergebnissen
+
+---
+
+## Wichtige Lektionen für das Studium und den Job
+
+- Free-rider und Couch-Potatoes gibt es überall
+- Couch-Potatoes lassen sich oft führen
+- Free-rider sind schwierig und manipulativ
+- Nur sie selbst können ihr Verhalten ändern
+
+---
+
+## Was sollten Sie für ihre Teamarbeit mitnehmen
+
+- Setzen Sie klare Erwartungen und Grenzen
+- Kommunizieren Sie transparent
+- Halten Sie Teammitglieder verantwortlich
+- Schützen Sie ihre Zeit und Energie
+- Lernen Sie mit Konflikten sachlich umzugehen
+
+
+
+---
+
+class: center, middle, inverse
+
+# Nach dem Projekt - Review & Feedback
+
+---
+
+## Peer-Review Reports
+
+- Jede Person erhält **anonym** die Ausarbeitung einer anderen Gruppe
+- Stärken der Arbeit benennen
+    - Welche drei Punkte sind besonders gut gelungen?
+- Konstruktive Verbesserungsvorschläge machen
+    - Welche drei Punkte sollten die Autoren noch verbessern, um ihren Projektarbeit aufzuwerten?
+- Reflexion schreiben, was Sie in ihrer eigenen Arbeit hätten besser machen können
+- [Guidelines wie ein solcher Review zu schreiben ist](https://projektkurs-data-science-ulm2526.netlify.app/tutorials/review_reports)
+- Strukturiert mit Unterüberschriften $\rightarrow$ Diese bitte beibehalten und nicht alles löschen
+- Teil der Vorleistung (mind. einmal Rang 2 oder besser)
+
+.instructions[Der Review Report sollte kurz und prägnant als Fließtext die wichtigsten Punkte herausarbeiten.]
+
+---
+
+## Gruppenfeedback
+
+- [Guidelines zum Gruppenfeedback](https://projektkurs-data-science-ulm2526.netlify.app/tutorials/gruppenfeedback)
+- Jede Gruppe erhält drei Reviews, die dann geranked werden danach wie "hilfreich" und "spezifisch" der Review war
+- Ziel: inhaltliche, methodische und stilistische Rückmeldung
+- Feedback aktiv nutzen: reflektieren & Verbesserungen einarbeiten
+
