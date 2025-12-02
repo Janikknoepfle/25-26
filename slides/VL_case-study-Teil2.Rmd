@@ -822,6 +822,12 @@ Hier gelangen Sie direkt zur [entsprechenden Sektion in der ausformulierten Case
 
 ---
 
+## Kahoot Quiz
+
+https://play.kahoot.it/v2/*?quizId=269618c6-a6d7-494b-9337-d60ce8b410c2
+
+---
+
 class: inverse, center, middle
 
 # Datenvisualisierung
@@ -1364,6 +1370,12 @@ plot_alo_lk
 Karten sind eine schöne Art geografisch unterschiedliche Informationen darzustellen, allerdings ist das Auge schlecht darin Farbverläufe zu unterschieden!
 
 .alert[Bei Karten immer eine sehr kontrastreiche Farbpalette verwenden!]
+
+---
+
+## Kahoot Quiz
+
+https://play.kahoot.it/v2/lobby?quizId=de7fa5bd-ca7d-44c8-a4be-bbb3624e7213
 
 ---
 
